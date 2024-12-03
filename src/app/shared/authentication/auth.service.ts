@@ -37,6 +37,7 @@ export class AuthService {
       );
       console.log('DOpo imposta Header ' + JSON.stringify(this.authenticationJwtHeader))
     this.isLogged = isLogged;
+    console.log('salve');
       
     }
     else
