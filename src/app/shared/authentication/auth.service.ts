@@ -36,6 +36,7 @@ export class AuthService {
         'Bearer ' + jwtToken
       );
       console.log('DOpo imposta Header ' + JSON.stringify(this.authenticationJwtHeader))
+      console.log('pippo');
     this.isLogged = isLogged;
       
     }
