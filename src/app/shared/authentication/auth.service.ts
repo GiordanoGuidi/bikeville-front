@@ -40,6 +40,7 @@ export class AuthService {
       console.log('pluto');
 
     this.isLogged = isLogged;
+    console.log('salve');
       
     }
     else
