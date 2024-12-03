@@ -37,6 +37,8 @@ export class AuthService {
       );
       console.log('DOpo imposta Header ' + JSON.stringify(this.authenticationJwtHeader))
       console.log('pippo');
+      console.log('pluto');
+
     this.isLogged = isLogged;
       
     }
