@@ -1,0 +1,38 @@
+<div class = "d-flex justify-content-center mt-5">
+    <div class = "card text-white bg-light text-center">
+        <div class = "card-header text-dark"> Inserire Credenziali 
+            <form (ngSubmit)="onSubmit()" class = "card-body d-flex justify-content-center flex-wrap gap-2">
+                <div class="col-5">
+                    <input [(ngModel)]="user.FirstName" class = "form-control" name="firstname" type = "text" placeholder = "Firstname" >
+                </div>
+                <div class="col-5">
+                    <input [(ngModel)]="user.LastName" class = "form-control" name="lastname" type = "text" placeholder = "Lastname" >
+                </div>
+                <div class="col-4">
+                    <input [(ngModel)]="user.EmailAddress" class = "form-control" name="email" type = "text" placeholder = "Email" >
+                </div>
+                <div class="col-3">
+                    <input [(ngModel)]="user.Phone" class = "form-control" name="phone" type = "text" placeholder = "Phone" >
+                </div>
+                <div class="col-3" >
+                    <select [(ngModel)]="user.Gender" class="form-control" name="gender">
+                        <option value="" disabled selected>Genere</option>
+                      <option value="Maschio">Maschio</option>
+                      <option value="Femmina">Femmina</option>
+                      <option value="Altro">Altro</option>
+                    </select>
+                  </div>
+                <div class="col-5">
+                    <input [(ngModel)]="user.CompanyName" class = "form-control" name="companyname" type = "text" placeholder = "Company name">
+                </div>
+                <div class="col-5">
+                    <input [(ngModel)]="user.Password" class = "form-control" name="password" type = "password" placeholder = "Password">
+                </div>
+                <div class="col-2">
+                    <button type="submit" class = "btn btn-dark mt-4" > Register </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
