@@ -17,18 +17,42 @@ user : User = new User();
 constructor(private userService: UserService) {}
 
 //Metodo eseguito al submit del form
-onSubmit(): void {
+async onSubmit(): Promise<void> {
   //Questo renderlo magari un validazione di un form che se è true esegue il metodo
-  console.log('User Data:', this.user); 
-  this.userService.registerUser(this.user).subscribe(
+  if(await this.verifyMail(this.user.EmailAddress)) {
+    alert('Email già in uso');
+    return;
+  } else {
+    console.log('User Data:', this.user); 
+    this.userService.registerUser(this.user).subscribe(
     (response) => {
       console.log('Registrazione avvenuta con successo:', response);
       alert('Utente registrato con successo')
     },
     (error) => {
-      alert('Email già in uso')
+      alert('Email già in uso');
     }
-  );
+    );
+  }
+}
+
+async verifyMail(EmailAddress: string): Promise<boolean> {
+  try {
+    const response = await fetch("https://localhost:7257/user/" + EmailAddress);
+    
+    if (!response.ok) {
+      throw new Error(`Errore HTTP: ${response.status}`);
+    }
+
+    const result: boolean = await response.json();
+
+    // Inverti il valore booleano e restituisci
+    return result;
+  } catch (error) {
+    console.error("Errore nella fetch:", error);
+    // Se c'è un errore, restituisci un valore di default, ad esempio `false`
+    return true;
+  }
 }
 
 
