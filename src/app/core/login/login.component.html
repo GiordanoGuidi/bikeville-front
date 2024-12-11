@@ -1,11 +1,19 @@
 <div *ngIf="isLoginOpen" class = "d-flex justify-content-center mt-5">
-    <div class = "card text-white bg-light text-center" style = "width:300px">
+    <div class = "card text-white bg-light text-center" style = "width:400px">
         <div class = "card-header text-dark"> Inserire Credenziali 
             <div class = "card-body">
-                <form> 
-                    <input class = "form-control" type = "text" placeholder = "Email" #email>
-                    <input class = "form-control mt-2" type = "password" placeholder = "Password" #password>
-                    <button class = "btn btn-dark mt-4" (click)="RunLoginJwt(email,password)"> Login </button>
+                <form #loginForm="ngForm" (ngSubmit)="RunLoginJwt(userEmail,userPassword)"> 
+                    <input class = "form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" type = "text" placeholder = "Email" name="email" #email="ngModel" [(ngModel)]="userEmail" required [ngClass]="{'is-invalid': email.touched && email.invalid, 'is-valid': email.touched && email.valid}">
+                    <div *ngIf="email.invalid && email.touched" class="text-danger">
+                        <small *ngIf="email.errors?.['required']">L'email è obbligatoria.</small>
+                        <small *ngIf="email.errors?.['pattern']">Formato email non valido.</small>
+                      </div>
+                    <input class = "form-control mt-2" type = "password" placeholder = "Password" name="password" #password="ngModel" [(ngModel)]="userPassword" minlength="8" required [ngClass]="{'is-invalid': password.touched && password.invalid, 'is-valid': password.touched && password.valid}">
+                    <div *ngIf="password.invalid && password.touched" class="text-danger">
+                        <small *ngIf="password.errors?.['required']">La password è obbligatoria.</small>
+                        <small *ngIf="password.errors?.['minlength']">La password deve contenere almeno 8 caratteri.</small>
+                      </div>
+                    <button class = "btn btn-dark mt-4" type="submit" [disabled]="loginForm.invalid"> Login </button>
                 </form>
             </div>
         </div>
