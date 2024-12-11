@@ -1,13 +1,16 @@
-#navbar {
-    padding-right: 20px;
-}
 
-main {
-    flex: 1;
-    margin-top: 60px; /* Altezza della navbar */
+#navbar {
+    height: 70px;
+    background-color: #4d4952;
   }
   
 a{
     color: white;
     cursor: pointer;
+}
+
+.header-filters{
+    height: 50px;
+    width: 100%;
+    background-color: orange;
 }
