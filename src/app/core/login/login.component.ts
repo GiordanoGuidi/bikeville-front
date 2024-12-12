@@ -62,6 +62,7 @@ export class LoginComponent {
           switch (response.status) {
             case HttpStatusCode.Ok:
               console.log('Login effettuato ');
+              alert("Login Effettuato");
               //Assegno il valore recuperato dal body della response
               this.jwtToken = response.body.token;
               //Assegno il token  e il booleano al metodo 
@@ -76,6 +77,8 @@ export class LoginComponent {
               console.log(this.decodedTokenPayload.iss);
               console.log(this.decodedTokenPayload.aud);
               console.log(this.decodedTokenPayload.exp);
+              //? aggiunto router che rimanda direttamente alla home dopo un login effettuato//
+              this.router.navigate(['/home']);
               break;
             case HttpStatusCode.NoContent:
               console.log('Senza risposta');

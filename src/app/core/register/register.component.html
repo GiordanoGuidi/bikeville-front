@@ -32,9 +32,9 @@
                 <div class="col-3" >
                     <select [(ngModel)]="user.Gender" class="form-control" name="gender" required #gender = "ngModel" [ngClass]="{'is-invalid': gender.touched && gender.invalid, 'is-valid': gender.touched && gender.valid}">
                         <option value="" disabled selected>Genere</option>
-                      <option value="Maschio">Male</option>
-                      <option value="Femmina">Female</option>
-                      <option value="Altro">Other</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
                     </select>
                   </div>
                 <div class="col-5">

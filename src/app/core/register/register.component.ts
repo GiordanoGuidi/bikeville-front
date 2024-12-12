@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './service/user-service';
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -14,8 +17,9 @@ export class RegisterComponent {
 // Creo un istanza di User
 user : User = new User();
 //Di dello userservice
-constructor(private userService: UserService) {}
+constructor(private userService: UserService, private router: Router) {}
 
+@ViewChild('userForm') userForm!: NgForm;
 //Metodo eseguito al submit del form
 async onSubmit(): Promise<void> {
   //Questo renderlo magari un validazione di un form che se è true esegue il metodo
@@ -28,9 +32,21 @@ async onSubmit(): Promise<void> {
     (response) => {
       console.log('Registrazione avvenuta con successo:', response);
       alert('Utente registrato con successo')
+      this.user = {
+        FirstName: '',
+        LastName: '',
+        EmailAddress: '',
+        Phone: '',
+        Gender: '',
+        CompanyName: '',
+        Password: ''
+      };
+      this.userForm.resetForm();
+      this.router.navigate(['/home']);
     },
     (error) => {
-      alert('Email già in uso');
+      console.error('Errore durante la registrazione:', error);
+      alert('Errore Inatteso');
     }
     );
   }

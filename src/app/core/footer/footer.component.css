@@ -8,6 +8,7 @@ html, body {
 
 /* L'elemento root dell'app Angular */
 app-root {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* L'intero viewport */
@@ -15,6 +16,7 @@ app-root {
 
 /* Stile per il footer */
 footer {
+  /*TODO fare in modo che il footer sia sempre sul fondo della pagina */
   background-color: #4d4952 !important; /* Nuovo colore di sfondo */
   color: white; /* Mantieni il testo leggibile */
   text-align: center;
