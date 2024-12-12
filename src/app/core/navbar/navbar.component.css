@@ -1,4 +1,3 @@
-
 #navbar {
     height: 70px;
     background-color: #4d4952;
@@ -40,6 +39,7 @@
     width: 100%; 
   }
   
+  /* Effetto per il link attivo */
   .header-filters a.active::after {
-    width: 100%; /* Mantieni la barra sotto il link attivo */
+    width: 100%; 
   }
