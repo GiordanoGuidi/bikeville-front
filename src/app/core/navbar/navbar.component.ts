@@ -15,9 +15,10 @@ import { map } from 'rxjs/operators';
 })
 export class NavbarComponent {
   constructor (public auth : AuthService,private http: HttpClient){}
-  isActive = false;
   //Array delle categorie
   categoriesArray : ParentCategories[]=[];
+
+  activeIndex:number=0;
 
   //Funzione per recuperare le categorie
   getParentCategories(): void {
@@ -38,8 +39,14 @@ export class NavbarComponent {
     this.getParentCategories();
   }
 
-  makeActive(){
-    this.isActive=true;
+  //Imposto l'id attivo corrispondente alla categoria
+  setActiveIndex(index:number){
+    this.activeIndex = index;
+  }
+
+  //Funzione per controllare che l'activeIndex sia uguale all'indice della categoria
+  isActive(index: number): boolean {
+    return this.activeIndex === index; 
   }
 }
 
