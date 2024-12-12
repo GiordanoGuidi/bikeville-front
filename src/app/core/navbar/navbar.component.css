@@ -1,13 +1,45 @@
 #navbar {
-    padding-right: 20px;
-}
-
-main {
-    flex: 1;
-    margin-top: 60px; /* Altezza della navbar */
+    height: 70px;
+    background-color: #4d4952;
   }
   
-a{
+#navbar a{
     color: white;
     cursor: pointer;
 }
+
+.header-filters{
+    height: 50px;
+    width: 100%;
+}
+
+/* Stile per il link */
+.header-filters a {
+    position: relative;
+    text-decoration: none;
+    color: #000;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  /* Pseudo-elemento per la linea */
+  .header-filters a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; 
+    height: 2px; 
+    background-color: #000; 
+    transition: width 0.5s ease; 
+  }
+  
+  /* L'effetto hover */
+  .header-filters a:hover::after {
+    width: 100%; 
+  }
+  
+  /* Effetto per il link attivo */
+  .header-filters a.active::after {
+    width: 100%; 
+  }
