@@ -1,13 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../authentication/auth.service';
 import { Observable } from 'rxjs';
+import { Product } from '../Models/products';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductnologhttpService {
-
+ 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
   getProductnolog(): Observable<any>{
@@ -15,4 +16,17 @@ export class ProductnologhttpService {
       {headers: this.auth.authenticationJwtHeader}
     );
   }
+
+ 
+
+  
 }
+
+
+
+
+
+
+
+  
+
