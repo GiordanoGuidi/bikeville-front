@@ -3,3 +3,9 @@ p {
 }
 
 /*TODO provvisorio per spaziare il footer dalla cima della pagina */
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
