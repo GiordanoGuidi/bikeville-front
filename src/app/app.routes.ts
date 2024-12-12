@@ -6,6 +6,10 @@ import { RegisterComponent } from './core/register/register.component';
 import { ProductNologinComponent } from './features/product-nologin/product-nologin.component';
 import { AdminProductsComponent } from './features/admin/admin-products/admin-products.component';
 import { HomeComponent } from './core/home/home.component';
+import { BikesComponent } from './features/products/bikes/bikes.component';
+import { ComponentsComponent } from './features/products/components/components.component';
+import { ClothingComponent } from './features/products/clothing/clothing.component';
+import { AccessoriesComponent } from './features/products/accessories/accessories.component';
 
 export const routes: Routes = [
     {path:'register',component:RegisterComponent},
@@ -15,6 +19,10 @@ export const routes: Routes = [
     {path:'product-nologin',component:ProductNologinComponent},
     {path:'adminproducts',component:AdminProductsComponent},
     {path:'home',component:HomeComponent},
+    {path:'bikes',component:BikesComponent},
+    {path:'components',component:ComponentsComponent},
+    {path:'clothing',component:ClothingComponent},
+    {path:'accessories',component:AccessoriesComponent},
 
 ];
 
