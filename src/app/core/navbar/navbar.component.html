@@ -26,7 +26,7 @@
     </div>
   </nav>
   <!-- Filtri per Categoria Prodotto -->
-  <nav class="header-filters d-flex justify-content-center">
+  <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
     <div class="d-flex align-items-center">
       <ul class="d-flex gap-5 list-unstyled m-0">
         <li *ngFor="let category of categoriesArray; let i = index">

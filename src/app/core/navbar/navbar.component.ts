@@ -4,6 +4,7 @@ import { AuthService } from '../../shared/authentication/auth.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
+import { Router,NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -14,15 +15,30 @@ import { ActiveIndexService } from '../../shared/service/active-index.service';
 export class NavbarComponent {
   //Costruttore
   //!Commenta
-  constructor (public auth : AuthService,private http: HttpClient,private activeIndexService:ActiveIndexService){
+  constructor (
+    public auth : AuthService,
+    private http: HttpClient,
+    private activeIndexService:ActiveIndexService,
+    private router:Router,
+  ){
+    //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
       this.activeIndex = index;
+    });
+    // Gestione dei cambiamenti di rotta
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Se l'url non è /login,/register showFilters sarà vera
+        this.showFilters = !['/login', '/register','/adminproducts'].includes(event.url);
+      }
     });
   }
   //Array delle categorie
   categoriesArray : ParentCategories[]=[];
-
+  //Istanza variabile activeIndex
   activeIndex:number| null = null;
+  //Istanza flag showFilters
+  showFilters : boolean = true
 
   //Funzione per recuperare le categorie
   getParentCategories(): void {
