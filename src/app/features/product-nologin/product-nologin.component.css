@@ -1,34 +1,51 @@
-h1{
-    display: flex; flex-direction: column; align-items: center;
+h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 
 .card {
-    background-color: #fefdff;
-    border-radius: 20px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.6);
-    padding: 10px;
-    margin-top: 40px;
-    min-height: 100%; /* Le card si allineano alla stessa altezza */
-    display: flex;
-    flex-direction: column;
-    max-width: 100%; /* Per evitare overflow */
+  background-color: #fefdff;
+  border-radius: 20px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  /* margin-top: 40px; */
+  min-height: 100%; /* Le card si allineano alla stessa altezza */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;/* Uniforma l'altezza delle card */
+
 }
 
 .card-body {
-    
-    font-size: 14px;
-    flex-grow: 1; /* Espandi la body per riempire lo spazio */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Spaziatura uniforme */
-    text-align: center; /* Opzionale: centra il testo */
+
+  font-size: 14px;
+  flex-grow: 1; /* Espandi la body per riempire lo spazio */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Spaziatura uniforme */
+  text-align: center; /* Opzionale: centra il testo */
 }
 
-  
-  @media (max-width: 576px) {
-    .card {
-      margin-bottom: 20px;
-    }
+
+@media (max-width: 576px) {
+  .card {
+    margin-bottom: 20px;
   }
-  
+}
+
+
+
+.img-thumbnail {
+  height: 200px; /* Altezza fissa per tutte le immagini */
+  object-fit: contain; /* Assicura che l'immagine si adatti senza deformarsi */
+  width: 100%; /* Adatta la larghezza al contenitore */
+}
+
+.page-item{
+  margin-top: 10px;
+ 
+}
