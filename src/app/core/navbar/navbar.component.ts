@@ -2,10 +2,9 @@ import { Component,OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/authentication/auth.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
+import { ActiveIndexService } from '../../shared/service/active-index.service';
+import { Router,NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -14,11 +13,32 @@ import { map } from 'rxjs/operators';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor (public auth : AuthService,private http: HttpClient){}
+  //Costruttore
+  //!Commenta
+  constructor (
+    public auth : AuthService,
+    private http: HttpClient,
+    private activeIndexService:ActiveIndexService,
+    private router:Router,
+  ){
+    //Abbonamento a activeIndexService
+    this.activeIndexService.activeIndex$.subscribe(index => {
+      this.activeIndex = index;
+    });
+    // Gestione dei cambiamenti di rotta
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Se l'url non è /login,/register showFilters sarà vera
+        this.showFilters = !['/login', '/register','/adminproducts'].includes(event.url);
+      }
+    });
+  }
   //Array delle categorie
   categoriesArray : ParentCategories[]=[];
-
-  activeIndex:number=0;
+  //Istanza variabile activeIndex
+  activeIndex:number| null = null;
+  //Istanza flag showFilters
+  showFilters : boolean = true
 
   //Funzione per recuperare le categorie
   getParentCategories(): void {
@@ -40,8 +60,8 @@ export class NavbarComponent {
   }
 
   //Imposto l'id attivo corrispondente alla categoria
-  setActiveIndex(index:number){
-    this.activeIndex = index;
+  setActiveIndex(index: number) {
+    this.activeIndexService.setActiveIndex(index);
   }
 
   //Funzione per controllare che l'activeIndex sia uguale all'indice della categoria
