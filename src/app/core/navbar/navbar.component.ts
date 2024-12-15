@@ -14,7 +14,6 @@ import { Router,NavigationEnd } from '@angular/router';
 })
 export class NavbarComponent {
   //Costruttore
-  //!Commenta
   constructor (
     public auth : AuthService,
     private http: HttpClient,
@@ -23,6 +22,7 @@ export class NavbarComponent {
   ){
     //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
+      console.log('Indice aggiornato ricevuto nel Navbar:', index);
       this.activeIndex = index;
     });
     // Gestione dei cambiamenti di rotta

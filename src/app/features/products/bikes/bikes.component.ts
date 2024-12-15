@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './bikes.component.css'
 })
 export class BikesComponent {
+  constructor(
+  ){
+  }
 
+  
 }
