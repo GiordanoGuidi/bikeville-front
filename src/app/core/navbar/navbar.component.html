@@ -33,7 +33,7 @@
     <div class="d-flex align-items-center">
       <ul class="d-flex gap-5 list-unstyled m-0">
         <li *ngFor="let category of categoriesArray; let i = index">
-          <a (click)="setActiveIndex(i)" [ngClass]="{'active':isActive(i)}" class="text-decoration-none text-dark">{{category.Name}}</a>
+          <a (click)="setActiveIndex(i)" routerLink="/{{category.Name}}" [ngClass]="{'active':isActive(i)}" class="text-decoration-none text-dark">{{category.Name}}</a>
         </li>
       </ul>
     </div>
