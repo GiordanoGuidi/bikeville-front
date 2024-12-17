@@ -19,10 +19,10 @@ export const routes: Routes = [
     {path:'product-nologin',component:ProductNologinComponent},
     {path:'adminproducts',component:AdminProductsComponent},
     {path:'home',component:HomeComponent},
-    {path:'bikes',component:BikesComponent},
-    {path:'components',component:ComponentsComponent},
-    {path:'clothing',component:ClothingComponent},
-    {path:'accessories',component:AccessoriesComponent},
+    {path:'Bikes',component:BikesComponent},
+    {path:'Components',component:ComponentsComponent},
+    {path:'Clothing',component:ClothingComponent},
+    {path:'Accessories',component:AccessoriesComponent},
 
 ];
 
