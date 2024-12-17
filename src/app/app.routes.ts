@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes} from '@angular/router';
 import { LoginComponent } from './core/login/login.component';
 import { LogoutComponent } from './core/logout/logout.component';
 import { AppComponent } from './app.component';
@@ -23,7 +23,4 @@ export const routes: Routes = [
     {path:'Components',component:ComponentsComponent},
     {path:'Clothing',component:ClothingComponent},
     {path:'Accessories',component:AccessoriesComponent},
-
 ];
-
-//? aggiunti routing per pagina prodotti admin e home ?//
