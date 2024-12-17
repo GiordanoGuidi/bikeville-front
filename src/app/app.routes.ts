@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes} from '@angular/router';
 import { LoginComponent } from './core/login/login.component';
 import { LogoutComponent } from './core/logout/logout.component';
 import { AppComponent } from './app.component';
@@ -19,11 +19,8 @@ export const routes: Routes = [
     {path:'product-nologin',component:ProductNologinComponent},
     {path:'adminproducts',component:AdminProductsComponent},
     {path:'home',component:HomeComponent},
-    {path:'bikes',component:BikesComponent},
-    {path:'components',component:ComponentsComponent},
-    {path:'clothing',component:ClothingComponent},
-    {path:'accessories',component:AccessoriesComponent},
-
+    {path:'Bikes',component:BikesComponent},
+    {path:'Components',component:ComponentsComponent},
+    {path:'Clothing',component:ClothingComponent},
+    {path:'Accessories',component:AccessoriesComponent},
 ];
-
-//? aggiunti routing per pagina prodotti admin e home ?//
