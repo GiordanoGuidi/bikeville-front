@@ -24,7 +24,7 @@ export class ActiveIndexService {
       //se l'evento di tipo navigationend esiste eseguo il codice
       .subscribe((event:NavigationEnd) => {
         //Array di rotte
-        const routes= ['/bikes','/components','/clothing','/accessories'];
+        const routes= ['/Bikes','/Components','/Clothing','/Accessories'];
         //Se le rotte dei filtri non sono incluse nell'url resetto activeIndex a null
         if(!routes.includes(event.url)){
           this.setActiveIndex(null);
