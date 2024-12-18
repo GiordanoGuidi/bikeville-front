@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { FooterComponent } from "./core/footer/footer.component";
 import { ProductNologinComponent } from './features/product-nologin/product-nologin.component';
@@ -8,7 +8,7 @@ import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/sign
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent,FooterComponent, ProductNologinComponent],
+  imports: [NavbarComponent,FooterComponent, ProductNologinComponent,RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
