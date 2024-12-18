@@ -1,0 +1,107 @@
+.main-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .main-table th, .main-table td,
+  .secondary-table th, .secondary-table td {
+    padding: 4px;
+    text-align: center;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  
+  tr {
+    height: 5px;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+
+  #icons {
+    width: 174px;
+    text-align: center;
+  }
+
+  #id {
+    width: 60px;
+  }
+
+  #name {
+    width: 300px;
+  }
+
+  #pnumber {
+    width: 150px;
+  }
+
+  #color {
+    width: 60px;
+  }
+
+  #cost {
+    width: 90px;
+  }
+
+  #price {
+    width: 90px;
+  }
+
+  #secondary {
+    width: 100px;
+  }
+
+  .iconbutton {
+    width: 50px;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+
+  .addbutton {
+    position: fixed;
+    bottom: 15px;
+    right : 15px;
+    height: 50px;
+    width: 50px;
+  }
+
+  /*? css della navigazione ?*/
+
+  .pagination .page-item .page-link {
+    color: black;
+    background-color: white;
+    border-color: #4d4952;
+  }
+  
+  .pagination .page-item.active .page-link {
+    color: white;
+    background-color: #4d4952;
+    border-color: #4d4952;
+    box-shadow: 0 0 5px 2px grey;
+    
+  }
+  
+  .pagination .page-item.disabled .page-link {
+    color: white;
+    background-color: #4d4952;
+    border-color: #4d4952;
+  }
+
+  .pagination .page-item .page-link:focus {
+    outline: none;
+    border-color: #4d4952;
+    box-shadow: 0 0 5px 2px grey;
+  }
+
+  .pagination .page-item .page-link:active {
+    background-color: white;
+    border-color: #4d4952;
+    box-shadow: 0 0 5px 2px grey;
+  }
