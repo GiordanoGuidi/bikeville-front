@@ -1,2 +1,107 @@
-<br>
-<h1 class = "text-center"> BIKES </h1>>
+<section id="bikes">
+    <h1 class = "text-center"> BIKES </h1>
+    <!-- Container principale -->
+    <div class="main-container align-items-center d-flex flex-column
+     flex-md-row md align-items-md-start p-3 md-align-items-normal">
+        
+        <!-- Sidebar --> <!--#Visibile solo da 768px in poi-->
+        <div class="side-bar d-none d-md-block">
+            <h3 class="product-category">Biciclette</h3>
+            <ul class="list-unstyled">
+                <li>-Mountain Bikes</li>
+                <li>-Road Bikes</li>
+                <li>-Touring Bikes</li>
+            </ul>
+            <p>Altri filtri</p>
+            <p>Colore</p>
+            <p>Prezzo</p>
+            <p>Genere</p>
+        </div>
+
+        <!-- Contenitore lista prodotti e bottone dei filtri -->
+        <div class="list-wrapper">
+            <!-- Mobile Filter --><!--#Visibili da 768px in giu-->
+            <div type="button" class="mobile-filter mb-2 d-md-none "
+            data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+                <i class="fa-solid fa-filter ms-2 text-white"></i>
+                <a  class="text-white ms-3 text-decoration-none">
+                Filtri</a>
+            </div>
+            <!-- Offcanvas --><!--#Visibili da 768px in giu-->
+            <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+                <div class="offcanvas-header bg-dark">
+                  <h5 class="offcanvas-title text-white" id="staticBackdropLabel">Filters</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <div class="filters-container">
+                    <!-- Dropdown -->
+                    <div class="dropdown mb-3">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Models
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li class="d-flex ms-3">
+                                <input type="checkbox">
+                                <a class="dropdown-item p-2" href="#">Pippo</a>
+                            </li>
+                            <li class="d-flex ms-3">
+                                <input type="checkbox">
+                                <a class="dropdown-item p-2" href="#">Ciccio</a>
+                            </li>
+                            <li class="d-flex ms-3">
+                                <input type="checkbox">
+                                <a class="dropdown-item p-2" href="#">Chiccolo</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Models
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li class="d-flex ms-3">
+                                <input type="checkbox">
+                                <a class="dropdown-item p-2" href="#">Pippo</a>
+                            </li>
+                            <li class="d-flex ms-3">
+                                <input type="checkbox">
+                                <a class="dropdown-item p-2" href="#">Ciccio</a>
+                            </li>
+                            <li class="d-flex ms-3">
+                                <input type="checkbox">
+                                <a class="dropdown-item p-2" href="#">Chiccolo</a>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- Lista prodotti -->
+            <div class="product-list d-flex flex-wrap justify-content-center gap-3">
+                <!-- Card -->
+                <div class="example-card">
+    
+                </div>
+                <div class="example-card">
+    
+                </div>
+                <div class="example-card">
+    
+                </div>
+                <div class="example-card">
+    
+                </div>
+                <div class="example-card">
+    
+                </div>
+                <div class="example-card">
+    
+                </div>
+                <div class="example-card">
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
