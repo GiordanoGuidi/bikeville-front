@@ -35,42 +35,28 @@
                 </div>
                 <div class="offcanvas-body">
                   <div class="filters-container">
-                    <!-- Dropdown -->
+                    <!-- Dropdown Filtro per tipo bicicletta-->
                     <div class="dropdown mb-3">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Models
+                          Bikes Type
                         </button>
                         <ul class="dropdown-menu">
-                          <li class="d-flex ms-3">
+                            <!-- Tipi di bicicletta -->
+                          <li *ngFor="let type of bikeTypes" class="d-flex ms-3">
                                 <input type="checkbox">
-                                <a class="dropdown-item p-2" href="#">Pippo</a>
-                            </li>
-                            <li class="d-flex ms-3">
-                                <input type="checkbox">
-                                <a class="dropdown-item p-2" href="#">Ciccio</a>
-                            </li>
-                            <li class="d-flex ms-3">
-                                <input type="checkbox">
-                                <a class="dropdown-item p-2" href="#">Chiccolo</a>
+                                <a class="dropdown-item p-2" href="#">{{type.name}}</a>
                             </li>
                         </ul>
                     </div>
-                    <div class="dropdown">
+                    <!-- Filtro per colore -->
+                    <div class="dropdown mb-3">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Models
+                          Color
                         </button>
                         <ul class="dropdown-menu">
-                          <li class="d-flex ms-3">
+                          <li *ngFor="let color of bikeColors" class="d-flex ms-3">
                                 <input type="checkbox">
-                                <a class="dropdown-item p-2" href="#">Pippo</a>
-                            </li>
-                            <li class="d-flex ms-3">
-                                <input type="checkbox">
-                                <a class="dropdown-item p-2" href="#">Ciccio</a>
-                            </li>
-                            <li class="d-flex ms-3">
-                                <input type="checkbox">
-                                <a class="dropdown-item p-2" href="#">Chiccolo</a>
+                                <a class="dropdown-item p-2" href="#">{{color.color}}</a>
                             </li>
                         </ul>
                     </div>
@@ -81,25 +67,18 @@
             <div class="product-list d-flex flex-wrap justify-content-center gap-3">
                 <!-- Card -->
                 <div class="example-card">
-    
                 </div>
                 <div class="example-card">
-    
                 </div>
                 <div class="example-card">
-    
                 </div>
                 <div class="example-card">
-    
                 </div>
                 <div class="example-card">
-    
                 </div>
                 <div class="example-card">
-    
                 </div>
                 <div class="example-card">
-    
                 </div>
             </div>
         </div>
