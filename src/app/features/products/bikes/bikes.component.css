@@ -42,7 +42,24 @@
     padding-left: 20px;
     padding-right: 20px;
 }
-
+.filter-counter{
+    border-radius:100px;
+    background-color: white;
+    padding: 0rem .625rem 0rem .625rem;
+}
+.active-index{
+    padding: 0rem .625rem 0rem .625rem;
+    margin: 0rem .625rem .625rem 0rem;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.delete-filter{
+    cursor: pointer;
+}
 /* Media Query */
 /* Media query per breakpoint md (768px) */
 @media (min-width: 768px) {
