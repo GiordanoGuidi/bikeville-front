@@ -37,6 +37,8 @@ export class BikesComponent {
   selectedSize :string |null=null;
   //Array di oggetti per i filtri attivi attivi
   activeFilter: { filterType: string; value: any }[] = [];
+  //Prezzo selezionato nei filtri
+  selectedPrice :number|null=null;
 
   //#Function
   //Recupero i filtri dal backend
@@ -77,7 +79,7 @@ export class BikesComponent {
   }
 
   //Funzione che aggiorna l'array di biciclette con le biciclette filtrate per colore
-  onFilterChange(event:Event,filterType:'color'|'typeId'|'size'):void{
+  onFilterChange(event:Event,filterType:'color'|'typeId'|'size'|'price'):void{
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
 
@@ -86,7 +88,7 @@ export class BikesComponent {
       // Rimuovo eventuali oggetti dello stesso tipo di filtro
       this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
       // Converto il valore nel tipo corretto
-      let coercedValue = filterType === 'typeId' ? Number(value) : value;
+      let coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
       // Aggiungo il nuovo filtro
       this.activeFilter.push({ filterType, value:coercedValue });
       
@@ -95,25 +97,24 @@ export class BikesComponent {
       if (filterType === 'typeId') this.selectedType = Number(value);
       console.log(this.selectedType)
       if (filterType === 'size') this.selectedSize = value;
+      if (filterType === 'price') this.selectedPrice = Number(value);
     } 
     else {
       // Converto il valore nel tipo corretto prima di confrontarlo
-      const coercedValue = filterType === 'typeId' ? Number(value) : value;
+      const coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
       // Se la checkbox viene deselezionata, rimuovo quel filtro specifico
       this.activeFilter = this.activeFilter.filter(
         filter => !(filter.filterType === filterType && filter.value === coercedValue)
       );
       // Resetta i valori selezionati
       if (filterType === 'color') this.selectedColor = null;
-      console.log('colore selezionato',this.selectedColor)
       if (filterType === 'typeId') this.selectedType = null;
-          console.log('tipo selezionato',this.selectedType)
       if (filterType === 'size') this.selectedSize = null;
-          console.log('taglia selezionato',this.selectedSize)
+      if (filterType === 'price') this.selectedPrice = null;
     }
     console.log(this.activeFilter)
     // Richiesta HTTP per filtrare le biciclette
-    this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize).subscribe({
+    this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         console.log(data);
         this.bikes = data;
@@ -128,7 +129,7 @@ export class BikesComponent {
 
   // Metodo per verificare se un filtro è attivo
   isFilterActive(filterType: string, value: string|number): boolean {
-    const coercedValue = filterType === 'typeId' ? Number(value) : value;
+    const coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
     return this.activeFilter.some(filter => filter.filterType === filterType && filter.value === coercedValue);
   }
 
@@ -171,7 +172,16 @@ export class BikesComponent {
         7: 'Touring Bikes'
       };
       return typeMap[value] || 'Unknown Type';
-    }else{
+    }else if( value==1||value==2||value==3||value==4){
+      const typeMap: { [key: number]: string } = {
+        1: 'Up to 700€',
+        2: '700-1500€',
+        3: '1500-2500€',
+        4: '2500€ and more',
+      };
+      return typeMap[value] || 'Unknown Type';
+    }
+    else{
       return value
     }
   }
