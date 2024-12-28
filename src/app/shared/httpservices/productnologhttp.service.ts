@@ -24,7 +24,8 @@ export class ProductnologhttpService {
     return this.http.get<Product[]>('https://localhost:7257/api/Products/by-parent-category', { params });
   }
 
-  getFilteredProducts(parentCategoryId:number,color?:string|null,typeId?:number|null,size?:string|null):Observable<Product[]>{
+  //Funzione per recuperare le biciclette filtrate
+  getFilteredProducts(parentCategoryId:number,color?:string|null,typeId?:number|null,size?:string|null,price? :number|null):Observable<Product[]>{
     let params = new HttpParams().set('parentCategoryId', parentCategoryId.toString());
     if (color) {
       console.log(color)
@@ -38,6 +39,11 @@ export class ProductnologhttpService {
       console.log(size)
       params = params.set('size', size);
     }
+    if (price) {
+      console.log(price)
+      params = params.set('price', price);
+    }
+
     console.log(params.toString())
     return this.http.get<Product[]>('https://localhost:7257/api/Products/get-filtered-bikes', { params });
   }
