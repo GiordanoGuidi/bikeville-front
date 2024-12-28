@@ -42,7 +42,7 @@
                   <div class="filters-container">
                     <!-- Dropdown Filtro per tipo bicicletta-->
                     <div class="dropdown mb-3">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Bikes Type
                         </button>
                         <ul class="dropdown-menu">
@@ -56,7 +56,7 @@
                     </div>
                     <!-- Filtro per colore -->
                     <div class="dropdown mb-3">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Color
                         </button>
                         <ul class="dropdown-menu">
@@ -70,7 +70,7 @@
                     </div>
                     <!-- Filtro per taglia -->
                     <div class="dropdown mb-3">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Size
                         </button>
                         <ul class="dropdown-menu">
@@ -79,6 +79,31 @@
                                 <input type="checkbox" [value]="size.size" 
                                 (change)="onFilterChange($event,'size')" [checked]="isFilterActive('size',size.size)">
                                 <a class="dropdown-item p-2">{{size.size}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Filtri per prezzo -->
+                    <div class="dropdown mb-3">
+                        <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          Price
+                        </button>
+                        <ul class="dropdown-menu">
+                            <!-- Prezzi delle  biciclette -->
+                             <li class="ms-3 class d-flex align-items-center">
+                                 <input type="checkbox" [value]="1"  (change)="onFilterChange($event,'price')"
+                                 [checked]="isFilterActive('price',1)"  ><span class="ms-2">Fino a 700€</span>
+                             </li>
+                             <li class="ms-3 class d-flex align-items-center">
+                                <input type="checkbox" [value]="2" (change)="onFilterChange($event,'price')"
+                                [checked]="isFilterActive('price',2)" ><span class="ms-2">700-1500€</span>
+                            </li>
+                            <li class="ms-3 class d-flex align-items-center">
+                                <input type="checkbox" [value]="3" (change)="onFilterChange($event,'price')"
+                                [checked]="isFilterActive('price',3)" ><span class="ms-2">1500-2500€</span>
+                            </li>
+                            <li class="ms-3 class d-flex align-items-center">
+                                <input type="checkbox" [value]="4" (change)="onFilterChange($event,'price')"
+                                [checked]="isFilterActive('price',4)" ><span class="ms-2">2500€ e più</span>
                             </li>
                         </ul>
                     </div>

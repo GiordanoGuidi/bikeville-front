@@ -57,8 +57,16 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.active-index:hover{
+    border: 1px solid red;
+    color: red;
+}
 .delete-filter{
     cursor: pointer;
+}
+.btn-filter{
+    background-color: #4D4952;
+    color: white;
 }
 /* Media Query */
 /* Media query per breakpoint md (768px) */
