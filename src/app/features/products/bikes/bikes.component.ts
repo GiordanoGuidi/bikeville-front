@@ -47,17 +47,14 @@ export class BikesComponent {
       .subscribe((response)=>{
        // Verifico e assegno i tipi di biciclette
       if (response.bikeTypes) {
-        console.log(response.bikeTypes)
         this.bikeTypes.push(...response.bikeTypes);
       }
       // Verifica e assegna i colori delle biciclette
       if (response.bikeColors) {
-        console.log(response.bikeColors)
         this.bikeColors.push(...response.bikeColors);
       }
       // Verifica e assegna i colori delle biciclette
       if (response.bikeSizes) {
-        console.log(response.bikeSizes)
         this.bikeSizes.push(...response.bikeSizes);
       }
     }, error => {
@@ -70,7 +67,6 @@ export class BikesComponent {
     this.httRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
       next:(data)=>{
         this.bikes = data;
-        console.log(this.bikes)
       },
       error: (err) => {
         console.error('Error:', err);
@@ -95,7 +91,6 @@ export class BikesComponent {
       // Aggiorno i valori selezionati
       if (filterType === 'color') this.selectedColor = value;
       if (filterType === 'typeId') this.selectedType = Number(value);
-      console.log(this.selectedType)
       if (filterType === 'size') this.selectedSize = value;
       if (filterType === 'price') this.selectedPrice = Number(value);
     } 
@@ -112,14 +107,10 @@ export class BikesComponent {
       if (filterType === 'size') this.selectedSize = null;
       if (filterType === 'price') this.selectedPrice = null;
     }
-    console.log(this.activeFilter)
     // Richiesta HTTP per filtrare le biciclette
     this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
-        console.log(data);
         this.bikes = data;
-        console.log(this.bikes)
-        console.log('filtri attivi:',this.activeFilter)
       },
       error: (err) => {
         console.error('Error:', err);
@@ -149,9 +140,7 @@ export class BikesComponent {
     // Richiesta HTTP per filtrare le biciclette
     this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize).subscribe({
       next:(data)=>{
-        console.log(data);
         this.bikes = data;
-        console.log(this.bikes)
         console.log('filtri attivi:',this.activeFilter)
       },
       error: (err) => {
@@ -160,7 +149,6 @@ export class BikesComponent {
     })
     //Rimuovo il filtro dall array di filtri attivi
     this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
-    console.log(this.activeFilter)
   }
 
   //Metodo che restituisce la stringa di tipologia di bicicletta dal suo id

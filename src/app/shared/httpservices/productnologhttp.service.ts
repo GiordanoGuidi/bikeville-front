@@ -28,23 +28,18 @@ export class ProductnologhttpService {
   getFilteredProducts(parentCategoryId:number,color?:string|null,typeId?:number|null,size?:string|null,price? :number|null):Observable<Product[]>{
     let params = new HttpParams().set('parentCategoryId', parentCategoryId.toString());
     if (color) {
-      console.log(color)
       params = params.set('color', color);
     }
     if (typeId) {
-      console.log(typeId)
       params = params.set('typeId', typeId);
     }
     if (size) {
-      console.log(size)
       params = params.set('size', size);
     }
     if (price) {
-      console.log(price)
       params = params.set('price', price);
     }
 
-    console.log(params.toString())
     return this.http.get<Product[]>('https://localhost:7257/api/Products/get-filtered-bikes', { params });
   }
 }
