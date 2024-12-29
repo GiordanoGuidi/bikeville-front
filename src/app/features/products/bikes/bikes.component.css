@@ -1,33 +1,21 @@
-
 .main-container{
     width: 100%;
     height: 100%;
-    background-color: cadetblue;
     margin-bottom: 50px;
 }
-
 .side-bar{
     min-height: 100%;
     min-width: 200px;
-    border: 2px dashed red;
     padding-left: 20px;
 }
-
 .product-list{
     flex:1;
-    border: 2px dashed black;
 }
-
-.product-category{
-    font-size: 20px;
-}
-
 .example-card{
     height: 200px;
     width: calc(100%);
     background-color: brown;
 }
-
 .mobile-filter{
     height: 30px;
     display: flex;
@@ -36,7 +24,6 @@
     width: 100%;
     border-radius: 300px;
 }
-
 .list-wrapper{
     width: 100%;
     padding-left: 20px;
@@ -68,7 +55,50 @@
     background-color: #4D4952;
     color: white;
 }
-/* Media Query */
+.size-menu{
+    max-height: 250px;
+    overflow-y: auto;
+}
+.color-checkbox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0 none;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.dropdown-menu{
+    max-width: 170px;
+}
+.filter-color{
+    height: 30px;
+    width: 30px;
+    border-radius: 4px;
+}
+.filter-color:hover{
+    scale: 1.1;
+}
+.Red{
+    background-color: #E51D22;
+}
+.Black{
+    background-color: black;
+}
+.Yellow{
+    background-color: #FFFD32;
+}
+.Silver{
+    background-color: silver;
+}
+.Blue{
+    background-color: #0C2ECF;
+}
+
+/*# Media Query */
 /* Media query per breakpoint md (768px) */
 @media (min-width: 768px) {
     .example-card {
