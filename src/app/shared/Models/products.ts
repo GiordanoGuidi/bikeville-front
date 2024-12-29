@@ -18,5 +18,5 @@ export class Product {
     modifiedDate: Date = new Date();
     productCategory : string = '';
     productModel : string = '';
-    salesOrderDetails: any[] = [];
+    salesOrderDetails: any;
 }
