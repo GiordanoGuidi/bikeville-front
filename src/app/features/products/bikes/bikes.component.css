@@ -82,21 +82,39 @@
 .filter-color:hover{
     scale: 1.1;
 }
-.Red{
+.red{
     background-color: #E51D22;
 }
-.Black{
+.black{
     background-color: black;
 }
-.Yellow{
+.yellow{
     background-color: #FFFD32;
 }
-.Silver{
+.silver{
     background-color: silver;
 }
-.Blue{
+.blue{
     background-color: #0C2ECF;
 }
+.icon-wrapper{
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+}
+.fa-circle-check {
+    color: green; 
+    font-size: 18px; 
+  }
+.fa-check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;  
+    font-size: 10px;
+  }
+
 
 /*# Media Query */
 /* Media query per breakpoint md (768px) */
