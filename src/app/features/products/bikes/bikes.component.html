@@ -21,9 +21,17 @@
                 <!-- Colori delle biciclette -->
                 <div class="d-flex gap-2 flex-wrap">
                     <li *ngFor="let color of bikeColors">
-                        <a class="{{color.color}} dropdown-item filter-color position-relative">
+                        <a class="{{toLower(color.color)}} dropdown-item filter-color position-relative ">
                             <input class="color-checkbox" type="checkbox" [value]="color.color" 
                             (change)="onFilterChange($event,'color')" [checked]="isFilterActive('color',color.color)">
+                            <div class="icon-wrapper">
+                                <i *ngIf="isFilterActive('color',color.color)"
+                                [ngClass]="{'active-color':isFilterActive('color',color.color)}" 
+                                class="fa fa-circle-check"></i>
+                                <i *ngIf="isFilterActive('color',color.color)" 
+                                [ngClass]="{'active-color':isFilterActive('color',color.color)}"
+                                class="fa fa-check"></i>
+                            </div>
                         </a>
                     </li>
                 </div>
@@ -42,22 +50,10 @@
             <h3 class="fs-6">Price</h3>
             <ul class="list-unstyled">
                 <!-- Prezzi delle  biciclette -->
-                <li class=" mb-3 class d-flex align-items-center">
-                    <input type="checkbox" [value]="1"  (change)="onFilterChange($event,'price')"
-                    [checked]="isFilterActive('price',1)"  ><span class="ms-2">Up to 700€</span>
+                <li *ngFor="let price of bikePrices" class=" mb-3 class d-flex align-items-center">
+                    <input type="checkbox" [value]="price.id"  (change)="onFilterChange($event,'price')"
+                    [checked]="isFilterActive('price',price.id)"  ><span class="ms-2">{{price.label}}</span>
                 </li>
-                <li class=" mb-3 class d-flex align-items-center">
-                   <input type="checkbox" [value]="2" (change)="onFilterChange($event,'price')"
-                   [checked]="isFilterActive('price',2)" ><span class="ms-2">700-1500€</span>
-               </li>
-               <li class=" mb-3 class d-flex align-items-center">
-                   <input type="checkbox" [value]="3" (change)="onFilterChange($event,'price')"
-                   [checked]="isFilterActive('price',3)" ><span class="ms-2">1500-2500€</span>
-               </li>
-               <li class=" mb-3 class d-flex align-items-center">
-                   <input type="checkbox" [value]="4" (change)="onFilterChange($event,'price')"
-                   [checked]="isFilterActive('price',4)" ><span class="ms-2">2500€ and more</span>
-               </li>
             </ul>
              <!-- Filtri attivi -->
              <div class="active-index-container">
@@ -113,9 +109,17 @@
                             <!-- Colori delle biciclette -->
                             <div class="d-flex p-2 gap-2 flex-wrap">
                                 <li *ngFor="let color of bikeColors">
-                                    <a class="{{color.color}} dropdown-item filter-color position-relative">
+                                    <a class="{{toLower(color.color)}} dropdown-item filter-color position-relative ">
                                         <input class="color-checkbox" type="checkbox" [value]="color.color" 
                                         (change)="onFilterChange($event,'color')" [checked]="isFilterActive('color',color.color)">
+                                        <div class="icon-wrapper">
+                                            <i *ngIf="isFilterActive('color',color.color)"
+                                            [ngClass]="{'active-color':isFilterActive('color',color.color)}" 
+                                            class="fa fa-circle-check"></i>
+                                            <i *ngIf="isFilterActive('color',color.color)" 
+                                            [ngClass]="{'active-color':isFilterActive('color',color.color)}"
+                                            class="fa fa-check"></i>
+                                        </div>
                                     </a>
                                 </li>
                             </div>
@@ -142,21 +146,9 @@
                         </button>
                         <ul class="dropdown-menu">
                             <!-- Prezzi delle  biciclette -->
-                             <li class="ms-3 mb-3 class d-flex align-items-center">
-                                 <input type="checkbox" [value]="1"  (change)="onFilterChange($event,'price')"
-                                 [checked]="isFilterActive('price',1)"  ><span class="ms-2">Up to 700€</span>
-                             </li>
-                             <li class="ms-3 mb-3 class d-flex align-items-center">
-                                <input type="checkbox" [value]="2" (change)="onFilterChange($event,'price')"
-                                [checked]="isFilterActive('price',2)" ><span class="ms-2">700-1500€</span>
-                            </li>
-                            <li class="ms-3 mb-3 class d-flex align-items-center">
-                                <input type="checkbox" [value]="3" (change)="onFilterChange($event,'price')"
-                                [checked]="isFilterActive('price',3)" ><span class="ms-2">1500-2500€</span>
-                            </li>
-                            <li class="ms-3 mb-3 class d-flex align-items-center me-2">
-                                <input type="checkbox" [value]="4" (change)="onFilterChange($event,'price')"
-                                [checked]="isFilterActive('price',4)" ><span class="ms-2">2500€ and more</span>
+                            <li *ngFor="let price of bikePrices" class=" mb-3 class d-flex align-items-center ms-3">
+                                <input type="checkbox" [value]="price.id"  (change)="onFilterChange($event,'price')"
+                                [checked]="isFilterActive('price',price.id)"  ><span class="ms-2">{{price.label}}</span>
                             </li>
                         </ul>
                     </div>
