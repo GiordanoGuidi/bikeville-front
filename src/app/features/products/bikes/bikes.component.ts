@@ -1,7 +1,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
-import { BikeTypeFilter,BikeColorFilter,BikeSizeFilter } from '../../filters/bike/bike-filter-interfaces';
+import { BikeTypeFilter,BikeColorFilter,BikeSizeFilter, BikePriceFilter } from '../../filters/bike/bike-filter-interfaces';
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 
@@ -27,6 +27,8 @@ export class BikesComponent {
   bikeColors :BikeColorFilter[]=[];
   //array di taglie delle biciclette
   bikeSizes :BikeSizeFilter[]=[];
+  //Arry fasce di prezzo biciclette
+  bikePrices :BikePriceFilter[]=[];
   //Assegno l'id della parentcategory delle biciclette
   parentCategoryId = 1; 
   //Colore selezionato nei filtri
@@ -45,17 +47,25 @@ export class BikesComponent {
   getBikeFilters():void{
     this.http.get<BikeFiltersResponse>('https://localhost:7257/api/Products/bike-filters')
       .subscribe((response)=>{
+        console.log(response)
        // Verifico e assegno i tipi di biciclette
       if (response.bikeTypes) {
         this.bikeTypes.push(...response.bikeTypes);
+        console.log(this.bikeTypes)
       }
       // Verifica e assegna i colori delle biciclette
       if (response.bikeColors) {
         this.bikeColors.push(...response.bikeColors);
+        console.log(this.bikeColors)
       }
       // Verifica e assegna i colori delle biciclette
       if (response.bikeSizes) {
         this.bikeSizes.push(...response.bikeSizes);
+        console.log(this.bikeSizes)
+      }
+      if(response.bikePrices){
+        this.bikePrices.push(...response.bikePrices);
+        console.log(this.bikePrices)
       }
     }, error => {
       console.error('Errore durante il recupero dei filtri', error);
@@ -111,6 +121,7 @@ export class BikesComponent {
     this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.bikes = data;
+        console.log(this.bikes)
       },
       error: (err) => {
         console.error('Error:', err);
@@ -134,11 +145,13 @@ export class BikesComponent {
       break;
       case'size':this.selectedSize = null;
       break;
+      case 'price':this.selectedPrice = null;
+      break;
       default:
         console.log('Filtro non valido');
     }
     // Richiesta HTTP per filtrare le biciclette
-    this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize).subscribe({
+    this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.bikes = data;
         console.log('filtri attivi:',this.activeFilter)
@@ -160,7 +173,8 @@ export class BikesComponent {
         7: 'Touring Bikes'
       };
       return typeMap[value] || 'Unknown Type';
-    }else if( value==1||value==2||value==3||value==4){
+    }
+    else if( value==1||value==2||value==3||value==4){
       const typeMap: { [key: number]: string } = {
         1: 'Up to 700€',
         2: '700-1500€',
@@ -172,6 +186,9 @@ export class BikesComponent {
     else{
       return value
     }
+  }
+  toLower(string:string){
+    return string.toLowerCase();
   }
 
    //Recupero i filtri e le biciclette all'inizializzazione del componente
@@ -189,6 +206,7 @@ export interface BikeFiltersResponse {
    // bikeColors è un array di BikeColorFilter
   bikeColors:BikeColorFilter[];
   bikeSizes:BikeSizeFilter[];
+  bikePrices:BikePriceFilter[];
 }
 
 
