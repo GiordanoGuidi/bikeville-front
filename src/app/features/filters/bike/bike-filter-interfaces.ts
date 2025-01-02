@@ -11,3 +11,8 @@ export interface BikeColorFilter{
 export interface BikeSizeFilter{
     size:string;
 }
+//interfaccia per il filtro del prezzo della bicicletta
+export interface BikePriceFilter{
+    id:number;
+    label:string,
+}
