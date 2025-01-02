@@ -7,7 +7,7 @@ import { ProductNologinComponent } from './features/product-nologin/product-nolo
 import { AdminProductsComponent } from './features/admin/admin-products/admin-products.component';
 import { HomeComponent } from './core/home/home.component';
 import { BikesComponent } from './features/products/bikes/bikes.component';
-import { ComponentsComponent } from './features/products/bike-components/bike-components.component';
+import { BikeComponentsComponent } from './features/products/bike-components/bike-components.component';
 import { ClothingComponent } from './features/products/clothing/clothing.component';
 import { AccessoriesComponent } from './features/products/accessories/accessories.component';
 
@@ -20,7 +20,7 @@ export const routes: Routes = [
     {path:'adminproducts',component:AdminProductsComponent},
     {path:'home',component:HomeComponent},
     {path:'Bikes',component:BikesComponent},
-    {path:'Components',component:ComponentsComponent},
+    {path:'Components',component:BikeComponentsComponent},
     {path:'Clothing',component:ClothingComponent},
     {path:'Accessories',component:AccessoriesComponent},
 ];
