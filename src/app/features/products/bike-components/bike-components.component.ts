@@ -30,6 +30,17 @@ export class BikeComponentsComponent {
   componentSizes :SizeFilter[]=[];
   //array fasce di prezzo dei componenti
   componentPrices :PriceFilter[]=[];
+  //Array di oggetti per i filtri attivi attivi
+  activeFilter: { filterType: string; value: any }[] = [];
+  //Colore selezionato nei filtri
+  selectedColor: string | null = null;
+  //Tipologia selezionata nei filtri
+  selectedType :number|null=null;
+  //Taglia selezionata nei filtri
+  selectedSize :string |null=null;
+  //Prezzo selezionato nei filtri
+  selectedPrice :number|null=null;
+
 
   //#Function
   //Recupero tutti i componenti delle biciclette
@@ -72,6 +83,51 @@ export class BikeComponentsComponent {
       }, error => {
         console.error('Errore durante il recupero dei filtri', error);
       });
+  }
+
+  //Funzione che aggiorna l'array di biciclette con le biciclette filtrate per colore
+  onFilterChange(event:Event,filterType:'color'|'typeId'|'size'|'price'):void{
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+
+     // Se la checkbox è selezionata
+    if (inputElement.checked) {
+      // Rimuovo eventuali oggetti dello stesso tipo di filtro
+      this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
+      // Converto il valore nel tipo corretto
+      let coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
+      // Aggiungo il nuovo filtro
+      this.activeFilter.push({ filterType, value:coercedValue });
+      
+      // Aggiorno i valori selezionati
+      if (filterType === 'color') this.selectedColor = value;
+      if (filterType === 'typeId') this.selectedType = Number(value);
+      if (filterType === 'size') this.selectedSize = value;
+      if (filterType === 'price') this.selectedPrice = Number(value);
+    } 
+    else {
+      // Converto il valore nel tipo corretto prima di confrontarlo
+      const coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
+      // Se la checkbox viene deselezionata, rimuovo quel filtro specifico
+      this.activeFilter = this.activeFilter.filter(
+        filter => !(filter.filterType === filterType && filter.value === coercedValue)
+      );
+      // Resetta i valori selezionati
+      if (filterType === 'color') this.selectedColor = null;
+      if (filterType === 'typeId') this.selectedType = null;
+      if (filterType === 'size') this.selectedSize = null;
+      if (filterType === 'price') this.selectedPrice = null;
+    }
+    // Richiesta HTTP per filtrare le biciclette
+    this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
+      next:(data)=>{
+        this.components = data;
+        console.log(this.components)
+      },
+      error: (err) => {
+        console.error('Error:', err);
+      },
+    })
   }
 
 

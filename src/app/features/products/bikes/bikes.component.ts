@@ -37,10 +37,10 @@ export class BikesComponent {
   selectedType :number|null=null;
   //Taglia selezionata nei filtri
   selectedSize :string |null=null;
-  //Array di oggetti per i filtri attivi attivi
-  activeFilter: { filterType: string; value: any }[] = [];
   //Prezzo selezionato nei filtri
   selectedPrice :number|null=null;
+  //Array di oggetti per i filtri attivi attivi
+  activeFilter: { filterType: string; value: any }[] = [];
 
   //#Function
   //Recupero i filtri dal backend
