@@ -36,7 +36,20 @@ export class BikeComponentsComponent {
     });
   }
 
+  //Recupero i filtri dei componenti delle biciclette
+  getBikeComponentsFilters():void{
+    this.httpRequest.getProductFilters(this.parentCategoryId)
+      .subscribe((response)=>{
+        console.log(response)
+      }, error => {
+        console.error('Errore durante il recupero dei filtri', error);
+      });
+  }
+
+
+
   ngOnInit():void{
     this.getBikeComponents();
+    this.getBikeComponentsFilters();
   }
 }

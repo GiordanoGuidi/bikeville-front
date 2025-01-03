@@ -15,7 +15,7 @@ import { ProductnologhttpService } from '../../../shared/httpservices/productnol
 export class BikesComponent {
   constructor(
     private http: HttpClient,
-    private httRequest:ProductnologhttpService
+    private httpRequest:ProductnologhttpService
   ){
   }
   //#Dates
@@ -45,26 +45,26 @@ export class BikesComponent {
   //#Function
   //Recupero i filtri dal backend
   getBikeFilters():void{
-    this.http.get<BikeFiltersResponse>('https://localhost:7257/api/Products/bike-filters')
+    this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
         console.log(response)
        // Verifico e assegno i tipi di biciclette
-      if (response.bikeTypes) {
-        this.bikeTypes.push(...response.bikeTypes);
+      if (response.types) {
+        this.bikeTypes.push(...response.types);
         console.log(this.bikeTypes)
       }
       // Verifica e assegna i colori delle biciclette
-      if (response.bikeColors) {
-        this.bikeColors.push(...response.bikeColors);
+      if (response.colors) {
+        this.bikeColors.push(...response.colors);
         console.log(this.bikeColors)
       }
       // Verifica e assegna i colori delle biciclette
-      if (response.bikeSizes) {
-        this.bikeSizes.push(...response.bikeSizes);
+      if (response.sizes) {
+        this.bikeSizes.push(...response.sizes);
         console.log(this.bikeSizes)
       }
-      if(response.bikePrices){
-        this.bikePrices.push(...response.bikePrices);
+      if(response.prices){
+        this.bikePrices.push(...response.prices);
         console.log(this.bikePrices)
       }
     }, error => {
@@ -74,7 +74,7 @@ export class BikesComponent {
 
   //Recupero tutte le biciclette
   getBikes():void{
-    this.httRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
+    this.httpRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
       next:(data)=>{
         this.bikes = data;
       },
@@ -118,7 +118,7 @@ export class BikesComponent {
       if (filterType === 'price') this.selectedPrice = null;
     }
     // Richiesta HTTP per filtrare le biciclette
-    this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
+    this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.bikes = data;
         console.log(this.bikes)
@@ -151,7 +151,7 @@ export class BikesComponent {
         console.log('Filtro non valido');
     }
     // Richiesta HTTP per filtrare le biciclette
-    this.httRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
+    this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.bikes = data;
         console.log('filtri attivi:',this.activeFilter)
