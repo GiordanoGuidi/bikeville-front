@@ -1,7 +1,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
-import { BikeTypeFilter,BikeColorFilter,BikeSizeFilter, BikePriceFilter } from '../../filters/bike/bike-filter-interfaces';
+import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bike/bike-filter-interfaces';
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 
@@ -22,13 +22,13 @@ export class BikesComponent {
   //array di biciclette 
   bikes :Product[]=[]
   //array di tipi di biciclette
-  bikeTypes:BikeTypeFilter[]=[];
+  bikeTypes:TypeFilter[]=[];
   //array di colori delle biciclette
-  bikeColors :BikeColorFilter[]=[];
+  bikeColors :ColorFilter[]=[];
   //array di taglie delle biciclette
-  bikeSizes :BikeSizeFilter[]=[];
+  bikeSizes :SizeFilter[]=[];
   //Arry fasce di prezzo biciclette
-  bikePrices :BikePriceFilter[]=[];
+  bikePrices :PriceFilter[]=[];
   //Assegno l'id della parentcategory delle biciclette
   parentCategoryId = 1; 
   //Colore selezionato nei filtri
@@ -201,12 +201,14 @@ export class BikesComponent {
 
 //Interfaccia che contiene le chiavi degli array contenuti nell'oggetto passato dal backend
 export interface BikeFiltersResponse {
-   // bikeTypes è un array di BikeTypeFilter
-  bikeTypes: BikeTypeFilter[];
-   // bikeColors è un array di BikeColorFilter
-  bikeColors:BikeColorFilter[];
-  bikeSizes:BikeSizeFilter[];
-  bikePrices:BikePriceFilter[];
+   // bikeTypes è un array di TypeFilter
+  bikeTypes: TypeFilter[];
+   // bikeColors è un array di ColorFilter
+  bikeColors:ColorFilter[];
+   // bikeColors è un array di SizeFilter
+  bikeSizes:SizeFilter[];
+   // bikeColors è un array di PriceFilter
+  bikePrices:PriceFilter[];
 }
 
 

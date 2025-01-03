@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
+import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bike/bike-filter-interfaces';
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 
@@ -21,6 +22,14 @@ export class BikeComponentsComponent {
   parentCategoryId = 2; 
   //array dei componenti
   components :Product[]=[]
+  //array di tipi di componenti
+  componentTypes:TypeFilter[]=[];
+  //array di colori dei componenti
+  componentColors :ColorFilter[]=[];
+  //array di taglie dei componenti
+  componentSizes :SizeFilter[]=[];
+  //array fasce di prezzo dei componenti
+  componentPrices :PriceFilter[]=[];
 
   //#Function
   //Recupero tutti i componenti delle biciclette
@@ -41,6 +50,25 @@ export class BikeComponentsComponent {
     this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
         console.log(response)
+         // Verifico e assegno i tipi di biciclette
+      if (response.types) {
+        this.componentTypes.push(...response.types);
+        console.log(this.componentTypes)
+      }
+      // Verifica e assegna i colori delle biciclette
+      if (response.colors) {
+        this.componentColors.push(...response.colors);
+        console.log(this.componentColors)
+      }
+      // Verifica e assegna i colori delle biciclette
+      if (response.sizes) {
+        this.componentSizes.push(...response.sizes);
+        console.log(this.componentSizes)
+      }
+      if(response.prices){
+        this.componentPrices.push(...response.prices);
+        console.log(this.componentPrices)
+      }
       }, error => {
         console.error('Errore durante il recupero dei filtri', error);
       });
