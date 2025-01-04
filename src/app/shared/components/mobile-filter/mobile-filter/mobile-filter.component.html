@@ -78,7 +78,7 @@ data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="stati
             </button>
             <ul class="dropdown-menu">
                 <!-- Prezzi delle  biciclette -->
-                <li *ngFor="let price of prices" class=" mb-3 class d-flex align-items-center ms-3">
+                <li *ngFor="let price of prices" class=" mb-2 class d-flex align-items-center ms-3">
                     <input type="checkbox" [value]="price.id"  (change)="filterChange.emit({event:$event,filterType:'price'})"
                     [checked]="isFilterActive('price',price.id)"  ><span class="ms-2">{{price.label}}</span>
                 </li>

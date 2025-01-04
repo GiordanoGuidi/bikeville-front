@@ -86,6 +86,33 @@ export class MobileFilterComponent {
           return value;
       }
     }
+    //Parentcategory dei vestiti
+    else if(parentCategoryId==3){
+      const typeMap1: { [key: number]: string } = {
+        1: 'Up to 10€',
+        2: '10-30€',
+        3: '30-50€',
+        4: '50€ and more',
+      };
+      const typeMap2: { [key: number]: string } = {
+        22: 'Bib-Shorts',
+        23: 'Caps',
+        24: 'Gloves',
+        25: 'Jerseys',
+        26: 'Shorts',
+        27: 'Socks',
+        28: 'Tights',
+        29: 'Vests',
+      };
+      switch (true) {
+        case value >= 1 && value <= 4:
+          return typeMap1[value as number] || 'Unknown Type';
+        case value >= 22 && value <= 29:
+          return typeMap2[value as number] || 'Unknown Type';
+        default:
+          return value;
+      }
+    }
 
     return 'Unknown Type';
   }
