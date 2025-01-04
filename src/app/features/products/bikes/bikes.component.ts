@@ -40,7 +40,7 @@ export class BikesComponent {
   selectedSize :string |null=null;
   //Prezzo selezionato nei filtri
   selectedPrice :number|null=null;
-  //Array di oggetti per i filtri attivi attivi
+  //Array di oggetti per i filtri attivi
   activeFilter: { filterType: string; value: any }[] = [];
 
   //#Function
