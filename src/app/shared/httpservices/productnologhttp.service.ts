@@ -17,10 +17,15 @@ export class ProductnologhttpService {
       {headers: this.auth.authenticationJwtHeader}
     );
   }
+  //Funzione per recuperare i filtri dello specifico
+  getProductFilters(parentCategoryId:number): Observable<any>{
+    const params = new HttpParams().set('parentCategoryId', parentCategoryId.toString());
+    return this.http.get('https://localhost:7257/api/Products/product-filters',{params})
+  }
 
   //Funzione per recuperare i prodotti in base alla categoria
   getProductsByParentCategory(parentCategoryId: number): Observable<Product[]> {
-    const params = new HttpParams().set('id', parentCategoryId.toString());
+    const params = new HttpParams().set('parentCategoryId', parentCategoryId.toString());
     return this.http.get<Product[]>('https://localhost:7257/api/Products/by-parent-category', { params });
   }
 

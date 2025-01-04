@@ -1,0 +1,59 @@
+<div class="side-bar">
+    <h2 class="product-category mb-4 fs-4">{{ title }}</h2>
+    <h3 class="fs-6">Types</h3>
+    <!-- in base al valore della parentCatefgoryId assegno una classe -->
+    <ul [ngClass]="{'scroll-menu':parentCategoryId==2}" class="list-unstyled">
+      <li *ngFor="let type of types" class="d-flex align-items-center">
+        <input type="checkbox" [value]="type.id" 
+          (change)="filterChange.emit({ event: $event, filterType: 'typeId' })"
+          [checked]="isFilterActive('typeId', type.id)" />
+        <a class="dropdown-item p-2">{{ type.name }}</a>
+      </li>
+    </ul>
+  
+    <hr>
+    <h3 class="fs-6">Color</h3>
+    <ul class="list-unstyled">
+      <div class="d-flex gap-2 flex-wrap">
+        <li *ngFor="let color of colors">
+          <a class="{{ toLower(color.color) }} dropdown-item filter-color position-relative">
+            <input class="color-checkbox" type="checkbox" [value]="color.color" 
+              (change)="filterChange.emit({ event: $event, filterType: 'color' })"
+              [checked]="isFilterActive('color', color.color)" />
+            <div class="icon-wrapper">
+              <i *ngIf="isFilterActive('color', color.color)" class="fa fa-circle-check"></i>
+            </div>
+          </a>
+        </li>
+      </div>
+    </ul>
+  
+    <hr>
+    <h3 class="fs-6">Size</h3>
+    <ul class="list-unstyled scroll-menu">
+      <li *ngFor="let size of sizes" class="d-flex align-items-center">
+        <input type="checkbox" [value]="size.size" 
+          (change)="filterChange.emit({ event: $event, filterType: 'size' })"
+          [checked]="isFilterActive('size', size.size)" />
+        <a class="dropdown-item p-2">{{ size.size }}</a>
+      </li>
+    </ul>
+  
+    <hr>
+    <h3 class="fs-6">Price</h3>
+    <ul class="list-unstyled">
+      <li *ngFor="let price of prices" class="d-flex align-items-center">
+        <input type="checkbox" [value]="price.id" 
+          (change)="filterChange.emit({ event: $event, filterType: 'price' })"
+          [checked]="isFilterActive('price', price.id)" />
+        <span class="ms-2">{{ price.label }}</span>
+      </li>
+    </ul>
+  
+    <div class="active-index-container">
+      <span class="active-index" *ngFor="let index of activeFilter">
+        <i (click)="removeFilter.emit(index.filterType)" class="delete-filter fa-solid fa-xmark me-3"></i>
+        {{ getActiveFilter(index.value,parentCategoryId) }}
+      </span>
+    </div>
+  </div>

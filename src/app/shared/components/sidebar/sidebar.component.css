@@ -1,0 +1,95 @@
+.side-bar{
+    min-height: 100%;
+    min-width: 200px;
+    padding-left: 20px;
+}
+.active-index{
+    padding: 0rem .625rem 0rem .625rem;
+    margin: 0rem .625rem .625rem 0rem;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.delete-filter{
+    cursor: pointer;
+}
+.btn-filter{
+    background-color: #4D4952;
+    color: white;
+}
+.scroll-menu{
+    max-height: 250px;
+    overflow-y: auto;
+}
+.color-checkbox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0 none;
+    background: none;
+    cursor: pointer;
+    opacity: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.filter-color{
+    height: 30px;
+    width: 30px;
+    border-radius: 4px;
+}
+
+.icon-wrapper{
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+}
+.fa-circle-check {
+    color: green; 
+    font-size: 18px; 
+  }
+.fa-check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;  
+    font-size: 10px;
+  }
+ 
+ .dropdown-menu{
+    max-width: 200px;
+}
+
+/*# Effetti */
+.filter-color:hover{
+    scale: 1.1;
+}
+.active-index:hover{
+    border: 1px solid red;
+    color: red;
+}
+/* #Colori */
+.red{
+background-color: #E51D22;
+}
+.black{
+    background-color: black;
+}
+.yellow{
+    background-color: #FFFD32;
+}
+.silver{
+    background-color: silver;
+}
+.blue{
+    background-color: #0C2ECF;
+}
+.silver-black{
+    background: linear-gradient(to right, black 50%, silver 50%);
+}

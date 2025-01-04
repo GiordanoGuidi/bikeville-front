@@ -1,43 +1,44 @@
-<section id="bikes" class="mt-4">
-    <!-- Container principale -->
+<section id="bike-components" class="mt-4">
+     <!-- Container principale -->
     <div class="main-container align-items-center d-flex flex-column
      flex-md-row md align-items-md-start p-3 md-align-items-normal">
         
-        <!--Componente Sidebar --> <!--#Visibile solo da 768px in su-->
+        <!-- Sidebar --> <!--#Visibile solo da 768px in su-->
         <app-sidebar class="side-bar d-none d-md-block"
-            [title]="'Bikes'"
-            [types]="bikeTypes"
-            [colors]="bikeColors"
-            [sizes]="bikeSizes"
-            [prices]="bikePrices"
+            [title]="'Components'"
+            [types]="componentTypes"
+            [colors]="componentColors"
+            [sizes]="componentSizes"
+            [prices]="componentPrices"
             [parentCategoryId]="parentCategoryId"
             [activeFilter]="activeFilter"
             (filterChange)="onFilterChange($event.event, $event.filterType)"
             (removeFilter)="removeFilter($event)">
         </app-sidebar>
-
-        <!-- Contenitore lista prodotti e filtri mobile -->
+        
+        <!-- Contenitore lista prodotti e bottone dei filtri -->
         <div class="list-wrapper">
-            <!--Componente MobileFilter --><!--#Visibile da768px in giu-->
-            <app-mobile-filter
-                [title]="'Bikes'"
-                [types]="bikeTypes"
-                [colors]="bikeColors"
-                [sizes]="bikeSizes"
-                [prices]="bikePrices"
+           <!--Componente MobileFilter --><!--#Visibile da768px in giu-->
+           <app-mobile-filter
+                [title]="'Components'"
+                [types]="componentTypes"
+                [colors]="componentColors"
+                [sizes]="componentSizes"
+                [prices]="componentPrices"
                 [parentCategoryId]="parentCategoryId"
                 [activeFilter]="activeFilter"
                 (filterChange)="onFilterChange($event.event, $event.filterType)"
                 (removeFilter)="removeFilter($event)">
-            ></app-mobile-filter>
+                >
+            </app-mobile-filter>
 
             <!-- Lista prodotti -->
             <div class="product-list d-flex flex-wrap gap-3">
                 <!-- Card --> <!--#Questa è la card-->
-                <div *ngFor="let bike of bikes" class="example-card">
+                <div *ngFor="let component of components" class="example-card">
                 </div>
                 <!-- Scritta quando non ci sono risultati -->
-                <div *ngIf="!bikes.length" class="w-100 pt-sm-5 pt-md-0">
+                <div *ngIf="!components.length" class="w-100 pt-sm-5 pt-md-0">
                     <div class="alert alert-info" role="alert">
                         <i class="fa-solid fa-circle-exclamation me-1"></i>
                         There are no results related to the filters!
