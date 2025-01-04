@@ -11,25 +11,12 @@
     width: calc(100%);
     background-color: brown;
 }
-.mobile-filter{
-    height: 30px;
-    display: flex;
-    align-items: center;
-    background-color: black;
-    width: 100%;
-    border-radius: 300px;
-}
+
 .list-wrapper{
     width: 100%;
     padding-left: 20px;
     padding-right: 20px;
 }
-.filter-counter{
-    border-radius:100px;
-    background-color: white;
-    padding: 0rem .625rem 0rem .625rem;
-}
-
 
 
 /*# Media Query */
