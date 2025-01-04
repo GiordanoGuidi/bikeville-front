@@ -1,14 +1,14 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
-import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bike/bike-filter-interfaces';
+import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bike-filter-interfaces';
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
-
+import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 @Component({
   selector: 'app-bikes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,SidebarComponent],
   templateUrl: './bikes.component.html',
   styleUrl: './bikes.component.css'
 })
@@ -85,7 +85,7 @@ export class BikesComponent {
   }
 
   //Funzione che aggiorna l'array di biciclette con le biciclette filtrate per colore
-  onFilterChange(event:Event,filterType:'color'|'typeId'|'size'|'price'):void{
+  onFilterChange(event:Event,filterType:'typeId'|'color'|'size'|'price'):void{
     const inputElement = event.target as HTMLInputElement;
     const value = inputElement.value;
 
@@ -95,8 +95,9 @@ export class BikesComponent {
       this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
       // Converto il valore nel tipo corretto
       let coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
-      // Aggiungo il nuovo filtro
+      // Aggiungo il nuovo filtro attivo
       this.activeFilter.push({ filterType, value:coercedValue });
+      console.log(this.activeFilter)
       
       // Aggiorno i valori selezionati
       if (filterType === 'color') this.selectedColor = value;
@@ -187,6 +188,8 @@ export class BikesComponent {
       return value
     }
   }
+
+  //Metodo per restituire una stringa in minuscolo
   toLower(string:string){
     return string.toLowerCase();
   }

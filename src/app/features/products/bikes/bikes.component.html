@@ -4,65 +4,17 @@
      flex-md-row md align-items-md-start p-3 md-align-items-normal">
         
         <!-- Sidebar --> <!--#Visibile solo da 768px in su-->
-        <div class="side-bar d-none d-md-block">
-            <h2 class="product-category mb-4 fs-4">Bikes</h2>
-            <h3 class="fs-6">Types of bike</h3>
-            <ul class="list-unstyled">
-                 <!-- Tipi di bicicletta -->
-                 <li *ngFor="let type of bikeTypes" class="d-flex align-items-center">
-                    <input type="checkbox" [value]="type.id"
-                    (change)="onFilterChange($event,'typeId')" [checked]="isFilterActive('typeId',type.id)">
-                    <a class="dropdown-item p-2">{{type.name}}</a>
-                </li>
-            </ul>
-            <hr>
-            <h3 class="fs-6">Color</h3>
-            <ul class="list-unstyled">
-                <!-- Colori delle biciclette -->
-                <div class="d-flex gap-2 flex-wrap">
-                    <li *ngFor="let color of bikeColors">
-                        <a class="{{toLower(color.color)}} dropdown-item filter-color position-relative ">
-                            <input class="color-checkbox" type="checkbox" [value]="color.color" 
-                            (change)="onFilterChange($event,'color')" [checked]="isFilterActive('color',color.color)">
-                            <div class="icon-wrapper">
-                                <i *ngIf="isFilterActive('color',color.color)"
-                                [ngClass]="{'active-color':isFilterActive('color',color.color)}" 
-                                class="fa fa-circle-check"></i>
-                                <i *ngIf="isFilterActive('color',color.color)" 
-                                [ngClass]="{'active-color':isFilterActive('color',color.color)}"
-                                class="fa fa-check"></i>
-                            </div>
-                        </a>
-                    </li>
-                </div>
-            </ul>
-            <hr>
-            <h3 class="fs-6">Size</h3>
-            <ul class="list-unstyled size-menu">
-                  <!-- Misure delle biciclette -->
-                <li *ngFor="let size of bikeSizes" class="d-flex align-items-center ">
-                    <input type="checkbox" [value]="size.size" 
-                    (change)="onFilterChange($event,'size')" [checked]="isFilterActive('size',size.size)">
-                    <a class="dropdown-item p-2">{{size.size}}</a>
-                </li>
-            </ul>
-            <hr>
-            <h3 class="fs-6">Price</h3>
-            <ul class="list-unstyled">
-                <!-- Prezzi delle  biciclette -->
-                <li *ngFor="let price of bikePrices" class=" mb-3 class d-flex align-items-center">
-                    <input type="checkbox" [value]="price.id"  (change)="onFilterChange($event,'price')"
-                    [checked]="isFilterActive('price',price.id)"  ><span class="ms-2">{{price.label}}</span>
-                </li>
-            </ul>
-             <!-- Filtri attivi -->
-             <div class="active-index-container">
-                <span class="active-index" *ngFor="let index of activeFilter">
-                    <i (click)="removeFilter(index.filterType)" class="delete-filter fa-solid fa-xmark me-3"></i>
-                    {{getActiveFilter(index.value)}}
-                </span>
-            </div>            
-        </div>
+        <app-sidebar class="side-bar d-none d-md-block"
+            [title]="'Bikes'"
+            [types]="bikeTypes"
+            [colors]="bikeColors"
+            [sizes]="bikeSizes"
+            [prices]="bikePrices"
+            [parentCategoryId]="parentCategoryId"
+            [activeFilter]="activeFilter"
+            (filterChange)="onFilterChange($event.event, $event.filterType)"
+            (removeFilter)="removeFilter($event)">
+        </app-sidebar>
 
         <!-- Contenitore lista prodotti e bottone dei filtri -->
         <div class="list-wrapper">
@@ -130,7 +82,7 @@
                         <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Size
                         </button>
-                        <ul class="dropdown-menu size-menu">
+                        <ul class="dropdown-menu scroll-menu">
                             <!-- Misure delle biciclette -->
                           <li *ngFor="let size of bikeSizes" class="d-flex align-items-center ms-3">
                                 <input type="checkbox" [value]="size.size" 
@@ -161,7 +113,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
+
             <!-- Lista prodotti -->
             <div class="product-list d-flex flex-wrap gap-3">
                 <!-- Card --> <!--#Questa è la card-->
