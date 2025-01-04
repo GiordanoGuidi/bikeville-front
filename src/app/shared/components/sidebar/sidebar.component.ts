@@ -114,6 +114,37 @@ export class SidebarComponent {
           return value;
       }
     }
+     //Parentcategory degli accessori
+     else if(parentCategoryId==4){
+      const typeMap1: { [key: number]: string } = {
+        1: 'Up to 10€',
+        2: '10-30€',
+        3: '30-50€',
+        4: '50€ and more',
+      };
+      const typeMap2: { [key: number]: string } = {
+        30: 'Bike Racks',
+        31: 'Bike Stands',
+        32: 'Bottles and Cages',
+        33: 'Cleaners',
+        34: 'Fenders',
+        35: 'Helmets',
+        36: 'Hydratation Packs',
+        37: 'Lights',
+        38: 'Locks',
+        39: 'Panniers',
+        40: 'Pumps',
+        41: 'Tires and Tubes',
+      };
+      switch (true) {
+        case value >= 1 && value <= 4:
+          return typeMap1[value as number] || 'Unknown Type';
+        case value >= 30 && value <= 41:
+          return typeMap2[value as number] || 'Unknown Type';
+        default:
+          return value;
+      }
+    }
 
     return 'Unknown Type';
   }
