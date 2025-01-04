@@ -42,7 +42,7 @@
     <hr>
     <h3 class="fs-6">Price</h3>
     <ul class="list-unstyled">
-      <li *ngFor="let price of prices" class="d-flex align-items-center">
+      <li *ngFor="let price of prices" class="d-flex align-items-center mb-2">
         <input type="checkbox" [value]="price.id" 
           (change)="filterChange.emit({ event: $event, filterType: 'price' })"
           [checked]="isFilterActive('price', price.id)" />
