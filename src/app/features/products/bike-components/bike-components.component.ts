@@ -5,10 +5,11 @@ import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bi
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
 @Component({
   selector: 'app-components',
   standalone: true,
-  imports: [CommonModule,SidebarComponent],
+  imports: [CommonModule,SidebarComponent,MobileFilterComponent],
   templateUrl: './bike-components.component.html',
   styleUrl: './bike-components.component.css'
 })
@@ -130,14 +131,6 @@ export class BikeComponentsComponent {
     })
   }
 
-  //! Rimuovere alla fine?
-   // Metodo per verificare se un filtro è attivo
-   isFilterActive(filterType: string, value: string|number): boolean {
-    const coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
-    return this.activeFilter.some(filter => filter.filterType === filterType && filter.value === coercedValue);
-  }
-
-  //! Rimuovere alla fine?
   //Metodo per rimuovere un filtro attivo
   removeFilter(filterType:string){
     //Resetto i valore in base al tipo di filtro 
@@ -165,49 +158,6 @@ export class BikeComponentsComponent {
     })
     //Rimuovo il filtro dall array di filtri attivi
     this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
-  }
-
-  //! Rimuovere alla fine?
-  //Metodo che restituisce la stringa di tipologia di bicicletta dal suo id
-  getActiveFilter(value: number): string | number {
-    const typeMap1: { [key: number]: string } = {
-      1: 'Up to 100€',
-      2: '100-500€',
-      3: '500-100€',
-      4: '1000€ and more',
-    };
-  
-    const typeMap2: { [key: number]: string } = {
-      8: 'Handlebars',
-      9: 'Bottom Brackets',
-      10: 'Brakes',
-      11: 'Chains',
-      12: 'Cranksets',
-      13: 'Derailleurs',
-      14: 'Forks',
-      15: 'Headsets',
-      16: 'Mountain Frames',
-      17: 'Pedals',
-      18: 'Road Frames',
-      19: 'Saddles',
-      20: 'Touring Frames',
-      21: 'Wheels',
-    };
-  
-    switch (true) {
-      case value >= 1 && value <= 4:
-        return typeMap1[value as number] || 'Unknown Type';
-      case value >= 8 && value <= 21:
-        return typeMap2[value as number] || 'Unknown Type';
-      default:
-        return value;
-    }
-  }
-
-  //! Rimuovere alla fine?
-  //Metodo per restituire una stringa in minuscolo
-  toLower(input: string): string {
-    return input.replace(/\//g, '-').toLowerCase();
   }
 
   ngOnInit():void{

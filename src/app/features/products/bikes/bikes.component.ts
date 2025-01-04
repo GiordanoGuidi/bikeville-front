@@ -5,10 +5,11 @@ import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bi
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
+import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
 @Component({
   selector: 'app-bikes',
   standalone: true,
-  imports: [CommonModule,SidebarComponent],
+  imports: [CommonModule,SidebarComponent,MobileFilterComponent],
   templateUrl: './bikes.component.html',
   styleUrl: './bikes.component.css'
 })
@@ -130,12 +131,6 @@ export class BikesComponent {
     })
   }
 
-  // Metodo per verificare se un filtro è attivo
-  isFilterActive(filterType: string, value: string|number): boolean {
-    const coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
-    return this.activeFilter.some(filter => filter.filterType === filterType && filter.value === coercedValue);
-  }
-
   //Metodo per rimuovere un filtro attivo
   removeFilter(filterType:string){
     //Resetto i valore in base al tipo di filtro 
@@ -165,35 +160,6 @@ export class BikesComponent {
     this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
   }
 
-  //Metodo che restituisce la stringa di tipologia di bicicletta dal suo id
-  getActiveFilter(value: number|string): string|number {
-    if(value==5||value==6||value==7){
-      const typeMap: { [key: number]: string } = {
-        5: 'Mountain Bikes',
-        6: 'Road Bikes',
-        7: 'Touring Bikes'
-      };
-      return typeMap[value] || 'Unknown Type';
-    }
-    else if( value==1||value==2||value==3||value==4){
-      const typeMap: { [key: number]: string } = {
-        1: 'Up to 700€',
-        2: '700-1500€',
-        3: '1500-2500€',
-        4: '2500€ and more',
-      };
-      return typeMap[value] || 'Unknown Type';
-    }
-    else{
-      return value
-    }
-  }
-
-  //Metodo per restituire una stringa in minuscolo
-  toLower(string:string){
-    return string.toLowerCase();
-  }
-
    //Recupero i filtri e le biciclette all'inizializzazione del componente
    ngOnInit():void{
     this.getBikeFilters();
@@ -201,17 +167,4 @@ export class BikesComponent {
   }
   
 }
-
-//Interfaccia che contiene le chiavi degli array contenuti nell'oggetto passato dal backend
-export interface BikeFiltersResponse {
-   // bikeTypes è un array di TypeFilter
-  bikeTypes: TypeFilter[];
-   // bikeColors è un array di ColorFilter
-  bikeColors:ColorFilter[];
-   // bikeColors è un array di SizeFilter
-  bikeSizes:SizeFilter[];
-   // bikeColors è un array di PriceFilter
-  bikePrices:PriceFilter[];
-}
-
 

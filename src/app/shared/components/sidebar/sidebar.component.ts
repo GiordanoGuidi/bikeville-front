@@ -59,7 +59,7 @@ export class SidebarComponent {
       const typeMap1: { [key: number]: string } = {
         1: 'Up to 100€',
         2: '100-500€',
-        3: '500-100€',
+        3: '500-1000€',
         4: '1000€ and more',
       };
       const typeMap2: { [key: number]: string } = {
