@@ -100,3 +100,6 @@ background-color: #E51D22;
 .silver-black{
     background: linear-gradient(to right, black 50%, silver 50%);
 }
+.multi{
+    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+}
