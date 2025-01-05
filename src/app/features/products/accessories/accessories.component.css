@@ -1,0 +1,45 @@
+.main-container{
+    width: 100%;
+    height: 100%;
+    margin-bottom: 50px;
+}
+.product-list{
+    flex:1;
+}
+.example-card{
+    height: 200px;
+    width: calc(100%);
+    background-color: brown;
+}
+
+.list-wrapper{
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+/*# Media Query */
+/* Media query per breakpoint md (768px) */
+@media (min-width: 768px) {
+    .example-card {
+        width: calc(100% / 2 - 8px);
+    }
+    .list-wrapper{
+        padding-left: 36px;
+    }
+}
+
+/* Media query per breakpoint md (992px) */
+@media (min-width: 992px) {
+    .example-card {
+        width: calc(100% / 3 - 10.67px);
+    }
+}
+
+/* Media query per breakpoint md (1200px) */
+@media (min-width: 1200px) {
+    .example-card {
+        width: calc(100% / 4 - 12px);
+    }
+}

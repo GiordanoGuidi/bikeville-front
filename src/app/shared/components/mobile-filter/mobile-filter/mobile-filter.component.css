@@ -13,10 +13,10 @@
     padding: 0rem .625rem 0rem .625rem;
 }
 .active-index{
-    padding: 0rem .625rem 0rem .625rem;
-    margin: 0rem .625rem .625rem 0rem;
+    padding: .300rem .700rem .300rem .700rem;
+    margin: 0rem 1rem 1rem 0rem;
     border-radius: 3px;
-    border: 1px solid #dcdcdc;
+    border: 1px solid black;
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -50,6 +50,7 @@
     height: 30px;
     width: 30px;
     border-radius: 4px;
+    border: 1px solid rgb(82, 79, 79);
 }
 .icon-wrapper{
     position: absolute;
@@ -70,6 +71,10 @@
   }
  .dropdown-menu{
     max-width: 200px;
+}
+.checkbox-filter{
+    width: 18px;
+    height: 18px;
 }
 
 /*# Effetti */
@@ -102,4 +107,7 @@ background-color: #E51D22;
 }
 .multi{
     background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+}
+.grey{
+    background-color: grey;
 }
