@@ -1,7 +1,7 @@
 <section id="bikes" class="mt-4">
     <!-- Container principale -->
     <div class="main-container align-items-center d-flex flex-column
-     flex-md-row md align-items-md-start p-3 md-align-items-normal">
+     flex-md-row md  align-items-md-start p-3 md-align-items-normal">
         
         <!--Componente Sidebar --> <!--#Visibile solo da 768px in su-->
         <app-sidebar class="side-bar d-none d-md-block"
@@ -17,7 +17,7 @@
         </app-sidebar>
 
         <!-- Contenitore lista prodotti e filtri mobile -->
-        <div class="list-wrapper">
+        <div class="list-wrapper ms-md-5">
             <!--Componente MobileFilter --><!--#Visibile da768px in giu-->
             <app-mobile-filter
                 [title]="'Bikes'"
@@ -31,11 +31,23 @@
                 (removeFilter)="removeFilter($event)">
             ></app-mobile-filter>
 
+            <!-- Paginazione superiore-->
+                <app-pagination  
+                    [products]="bikes"
+                    (getPaginatedProducts)="onChildNotify($event)"
+                ></app-pagination>     
+             
+
             <!-- Lista prodotti -->
-            <div class="product-list d-flex flex-wrap gap-3">
-                <!-- Card --> <!--#Questa è la card-->
-                <div *ngFor="let bike of bikes" class="example-card">
-                </div>
+            <div class="product-list d-flex flex-wrap mt-sm-4 gap-3">
+                <!-- Itero il componente card sui prodotti paginati -->
+                <div *ngFor="let bike of paginatedProducts" class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+                     <!-- Card --> <!--#Questa è la card-->
+                     <app-card class="w-100 h-100"
+                        [bike]="bike">
+                    </app-card>
+                 </div>
+
                 <!-- Scritta quando non ci sono risultati -->
                 <div *ngIf="!bikes.length" class="w-100 pt-sm-5 pt-md-0">
                     <div class="alert alert-info" role="alert">
@@ -44,6 +56,12 @@
                       </div>
                 </div>
             </div>
+
+            <!-- Paginazione inferiore-->
+            <app-pagination
+                [products]="bikes"
+                (getPaginatedProducts)="onChildNotify($event)"
+            ></app-pagination>    
         </div>
     </div>
 </section>
