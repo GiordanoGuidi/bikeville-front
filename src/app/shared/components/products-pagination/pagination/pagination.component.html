@@ -1,0 +1,15 @@
+<!-- Paginazione superiore-->
+<nav>
+    <ul class="pagination flex-justify-content-flex-end" style="margin: 20px;">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
+      </li>
+      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
+        [class.active]="currentPage === i + 1">
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
+      </li>
+    </ul>
+  </nav>
