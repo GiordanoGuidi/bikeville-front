@@ -21,8 +21,6 @@ export class ProductNologinComponent {
   // Metodo chiamato automaticamente quando il componente è inizializzato
   ngOnInit(): void {
     this.GetProductNoLog();
-    
-    
   }
 
   GetProductNoLog() {
