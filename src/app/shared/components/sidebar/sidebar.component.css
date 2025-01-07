@@ -1,6 +1,6 @@
 .side-bar{
     min-height: 100%;
-    min-width: 200px;
+    width: 200px;
     padding-left: 20px;
 }
 .active-index{

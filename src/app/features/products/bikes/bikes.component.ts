@@ -6,10 +6,16 @@ import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
+import { CardComponent } from '../../../shared/components/product-card/card/card.component';
+import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
 @Component({
   selector: 'app-bikes',
   standalone: true,
-  imports: [CommonModule,SidebarComponent,MobileFilterComponent],
+  imports: [CommonModule,
+            SidebarComponent,
+            MobileFilterComponent,
+            CardComponent,
+            PaginationComponent],
   templateUrl: './bikes.component.html',
   styleUrl: './bikes.component.css'
 })
@@ -42,7 +48,11 @@ export class BikesComponent {
   selectedPrice :number|null=null;
   //Array di oggetti per i filtri attivi
   activeFilter: { filterType: string; value: any }[] = [];
+  //Prodotti paginati
+  paginatedProducts:Product[]=[];
+  
 
+ 
   //#Function
   //Recupero i filtri dal backend
   getBikeFilters():void{
@@ -160,11 +170,20 @@ export class BikesComponent {
     this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
   }
 
+  //Metodo per ricevere i prodotti paginati e assegnarli alla variabile
+  onChildNotify(eventData:Product[]):void{
+    this.paginatedProducts=eventData;
+    console.log(this.paginatedProducts)
+  }
+
+
    //Recupero i filtri e le biciclette all'inizializzazione del componente
    ngOnInit():void{
     this.getBikeFilters();
     this.getBikes();
   }
+
+ 
   
 }
 
