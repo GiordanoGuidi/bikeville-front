@@ -32,7 +32,7 @@
             ></app-mobile-filter>
 
             <!-- Paginazione superiore-->
-                <app-pagination  
+                <app-pagination [hidden]="!bikes.length"
                     [products]="bikes"
                     (getPaginatedProducts)="onChildNotify($event)"
                 ></app-pagination>     
@@ -58,7 +58,7 @@
             </div>
 
             <!-- Paginazione inferiore-->
-            <app-pagination
+            <app-pagination [hidden]="!bikes.length"
                 [products]="bikes"
                 (getPaginatedProducts)="onChildNotify($event)"
             ></app-pagination>    
