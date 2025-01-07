@@ -232,84 +232,85 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form #addProductForm="ngForm">
             <div class="row g-2">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" id="name" class="form-control w-100" placeholder="Insert Name">
+                <input type="text" id="name" class="form-control w-100" placeholder="Insert Name" 
+                name="Name" required [(ngModel)]="newProduct.name" >
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="productNumber" class="form-label">Product Number</label>
-                <input type="text" id="productNumber" class="form-control w-100" placeholder="Insert Product Number">
+                <input type="text" id="productNumber" class="form-control w-100" placeholder="Insert Product Number"   name="ProductNumber" required [(ngModel)]="newProduct.productNumber">
               </div>
               <div class="col mb-3">
                 <label for="color" class="form-label">Color</label>
-                <input type="text" id="color" class="form-control w-100" placeholder="Insert Color">
+                <input type="text" id="color" class="form-control w-100" placeholder="Insert Color" name="Color"  [(ngModel)]="newProduct.color">
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="cost" class="form-label">StandardCost</label>
-                <input type="number" id="cost" class="form-control w-100" placeholder="Insert Standard Cost">
+                <input type="number" id="cost" class="form-control w-100" placeholder="Insert Standard Cost" name="StandardCost" [(ngModel)] = "newProduct.standardCost">
               </div>
               <div class="col mb-3">
                 <label for="listPrice" class="form-label">ListPrice</label>
-                <input type="number" id="listPrice" class="form-control w-100" placeholder="Insert List Price">
+                <input type="number" id="listPrice" class="form-control w-100" placeholder="Insert List Price" name="ListPrice" [(ngModel)]="newProduct.listPrice" >
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="size" class="form-label">Size</label>
-                <input type="text" id="size" class="form-control w-100" placeholder="Insert Size">
+                <input type="text" id="size" class="form-control w-100" placeholder="Insert Size" name="Size"  [(ngModel)]="newProduct.size">
               </div>
               <div class="col mb-3">
                 <label for="weight" class="form-label">Weight</label>
-                <input type="number" id="weight" class="form-control w-100" placeholder="Insert Weight">
+                <input type="number" id="weight" class="form-control w-100" placeholder="Insert Weight" name="Weight"  [(ngModel)]="newProduct.weight">
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="catId" class="form-label">Category</label>
-                <input type="text" id="catId" class="form-control w-100" placeholder="Insert Category">
+                <input type="text" id="catId" class="form-control w-100" placeholder="Insert Category" name="ProductCategoryId" required [(ngModel)]="newProduct.productCategoryId">
               </div>
               <div class="col mb-3">
                 <label for="modId" class="form-label">Model</label>
-                <input type="text" id="modId" class="form-control w-100" placeholder="Insert Model">
+                <input type="text" id="modId" class="form-control w-100" placeholder="Insert Model" name="ProductModelId" required [(ngModel)]="newProduct.productModelId">
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="sellStartDate" class="form-label">Sell Start Date</label>
-                <input type="date" id="sellStartDate" class="form-control w-100" placeholder="Insert Sell Start Date">
+                <input type="date" id="sellStartDate" class="form-control w-100" placeholder="Insert Sell Start Date" name="SellStartDate" required [(ngModel)]="newProduct.sellStartDate">
               </div>
               <div class="col mb-3">
                 <label for="sellEndDate" class="form-label">Sell End Date</label>
-                <input type="date" id="sellEndDate" class="form-control w-100" placeholder="Insert Sell End Date">
+                <input type="date" id="sellEndDate" class="form-control w-100" placeholder="Insert Sell End Date" name="SellEndDate"  [(ngModel)]="newProduct.sellEndDate">
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="discontinuedDate" class="form-label">Discontinued Date</label>
-                <input type="date" id="discontinuedDate" class="form-control w-100" placeholder="Insert Discontinued Date">
+                <input type="date" id="discontinuedDate" class="form-control w-100" placeholder="Insert Discontinued Date" name="DiscontinuedDate"  [(ngModel)]="newProduct.discontinueDate">
               </div>
               <div class="col mb-3">
                 <label for="thumbnailPhotoFileName" class="form-label">Thumbnail Filename</label>
-                <input type="text" id="thumbnailPhotoFileName" class="form-control w-100" placeholder="Insert Thumbnail Filename">
+                <input type="text" id="thumbnailPhotoFileName" class="form-control w-100" placeholder="Insert Thumbnail Filename" name="ThumbnailPhotoFileName"  [(ngModel)]="newProduct.thumbnailPhotoFileName">
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
-                <input type="file" id="thumbnailPhoto" class="form-control w-100" placeholder="Insert Thumbnail Photo">
+                <input type="file" id="thumbnailPhoto" class="form-control w-100" placeholder="Insert Thumbnail Photo" name="ThumbnailPhoto"  [(ngModel)]="newProduct.thumbNailPhoto">
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-primary">Aggiungi </button>
+          <button type="button" class="btn btn-primary" (click)="addProduct(addProductForm  )">Aggiungi </button>
         </div>
       </div>
     </div>

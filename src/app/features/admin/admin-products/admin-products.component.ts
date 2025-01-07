@@ -5,6 +5,7 @@ import { AdminproductshttpService } from '../../../shared/httpservices/adminprod
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ProductDTO } from '../../../shared/Models/productsDTO';
 
 @Component({
   selector: 'app-admin-products',
@@ -16,7 +17,9 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class AdminProductsComponent {
   constructor(private httpRequest: AdminproductshttpService, private router: Router) { }
   products: Product[] = [];
+  newProduct : ProductDTO = new ProductDTO();
   paginatedProducts: Product[] = [];
+  
   currentPage = 1;
   itemsPerPage = 50;
 
@@ -38,8 +41,18 @@ export class AdminProductsComponent {
 
 //TODO funzione per aggiungere un prodotto//
 
-addProduct() {
-
+addProduct(prodotto: NgForm) {
+  this.newProduct = prodotto.value;
+  console.log(this.newProduct);
+  this.httpRequest.postAdminProduct(this.newProduct).subscribe({
+    next: (data) => {
+      console.log('Product successfully added:', data);
+      
+    },
+    error: (err) => {
+      console.error(err);
+    },
+  });
 }
 
 //* funzione per visualizzare prodotti ?//
