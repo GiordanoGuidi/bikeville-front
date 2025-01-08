@@ -17,7 +17,7 @@
         </app-sidebar>
         
         <!-- Contenitore lista prodotti e bottone dei filtri -->
-        <div class="list-wrapper">
+        <div class="list-wrapper ms-md-5">
            <!--Componente MobileFilter --><!--#Visibile da768px in giu-->
            <app-mobile-filter
                 [title]="'Components'"
@@ -32,11 +32,23 @@
                 >
             </app-mobile-filter>
 
+            <!-- Paginazione superiore-->
+            <app-pagination
+                 [hidden]="!components.length"
+                [products]="components"
+                (getPaginatedProducts)="onChildNotify($event)">
+            </app-pagination>     
+
             <!-- Lista prodotti -->
             <div class="product-list d-flex flex-wrap gap-3">
-                <!-- Card --> <!--#Questa è la card-->
-                <div *ngFor="let component of components" class="example-card">
+               <!-- Itero il componente card sui prodotti paginati -->
+               <div *ngFor="let component of paginatedProducts" class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+                    <!-- Card --> <!--#Questa è la card-->
+                    <app-card class="w-100 h-100"
+                        [product]="component">
+                    </app-card>
                 </div>
+
                 <!-- Scritta quando non ci sono risultati -->
                 <div *ngIf="!components.length" class="w-100 pt-sm-5 pt-md-0">
                     <div class="alert alert-info" role="alert">
@@ -45,6 +57,13 @@
                       </div>
                 </div>
             </div>
+
+             <!-- Paginazione superiore-->
+            <app-pagination
+                [hidden]="!components.length"
+                [products]="components"
+                (getPaginatedProducts)="onChildNotify($event)">
+            </app-pagination>   
         </div>
     </div>
 </section>

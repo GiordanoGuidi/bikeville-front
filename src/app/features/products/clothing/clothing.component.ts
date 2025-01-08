@@ -6,18 +6,26 @@ import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
+import { CardComponent } from '../../../shared/components/product-card/card/card.component';
+import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
+import { PaginationService } from '../../../shared/service/pagination-service';
 
 @Component({
   selector: 'app-clothing',
   standalone: true,
-  imports: [CommonModule,SidebarComponent,MobileFilterComponent],
+  imports: [CommonModule,
+            SidebarComponent,
+            MobileFilterComponent,
+            CardComponent,
+            PaginationComponent],
   templateUrl: './clothing.component.html',
   styleUrl: './clothing.component.css'
 })
 export class ClothingComponent {
   constructor(
     private http: HttpClient,
-    private httpRequest:ProductnologhttpService
+    private httpRequest:ProductnologhttpService,
+    private paginationService: PaginationService
   ){
   }
   //#Dates
@@ -43,6 +51,8 @@ export class ClothingComponent {
   selectedPrice :number|null=null;
   //Array di oggetti per i filtri attivi 
   activeFilter: { filterType: string; value: any }[] = [];
+  //Prodotti paginati
+  paginatedProducts:Product[]=[];
 
   //#Function
   //Recupero i filtri dal backend
@@ -124,7 +134,9 @@ export class ClothingComponent {
     this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.clothes = data;
-        console.log(this.clothes)
+        console.log(this.clothes);
+        // Imposto la pagina corrente a 1 dopo il filtraggio
+        this.paginationService.setCurrentPage(1);
       },
       error: (err) => {
         console.error('Error:', err);
@@ -160,6 +172,12 @@ export class ClothingComponent {
     //Rimuovo il filtro dall array di filtri attivi
     this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
     }
+
+    //Metodo per ricevere i prodotti paginati e assegnarli alla variabile
+  onChildNotify(eventData:Product[]):void{
+    this.paginatedProducts=eventData;
+    console.log(this.paginatedProducts)
+  }
 
     //Recupero i filtri e le biciclette all'inizializzazione del componente
     ngOnInit():void{
