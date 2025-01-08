@@ -1,0 +1,96 @@
+<!-- Mobile Filter --><!--#Visibili da 768px in giu-->
+<div type="button" class="mobile-filter mb-2 d-md-none d-flex justify-content-between align-items-center"
+data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+    <div>
+        <i class="fa-solid fa-filter ms-2 text-white"></i>
+        <a  class="text-white ms-3 text-decoration-none">
+            Filtri</a>
+    </div>
+    <div>
+        <span class="filter-counter me-2">{{activeFilter.length}}</span>
+    </div>
+</div>
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+    <div class="offcanvas-header bg-dark">
+      <h5 class="offcanvas-title text-white" id="staticBackdropLabel">{{title}} filters</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="filters-container">
+        <!-- Dropdown Filtro per tipo bicicletta-->
+        <div class="dropdown mb-3">
+            <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Type
+            </button>
+            <ul [ngClass]="{'scroll-menu':parentCategoryId!=1}" class="dropdown-menu">
+                <!-- Tipi di bicicletta -->
+              <li *ngFor="let type of types" class="d-flex align-items-center ms-3">
+                    <input type="checkbox" class="checkbox-filter" [value]="type.id"
+                    (change)="filterChange.emit({event:$event,filterType:'typeId'})" [checked]="isFilterActive('typeId',type.id)">
+                    <a class="dropdown-item p-2">{{type.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Filtro per colore -->
+        <div class="dropdown mb-3">
+            <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Color
+            </button>
+            <ul class="dropdown-menu ">
+                <!-- Colori delle biciclette -->
+                <div class="d-flex p-2 gap-2 flex-wrap">
+                    <li *ngFor="let color of colors">
+                        <a class="{{toLower(color.color)}} dropdown-item filter-color position-relative ">
+                            <input class="color-checkbox" type="checkbox" [value]="color.color" 
+                            (change)="filterChange.emit({event:$event,filterType:'color'})" [checked]="isFilterActive('color',color.color)">
+                            <div class="icon-wrapper">
+                                <i *ngIf="isFilterActive('color',color.color)"
+                                [ngClass]="{'active-color':isFilterActive('color',color.color)}" 
+                                class="fa fa-circle-check"></i>
+                                <i *ngIf="isFilterActive('color',color.color)" 
+                                [ngClass]="{'active-color':isFilterActive('color',color.color)}"
+                                class="fa fa-check"></i>
+                            </div>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+        </div>
+        <!-- Filtro per taglia -->
+        <div class="dropdown mb-3">
+            <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Size
+            </button>
+            <ul class="dropdown-menu scroll-menu">
+                <!-- Misure delle biciclette -->
+              <li *ngFor="let size of sizes" class="d-flex align-items-center ms-3">
+                    <input class="checkbox-filter" type="checkbox" [value]="size.size" 
+                    (change)="filterChange.emit({event:$event,filterType:'size'})" [checked]="isFilterActive('size',size.size)">
+                    <a class="dropdown-item p-2">{{size.size}}</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Filtri per prezzo -->
+        <div class="dropdown mb-3">
+            <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Price
+            </button>
+            <ul class="dropdown-menu">
+                <!-- Prezzi delle  biciclette -->
+                <li *ngFor="let price of prices" class=" mb-2 class d-flex align-items-center ms-3">
+                    <input class="checkbox-filter" type="checkbox" [value]="price.id"  (change)="filterChange.emit({event:$event,filterType:'price'})"
+                    [checked]="isFilterActive('price',price.id)"  ><span class="ms-2">{{price.label}}</span>
+                </li>
+            </ul>
+        </div>
+        <!-- Filtri attivi -->
+        <div class="active-index-container">
+            <span class="active-index" *ngFor="let index of activeFilter">
+                <i (click)="removeFilter.emit(index.filterType)" class="delete-filter fa-solid fa-xmark me-3 fs-5"></i>
+                {{getActiveFilter(index.value,parentCategoryId)}}
+            </span>
+        </div>
+      </div>
+    </div>
+</div>

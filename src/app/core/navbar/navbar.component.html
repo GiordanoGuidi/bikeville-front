@@ -7,7 +7,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link"  routerLink="adminproducts"> Admin Products </a> <!--TODO provvisoria schermata prodotti admin per modificare listino-->
+            <a class="nav-link"  routerLink="adminhub"> Admin Hub </a> <!--TODO provvisoria schermata prodotti admin per modificare listino-->
           </li>
           <li class="nav-item">
             <a class="nav-link"  routerLink="product-nologin"> Products </a> <!--? spostato lista prodotti di Paola ?-->
@@ -30,12 +30,11 @@
   </nav>
   <!-- Filtri per Categoria Prodotto -->
   <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
-    <div class="d-flex align-items-center">
-      <ul class="d-flex gap-5 list-unstyled m-0">
+    <div class="d-flex align-items-center m-2">
+      <ul class="d-flex  gap-3 gap-sm-4 gap-md-5 list-unstyled m-0 justify-content-center flex-wrap">
         <li *ngFor="let category of categoriesArray; let i = index">
           <a (click)="setActiveIndex(i)" routerLink="/{{category.Name}}" [ngClass]="{'active':isActive(i)}" class="text-decoration-none text-dark">{{category.Name}}</a>
         </li>
       </ul>
     </div>
   </nav>
-<router-outlet></router-outlet>
