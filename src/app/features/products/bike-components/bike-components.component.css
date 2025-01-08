@@ -3,6 +3,7 @@
     height: 100%;
     margin-bottom: 50px;
 }
+
 .product-list{
     flex:1;
 }
@@ -36,7 +37,7 @@
     }
 }
 
-/* Media query per breakpoint lg (1200px) */
+/* Media query per breakpoint md (1200px) */
 @media (min-width: 1200px) {
     .example-card {
         width: calc(100% / 4 - 12px);
