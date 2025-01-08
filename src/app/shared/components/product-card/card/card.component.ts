@@ -12,5 +12,5 @@ import { ProductnologhttpService } from '../../../httpservices/productnologhttp.
 })
 export class CardComponent {
   //# Input per i dati(Popolati dal componente padre)
-  @Input()bike!:Product;
+  @Input()product!:Product;
 }

@@ -8,6 +8,7 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
 import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
+import { PaginationService } from '../../../shared/service/pagination-service';
 @Component({
   selector: 'app-bikes',
   standalone: true,
@@ -22,7 +23,8 @@ import { PaginationComponent } from '../../../shared/components/products-paginat
 export class BikesComponent {
   constructor(
     private http: HttpClient,
-    private httpRequest:ProductnologhttpService
+    private httpRequest:ProductnologhttpService,
+    private paginationService: PaginationService
   ){
   }
   //#Dates
@@ -58,25 +60,20 @@ export class BikesComponent {
   getBikeFilters():void{
     this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
-        console.log(response)
        // Verifico e assegno i tipi di biciclette
       if (response.types) {
         this.bikeTypes.push(...response.types);
-        console.log(this.bikeTypes)
       }
       // Verifica e assegna i colori delle biciclette
       if (response.colors) {
         this.bikeColors.push(...response.colors);
-        console.log(this.bikeColors)
       }
       // Verifica e assegna i colori delle biciclette
       if (response.sizes) {
         this.bikeSizes.push(...response.sizes);
-        console.log(this.bikeSizes)
       }
       if(response.prices){
         this.bikePrices.push(...response.prices);
-        console.log(this.bikePrices)
       }
     }, error => {
       console.error('Errore durante il recupero dei filtri', error);
@@ -108,7 +105,6 @@ export class BikesComponent {
       let coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
       // Aggiungo il nuovo filtro attivo
       this.activeFilter.push({ filterType, value:coercedValue });
-      console.log(this.activeFilter)
       
       // Aggiorno i valori selezionati
       if (filterType === 'color') this.selectedColor = value;
@@ -133,7 +129,8 @@ export class BikesComponent {
     this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.bikes = data;
-        console.log(this.bikes)
+        // Imposto la pagina corrente a 1 dopo il filtraggio
+        this.paginationService.setCurrentPage(1);
       },
       error: (err) => {
         console.error('Error:', err);
@@ -160,7 +157,6 @@ export class BikesComponent {
     this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.bikes = data;
-        console.log('filtri attivi:',this.activeFilter)
       },
       error: (err) => {
         console.error('Error:', err);
@@ -173,7 +169,6 @@ export class BikesComponent {
   //Metodo per ricevere i prodotti paginati e assegnarli alla variabile
   onChildNotify(eventData:Product[]):void{
     this.paginatedProducts=eventData;
-    console.log(this.paginatedProducts)
   }
 
 

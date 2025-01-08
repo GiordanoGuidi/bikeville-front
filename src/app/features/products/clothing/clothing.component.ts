@@ -6,18 +6,26 @@ import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
+import { CardComponent } from '../../../shared/components/product-card/card/card.component';
+import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
+import { PaginationService } from '../../../shared/service/pagination-service';
 
 @Component({
   selector: 'app-clothing',
   standalone: true,
-  imports: [CommonModule,SidebarComponent,MobileFilterComponent],
+  imports: [CommonModule,
+            SidebarComponent,
+            MobileFilterComponent,
+            CardComponent,
+            PaginationComponent],
   templateUrl: './clothing.component.html',
   styleUrl: './clothing.component.css'
 })
 export class ClothingComponent {
   constructor(
     private http: HttpClient,
-    private httpRequest:ProductnologhttpService
+    private httpRequest:ProductnologhttpService,
+    private paginationService: PaginationService
   ){
   }
   //#Dates
@@ -43,31 +51,28 @@ export class ClothingComponent {
   selectedPrice :number|null=null;
   //Array di oggetti per i filtri attivi 
   activeFilter: { filterType: string; value: any }[] = [];
+  //Prodotti paginati
+  paginatedProducts:Product[]=[];
 
   //#Function
   //Recupero i filtri dal backend
   getDressFilters():void{
     this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
-        console.log(response)
        // Verifico e assegno i tipi di biciclette
       if (response.types) {
         this.dressTypes.push(...response.types);
-        console.log(this.dressTypes)
       }
       // Verifica e assegna i colori delle biciclette
       if (response.colors) {
         this.dressColors.push(...response.colors);
-        console.log(this.dressColors)
       }
       // Verifica e assegna i colori delle biciclette
       if (response.sizes) {
         this.dressSizes.push(...response.sizes);
-        console.log(this.dressSizes)
       }
       if(response.prices){
         this.dressPrices.push(...response.prices);
-        console.log(this.dressPrices)
       }
     }, error => {
       console.error('Errore durante il recupero dei filtri', error);
@@ -99,7 +104,6 @@ export class ClothingComponent {
       let coercedValue = filterType === 'typeId' || filterType === 'price' ? Number(value) : value;
       // Aggiungo il nuovo filtro attivo
       this.activeFilter.push({ filterType, value:coercedValue });
-      console.log(this.activeFilter)
       
       // Aggiorno i valori selezionati
       if (filterType === 'color') this.selectedColor = value;
@@ -124,7 +128,8 @@ export class ClothingComponent {
     this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.clothes = data;
-        console.log(this.clothes)
+        // Imposto la pagina corrente a 1 dopo il filtraggio
+        this.paginationService.setCurrentPage(1);
       },
       error: (err) => {
         console.error('Error:', err);
@@ -151,7 +156,6 @@ export class ClothingComponent {
     this.httpRequest.getFilteredProducts(this.parentCategoryId,this.selectedColor,this.selectedType,this.selectedSize,this.selectedPrice).subscribe({
       next:(data)=>{
         this.clothes = data;
-        console.log('filtri attivi:',this.activeFilter)
       },
       error: (err) => {
         console.error('Error:', err);
@@ -160,6 +164,11 @@ export class ClothingComponent {
     //Rimuovo il filtro dall array di filtri attivi
     this.activeFilter = this.activeFilter.filter(filter => filter.filterType !== filterType);
     }
+
+    //Metodo per ricevere i prodotti paginati e assegnarli alla variabile
+  onChildNotify(eventData:Product[]):void{
+    this.paginatedProducts=eventData;
+  }
 
     //Recupero i filtri e le biciclette all'inizializzazione del componente
     ngOnInit():void{
