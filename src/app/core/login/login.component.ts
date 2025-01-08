@@ -67,6 +67,8 @@ export class LoginComponent {
               this.jwtToken = response.body.token;
               //Assegno il token  e il booleano al metodo 
               this.authentication.SetLoginJwtInfo(true, this.jwtToken);
+
+              this.authentication.adminCheck(this.loginCredentials.Email);
               /*Decodifica la stringa del token e restituisce un oggetto JSON
               che rappresenta il payload del toke */
               this.decodedTokenPayload = jwt_decode.jwtDecode(this.jwtToken);

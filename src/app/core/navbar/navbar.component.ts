@@ -29,7 +29,7 @@ export class NavbarComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Se l'url non è /login,/register showFilters sarà vera
-        this.showFilters = !['/login', '/register','/adminproducts'].includes(event.url);
+        this.showFilters = !['/login', '/register','/adminproducts','/adminhub','/admincustomers'].includes(event.url);
       }
     });
   }
