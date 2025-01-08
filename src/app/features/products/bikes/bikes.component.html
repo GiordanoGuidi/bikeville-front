@@ -28,14 +28,15 @@
                 [parentCategoryId]="parentCategoryId"
                 [activeFilter]="activeFilter"
                 (filterChange)="onFilterChange($event.event, $event.filterType)"
-                (removeFilter)="removeFilter($event)">
-            ></app-mobile-filter>
+                (removeFilter)="removeFilter($event)">>
+            </app-mobile-filter>
 
             <!-- Paginazione superiore-->
-                <app-pagination [hidden]="!bikes.length"
-                    [products]="bikes"
-                    (getPaginatedProducts)="onChildNotify($event)"
-                ></app-pagination>     
+            <app-pagination 
+                [hidden]="!bikes.length"
+                [products]="bikes"
+                (getPaginatedProducts)="onChildNotify($event)">
+            </app-pagination>     
              
 
             <!-- Lista prodotti -->
@@ -44,7 +45,7 @@
                 <div *ngFor="let bike of paginatedProducts" class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
                      <!-- Card --> <!--#Questa è la card-->
                      <app-card class="w-100 h-100"
-                        [bike]="bike">
+                        [product]="bike">
                     </app-card>
                  </div>
 
@@ -58,10 +59,11 @@
             </div>
 
             <!-- Paginazione inferiore-->
-            <app-pagination [hidden]="!bikes.length"
+            <app-pagination
+                [hidden]="!bikes.length"
                 [products]="bikes"
-                (getPaginatedProducts)="onChildNotify($event)"
-            ></app-pagination>    
+                (getPaginatedProducts)="onChildNotify($event)">
+            </app-pagination>    
         </div>
     </div>
 </section>
