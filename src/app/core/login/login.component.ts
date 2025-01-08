@@ -63,12 +63,14 @@ export class LoginComponent {
             case HttpStatusCode.Ok:
               console.log('Login effettuato ');
               alert("Login Effettuato");
+              console.log('Response body:', response.body);
+              console.log('Token:', response.body.token);
               //Assegno il valore recuperato dal body della response
               this.jwtToken = response.body.token;
               //Assegno il token  e il booleano al metodo 
               this.authentication.SetLoginJwtInfo(true, this.jwtToken);
               /*Decodifica la stringa del token e restituisce un oggetto JSON
-              che rappresenta il payload del toke */
+              che rappresenta il payload del token */
               this.decodedTokenPayload = jwt_decode.jwtDecode(this.jwtToken);
               //Imposto la flag a false per far sparire il form di login
               this.isLoginOpen = false;
