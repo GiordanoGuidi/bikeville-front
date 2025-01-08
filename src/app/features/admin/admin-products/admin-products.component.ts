@@ -49,6 +49,13 @@ addProduct(prodotto: NgForm) {
     next: (data) => {
       console.log('Product successfully added:', data);
       alert('Product added successfully!');
+      const modalElement = document.getElementById('addModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.hide();
+    } else {
+      console.error('Modal element not found!');
+    }
     },
     error: (err) => {
       console.error('Errore', err);
