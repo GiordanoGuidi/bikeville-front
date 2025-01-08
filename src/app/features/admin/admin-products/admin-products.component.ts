@@ -5,6 +5,8 @@ import { AdminproductshttpService } from '../../../shared/httpservices/adminprod
 import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ProductDTO } from '../../../shared/Models/productsDTO';
+
 
 @Component({
   selector: 'app-admin-products',
@@ -16,7 +18,9 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class AdminProductsComponent {
   constructor(private httpRequest: AdminproductshttpService, private router: Router) { }
   products: Product[] = [];
+  newProduct : ProductDTO = new ProductDTO();
   paginatedProducts: Product[] = [];
+ 
   currentPage = 1;
   itemsPerPage = 50;
 
@@ -38,8 +42,44 @@ export class AdminProductsComponent {
 
 //TODO funzione per aggiungere un prodotto//
 
-addProduct() {
+addProduct(prodotto: NgForm) {
+  this.newProduct = prodotto.value;
+  console.log(this.newProduct);
+  this.httpRequest.postAdminProduct(this.newProduct).subscribe({
+    next: (data) => {
+      console.log('Product successfully added:', data);
+      alert('Product added successfully!');
+      const modalElement = document.getElementById('addModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.hide();
+    } else {
+      console.error('Modal element not found!');
+    }
+    },
+    error: (err) => {
+      console.error('Errore', err);
+      alert('Failed to add product. Check the logs for details.');
+    },
+  });
+}
 
+
+onFileSelected(event: Event): void {
+  const fileInput = event.target as HTMLInputElement;
+
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    // Quando il file è stato letto
+    reader.onload = () => {
+      this.newProduct.thumbNailPhoto = (reader.result as string).split(',')[1]; // Ottieni solo la stringa Base64
+    };
+
+    // Leggi il file come una URL data (Base64)
+    reader.readAsDataURL(file);
+  }
 }
 
 //* funzione per visualizzare prodotti ?//
