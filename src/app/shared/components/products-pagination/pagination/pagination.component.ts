@@ -18,7 +18,7 @@ export class PaginationComponent {
    @Input() products: Product[] = [];
    paginatedProducts: Product[] = [];
    currentPage = 1;
-   itemsPerPage = 30;
+   itemsPerPage = 20;
    // #Output per eventi(Emissione eventi da componente figlio al padre)
    @Output() getPaginatedProducts = new EventEmitter<Product[]>
  
