@@ -47,10 +47,11 @@ addProduct(prodotto: NgForm) {
   this.httpRequest.postAdminProduct(this.newProduct).subscribe({
     next: (data) => {
       console.log('Product successfully added:', data);
-      
+      alert('Product added successfully!');
     },
     error: (err) => {
-      console.error(err);
+      console.error('Errore', err);
+      alert('Failed to add product. Check the logs for details.');
     },
   });
 }
