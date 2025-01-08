@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Credentials } from '../../core/login/login.component';
+import { Credentials, LoginComponent } from '../../core/login/login.component';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private isLogged = false;
+  private isAdmin = false;
 
   //Creo istanza della classe HttpHeaders
   authenticationJwtHeader = new HttpHeaders({
@@ -59,5 +60,34 @@ export class AuthService {
 
   GetLoginInfo(): boolean {
     return this.isLogged;
+  }
+
+  GetAdminInfo(): boolean {
+    return this.isAdmin;
+  }
+
+  async adminCheck(email: string): Promise<boolean> {
+    try {
+      const response = await fetch("https://localhost:7257/LoginJwt/admin/" + email, {
+        method: "POST",
+        body: JSON.stringify({email: email}),
+        headers: {
+        "Content-Type": "application/json"
+        }
+      });
+
+      if(!response.ok) {
+        throw new Error(`Errore HTTP: ${response.status}`);
+      }
+
+      const result: boolean = await response.json();
+
+      this.isAdmin = true;
+      return true;
+    } catch (error) {
+      console.error("Errore nella fetch:", error);
+      this.isAdmin = false;
+      return false;
+    }
   }
 }
