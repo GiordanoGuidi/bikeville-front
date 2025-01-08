@@ -7,6 +7,7 @@ import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProductDTO } from '../../../shared/Models/productsDTO';
 
+
 @Component({
   selector: 'app-admin-products',
   standalone: true,
@@ -19,7 +20,7 @@ export class AdminProductsComponent {
   products: Product[] = [];
   newProduct : ProductDTO = new ProductDTO();
   paginatedProducts: Product[] = [];
-  
+ 
   currentPage = 1;
   itemsPerPage = 50;
 
@@ -54,6 +55,24 @@ addProduct(prodotto: NgForm) {
       alert('Failed to add product. Check the logs for details.');
     },
   });
+}
+
+
+onFileSelected(event: Event): void {
+  const fileInput = event.target as HTMLInputElement;
+
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    // Quando il file è stato letto
+    reader.onload = () => {
+      this.newProduct.thumbNailPhoto = (reader.result as string).split(',')[1]; // Ottieni solo la stringa Base64
+    };
+
+    // Leggi il file come una URL data (Base64)
+    reader.readAsDataURL(file);
+  }
 }
 
 //* funzione per visualizzare prodotti ?//

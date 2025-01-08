@@ -300,12 +300,36 @@
                 <input type="text" id="thumbnailPhotoFileName" class="form-control w-100" placeholder="Insert Thumbnail Filename" name="ThumbnailPhotoFileName"  [(ngModel)]="newProduct.thumbnailPhotoFileName">
               </div>
             </div>
-            <div class="row g-2">
+            <!-- <div class="row g-2">
               <div class="col mb-3">
                 <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
                 <input type="text" id="thumbnailPhoto" class="form-control w-100" placeholder="Insert Thumbnail Photo" name="ThumbnailPhoto"  [(ngModel)]="newProduct.thumbNailPhoto">
+                <img *ngIf="newProduct.thumbNailPhoto; else noImage" [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto"
+                alt="{{newProduct.name}} thumbnail" class="img-fluid img-thumbnail" loading="lazy" />
+              <ng-template #noImage>
+                <div class="alert alert-danger" role="alert">No image selected</div>
+              </ng-template>
+              </div>
+            </div> -->
+
+            <div class="row g-2">
+              <div class="col mb-3">
+                <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
+                <input type="file" id="thumbnailPhoto" class="form-control w-100" (change)="onFileSelected($event)" accept="image/*">
+                <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" name="ThumbnailPhoto" [(ngModel)]="newProduct.thumbNailPhoto" readonly>
+                
+                <img *ngIf="newProduct.thumbNailPhoto; else noImage" 
+                     [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" 
+                     alt="{{newProduct.name}} thumbnail" 
+                     class="img-fluid img-thumbnail" loading="lazy" />
+                <ng-template #noImage>
+                  <div class="alert alert-danger" role="alert">No image selected</div>
+                </ng-template>
               </div>
             </div>
+            
+
+
           </form>
         </div>
         <div class="modal-footer">
