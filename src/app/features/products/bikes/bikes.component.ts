@@ -8,6 +8,7 @@ import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.com
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
 import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
+import { PaginationService } from '../../../shared/service/pagination-service';
 @Component({
   selector: 'app-bikes',
   standalone: true,
@@ -22,7 +23,8 @@ import { PaginationComponent } from '../../../shared/components/products-paginat
 export class BikesComponent {
   constructor(
     private http: HttpClient,
-    private httpRequest:ProductnologhttpService
+    private httpRequest:ProductnologhttpService,
+    private paginationService: PaginationService
   ){
   }
   //#Dates
@@ -134,6 +136,8 @@ export class BikesComponent {
       next:(data)=>{
         this.bikes = data;
         console.log(this.bikes)
+        // Imposto la pagina corrente a 1 dopo il filtraggio
+        this.paginationService.setCurrentPage(1);
       },
       error: (err) => {
         console.error('Error:', err);
