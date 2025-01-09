@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserService } from './service/user-service';
+import { UserService } from './service/registerUser-service';
 import { ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 // Creo un istanza di User
-user : User = new User();
+user : NewUser = new NewUser();
 //Di dello userservice
 constructor(private userService: UserService, private router: Router) {}
 
@@ -73,7 +73,7 @@ async verifyMail(EmailAddress: string): Promise<boolean> {
 
 
 }
-export class User {
+export class NewUser {
   FirstName : string;
   LastName : string;
   EmailAddress: string;

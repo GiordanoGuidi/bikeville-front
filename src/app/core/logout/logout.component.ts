@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../shared/authentication/auth.service';
 import { Router } from '@angular/router';
+import { LoggedUserService } from '../login/service/loggedUser.service';
 
 @Component({
   selector: 'app-logout',
@@ -10,16 +11,20 @@ import { Router } from '@angular/router';
   styleUrl: './logout.component.css'
 })
 export class LogoutComponent {
-   constructor(private auth: AuthService, private router: Router) {
+   constructor(private auth: AuthService,
+     private router: Router,
+     private loggedUserService:LoggedUserService) {
     this.auth.SetLoginJwtInfo(false, '');
-    //? aggiunto router che rimanda in home//
+    //Setto lo user a null
+    this.loggedUserService.setLoggedUser(null);
+    // aggiunto router che rimanda in home//
     this.router.navigate(['/home']);
    }
   
-     //TODO verificare se serve davvero questa funzione//
+     
      RunLogout() {
        this.auth.SetLoginJwtInfo(false, '');
-       //? aggiunto router che rimanda in home//
+       // aggiunto router che rimanda in home//
        this.router.navigate(['/home']);
      }
 }

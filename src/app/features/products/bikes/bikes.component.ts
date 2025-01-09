@@ -1,7 +1,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
-import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bike-filter-interfaces';
+import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/filters-interfaces';
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
