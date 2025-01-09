@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
 import { Router,NavigationEnd } from '@angular/router';
+import { LoggedUserService } from '../login/service/loggedUser.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -19,6 +20,7 @@ export class NavbarComponent {
     private http: HttpClient,
     private activeIndexService:ActiveIndexService,
     private router:Router,
+    private loggedUserService:LoggedUserService,
   ){
     //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
@@ -40,6 +42,8 @@ export class NavbarComponent {
   //Istanza flag showFilters
   showFilters : boolean = true
 
+  loggedUserData: any = null;
+
   //Funzione per recuperare le categorie
   getParentCategories(): void {
     this.http.get<any[]>('https://localhost:7257/api/Products/parent-categories')
@@ -57,6 +61,11 @@ export class NavbarComponent {
   //Recupero le categorie all'inizializzazione del componente
   ngOnInit():void{
     this.getParentCategories();
+    // Sottoscrivo i cambiamenti dell'utente
+    this.loggedUserService.user$.subscribe((user) => {
+      this.loggedUserData = user;
+      console.log('Utente aggiornato:', user);
+    });
   }
 
   //Imposto l'id attivo corrispondente alla categoria
@@ -67,6 +76,11 @@ export class NavbarComponent {
   //Funzione per controllare che l'activeIndex sia uguale all'indice della categoria
   isActive(index: number): boolean {
     return this.activeIndex === index; 
+  }
+
+  // Metodo per controllare se il ruolo è Admin
+  isAdmin(): boolean {
+    return this.loggedUserData?.role === 'Admin';
   }
 }
 
