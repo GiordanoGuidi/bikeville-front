@@ -10,7 +10,6 @@ export class LoggedUserService {
   private userSubject = new BehaviorSubject<LoggedUser|null>(null); 
   user$ = this.userSubject.asObservable(); 
 
-  //!verifica che funzioni login e logout  vedi se mancano commenti e poi pusha
   // Metodo per aggiornare i dati dell'utente
   setLoggedUser(userData: LoggedUser| null) {
     this.userSubject.next(userData);
