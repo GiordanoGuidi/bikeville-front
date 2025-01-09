@@ -16,7 +16,7 @@ export class LogoutComponent {
      private loggedUserService:LoggedUserService) {
     this.auth.SetLoginJwtInfo(false, '');
     //Setto lo user a null
-    this.loggedUserService.setUser(null);
+    this.loggedUserService.setLoggedUser(null);
     // aggiunto router che rimanda in home//
     this.router.navigate(['/home']);
    }

@@ -74,7 +74,7 @@ export class LoginComponent {
               this.decodedTokenPayload = jwt_decode.jwtDecode(this.jwtToken);
               console.log(this.decodedTokenPayload);
               // Popola i dati nel servizio
-              this.loggedUserService.setUser ({
+              this.loggedUserService.setLoggedUser ({
                 id: this.decodedTokenPayload.Id,
                 firstName: this.decodedTokenPayload.FirstName,
                 lastName: this.decodedTokenPayload.LastName,
