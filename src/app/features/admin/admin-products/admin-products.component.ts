@@ -272,12 +272,14 @@ deleteProduct(prodotto: Product){
       this.httpRequest.updateAdminProduct(this.productId, updatedProduct).subscribe({
         next: () => {
           alert("Modifiche salvate con successo!");
-          document.getElementById("editForm");
+          document.getElementById("editForm")?.onreset;
           const modal = document.getElementById("editModal");
           if (modal) {
+            document.getElementById("closeModalButton")?.click();
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
-            bootstrapModal?.hide();
+              this.AdminProducts();
           }
+          
         },
         error: (err) => {
           console.error("Errore durante il salvataggio:", err);
