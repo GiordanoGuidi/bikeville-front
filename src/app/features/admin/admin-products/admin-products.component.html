@@ -62,7 +62,7 @@
             <button type = "button" class = "btn btn-warning iconbutton" data-bs-toggle = "modal" data-bs-target = "#editModal" (click)="editProduct(product)">
               <i class = "fa-solid fa-edit"></i>
             </button>
-            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="deleteProduct(product)">
+            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="setProductToDelete(product.productId)">
               <i class = "fa-solid fa-trash"></i>
             </button>
           </td>
@@ -195,7 +195,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-primary">Salva</button>
+          <button type="button" class="btn btn-primary" >Salva</button>
         </div>
       </div>
     </div>
@@ -215,7 +215,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-danger">Elimina</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteButton" (click)="deleteProduct()" data-bs-dismiss="modal">Elimina</button>
         </div>
       </div>
     </div>
