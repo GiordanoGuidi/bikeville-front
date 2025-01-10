@@ -17,7 +17,7 @@ app-root {
 /* Stile per il footer */
 footer {
   /*TODO fare in modo che il footer sia sempre sul fondo della pagina */
-  background-color: #4d4952 !important; /* Nuovo colore di sfondo */
+  background-color: #292C2C !important; /* Nuovo colore di sfondo */
   color: white; /* Mantieni il testo leggibile */
   text-align: center;
   padding: 10px 0;

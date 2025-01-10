@@ -33,3 +33,27 @@ img {
 .image-container:hover {
   transform: scale(0.9);
 }
+
+#carouselimage1 {
+  object-position: 50% 60%;
+}
+
+#carouselimage2 {
+  object-position: 50% 70%;
+}
+
+#carouselimage3 {
+  object-position: 50% 40%;
+}
+
+#carouselimage4 {
+  object-position: 50% 15%;
+}
+
+#carouselimage5 {
+  object-position: 50% 25%;
+}
+
+#carouselimage6 {
+  object-position: 50% 70%;
+}
