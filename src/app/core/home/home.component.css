@@ -4,9 +4,12 @@
 }
 
 .img-carousell {
-    width: 900px;
-    height: 400px;
-    object-fit: cover;
+    /* width: 900px; */
+    /* height: 400px; */
+    object-fit: contain;
+}
+.carousel-inner{
+  height: 400px;
 }
 
 .image-container {
