@@ -1,15 +1,17 @@
-/* p {
-    font-size: 123px;
-}
-
-br {
-    font-size: 50px;
-} */
-
-/*TODO provvisorio per spaziare il footer dalla cima della pagina */
 
 *{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+main{
+    height: 100%;
+    flex: 1;
+}
+
+footer{
+    flex-shrink: 0;
+}
+
+
