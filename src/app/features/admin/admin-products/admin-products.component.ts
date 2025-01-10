@@ -58,7 +58,7 @@ addProduct(prodotto: NgForm) {
       this.AdminProducts();
       const modalElement = document.getElementById('addModal');
     if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
+      const modal = new bootstrap.Modal(modalElement) ;
       modal.hide();
     } else {
       console.error('Modal element not found!');
@@ -218,38 +218,43 @@ setProductToDelete(productId: number): void{
   this.currentProductId = productId;
 }
 
+
+
 deleteProduct(): void {
- 
-    const confirmed = confirm('Sei sicuro di voler eliminare questo prodotto?');
-    
-        if(confirmed){
-          if(this.currentProductId != null){
+  const modalElement = document.getElementById('deleteModal');
+
+  if (modalElement) {
+    const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+
+    // Ascolta l'evento di chiusura della modale
+    modalElement.addEventListener('hidden.bs.modal', () => {
+      const confirmed = confirm('Sei sicuro di voler eliminare questo prodotto?');
+      
+      if (confirmed) {
+        if (this.currentProductId != null) {
           this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
             next: (data) => {
               console.log(`Prodotto con ID ${this.currentProductId} eliminato con successo.`, data);
-              // Aggiorna la lista dei prodotti o notifica l'utente
               alert('Product removed successfully');
-              this.AdminProducts();
-              const modalElement = document.getElementById('deleteModal');
-              if (modalElement) {
-                  const modal = new bootstrap.Modal(modalElement);
-                   modal.hide();
-               } else {
-                   console.error('Modal element not found!');
-               }
+              this.AdminProducts(); // Aggiorna la lista dei prodotti
             },
             error: (err) => {
               console.error('Errore durante l\'eliminazione:', err);
-              // Mostra un messaggio di errore all'utente
               alert('Failed to remove product');
             }
           });
         }
-        }else{
-          console.log('Eliminazione annullata');
-        }
-  
+      } else {
+        console.log('Eliminazione annullata');
+      }
+    }, { once: true }); // Esegui il callback solo una volta
+
+    // Chiudi la modale
+    modal.hide();
+  } else {
+    console.error('Modal element not found!');
   }
+}
 
 
 
