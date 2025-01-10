@@ -69,8 +69,6 @@ export class LoginComponent {
               this.jwtToken = response.body.token;
               //Assegno il token  e il booleano al metodo 
               this.authentication.SetLoginJwtInfo(true, this.jwtToken);
-
-              this.authentication.adminCheck(this.loginCredentials.Email);
               /*Decodifica la stringa del token e restituisce un oggetto JSON
               che rappresenta il payload del token */
               this.decodedTokenPayload = jwt_decode.jwtDecode(this.jwtToken);
@@ -86,10 +84,6 @@ export class LoginComponent {
               //Imposto la flag a false per far sparire il form di login
               this.isLoginOpen = false;
               console.log(this.decodedTokenPayload);
-              console.log(this.decodedTokenPayload.unique_name);
-              console.log(this.decodedTokenPayload.iss);
-              console.log(this.decodedTokenPayload.aud);
-              console.log(this.decodedTokenPayload.exp);
               // aggiunto router che rimanda direttamente alla home dopo un login effettuato//
               this.router.navigate(['/home']);
               break;
