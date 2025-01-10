@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProductDTO } from '../../../shared/Models/productsDTO';
+import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AdminProductsComponent {
   products: Product[] = [];
   newProduct : ProductDTO = new ProductDTO();
   paginatedProducts: Product[] = [];
- 
+  productId : number = 0;
   currentPage = 1;
   itemsPerPage = 50;
 
@@ -130,9 +131,11 @@ async viewProduct(prodotto: Product) {
     }
   }
 
-//* funzione per modificare prodotti esistenti ?//
-
+//* funzione che popola la scheda che modifica i prodotti esistenti ?//
+// CHIEDERE A DAVIDE
 async editProduct(prodotto: Product) {
+  this.productId = prodotto.productId;
+  console.log(this.productId)
     const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
         const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
 
@@ -224,4 +227,76 @@ deleteProduct(prodotto: Product){
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedProducts = this.products.slice(startIndex, endIndex);
   }
+
+   async editConfirm() {
+    try {
+      const Name = (document.getElementById("editname") as HTMLInputElement).value;
+      const ProductNumber = (document.getElementById("editproductNumber") as HTMLInputElement).value;
+      const Color = (document.getElementById("editcolor") as HTMLInputElement).value;
+      const StandardCost = (document.getElementById("editcost") as HTMLInputElement).valueAsNumber;
+      const ListPrice = (document.getElementById("editlistPrice") as HTMLInputElement).valueAsNumber;
+      const Size = (document.getElementById("editsize") as HTMLInputElement).value;
+      const Weight = (document.getElementById("editweight") as HTMLInputElement).valueAsNumber;
+      const ProductCategoryId = parseInt((document.getElementById("editcat") as HTMLInputElement).value, 10);
+      const ProductModelId = parseInt((document.getElementById("editmod") as HTMLInputElement).value, 10);
+      const SellStartDate = (document.getElementById("editsellStartDate") as HTMLInputElement).value;
+      const SellEndDate = (document.getElementById("editsellEndDate") as HTMLInputElement).value;
+      const DiscontinuedDate = (document.getElementById("editdiscontinuedDate") as HTMLInputElement).value;
+      const ThumbnailPhotoFileName = (document.getElementById("editthumbnailPhotoFileName") as HTMLInputElement).value;
+  
+      const fileInput = document.getElementById("thumbnailPhoto") as HTMLInputElement;
+      let ThumbnailPhoto: string | null = null;
+      if (fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        ThumbnailPhoto = await this.convertFileToBase64(file);
+      }
+  
+      const updatedProduct: UpdatedProduct = {
+        name: Name || null,
+        productNumber: ProductNumber || null,
+        color: Color || null,
+        standardCost: isNaN(StandardCost) ? null : StandardCost,
+        listPrice: isNaN(ListPrice) ? null : ListPrice,
+        size: Size || null,
+        weight: isNaN(Weight) ? null : Weight,
+        productCategoryId: isNaN(ProductCategoryId) ? null : ProductCategoryId,
+        productModelId: isNaN(ProductModelId) ? null : ProductModelId,
+        sellStartDate: SellStartDate ? new Date(SellStartDate) : null,
+        sellEndDate: SellEndDate ? new Date(SellEndDate) : null,
+        discontinuedDate: DiscontinuedDate ? new Date(DiscontinuedDate) : null,
+        thumbnailPhotoFileName: ThumbnailPhotoFileName || null,
+        thumbnailPhoto: ThumbnailPhoto || null,
+      };
+      
+      // Chiamata al servizio
+      this.httpRequest.updateAdminProduct(this.productId, updatedProduct).subscribe({
+        next: () => {
+          alert("Modifiche salvate con successo!");
+          document.getElementById("editForm");
+          const modal = document.getElementById("editModal");
+          if (modal) {
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            bootstrapModal?.hide();
+          }
+        },
+        error: (err) => {
+          console.error("Errore durante il salvataggio:", err);
+          alert("Errore durante il salvataggio delle modifiche!");
+        },
+      });
+    } catch (error) {
+      console.error("Errore:", error);
+      alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
+    }
+  }
+  
+  private async convertFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+  
 }
