@@ -217,6 +217,10 @@ setProductToDelete(productId: number): void{
 //TODO creare funzione per eliminare prodotto//
 
 deleteProduct(): void {
+  if (!this.currentProductId) {
+    console.error('Nessun prodotto selezionato per l\'eliminazione.');
+    return;
+  }
  
     const confirmDeleteButton = document.getElementById('confirmDeleteButton');
     if(confirmDeleteButton){
