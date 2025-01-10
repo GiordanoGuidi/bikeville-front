@@ -210,22 +210,19 @@ removeTimezoneOffset(date: Date): string {
 
 
 
+
+  
+//funzione per eliminare prodotto//
+
 setProductToDelete(productId: number): void{
   this.currentProductId = productId;
 }
-  
-//TODO creare funzione per eliminare prodotto//
 
 deleteProduct(): void {
-  if (!this.currentProductId) {
-    console.error('Nessun prodotto selezionato per l\'eliminazione.');
-    return;
-  }
  
-    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
-    if(confirmDeleteButton){
-      confirmDeleteButton.addEventListener('click', () => {
-        if(confirm('Sei sicuro di voler eliminare questo prodotto?')){
+    const confirmed = confirm('Sei sicuro di voler eliminare questo prodotto?');
+    
+        if(confirmed){
           if(this.currentProductId != null){
           this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
             next: (data) => {
@@ -233,7 +230,7 @@ deleteProduct(): void {
               // Aggiorna la lista dei prodotti o notifica l'utente
               alert('Product removed successfully');
               this.AdminProducts();
-              const modalElement = document.getElementById('addModal');
+              const modalElement = document.getElementById('deleteModal');
               if (modalElement) {
                   const modal = new bootstrap.Modal(modalElement);
                    modal.hide();
@@ -248,16 +245,10 @@ deleteProduct(): void {
             }
           });
         }
-        
         }else{
           console.log('Eliminazione annullata');
         }
-      });
-    }
-    
   
- 
-
   }
 
 
