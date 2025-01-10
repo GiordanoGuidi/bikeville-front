@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-lg" id="navbar">
-    <div class="container-fluid ms-5 me-5">
+    <div class="container-fluid">
       <a class="navbar-brand" routerLink="home">
-        <img src = "assets/logo app.ico" width="60" height="30" alt="">
-        BikeVille
+        <img id = "logoapp" src = "assets/App Logo Test 2.png" class = "ms-0" alt="">
       </a>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
@@ -37,7 +36,9 @@
     <div class="d-flex align-items-center m-2">
       <ul class="d-flex  gap-3 gap-sm-4 gap-md-5 list-unstyled m-0 justify-content-center flex-wrap">
         <li *ngFor="let category of categoriesArray; let i = index">
-          <a (click)="setActiveIndex(i)" routerLink="/{{category.Name}}" [ngClass]="{'active':isActive(i)}" class="text-decoration-none text-dark">{{category.Name}}</a>
+          <div class="filter-container" [ngClass]="{'active': isActive(i)}">
+            <a id="filters" (click)="setActiveIndex(i)" routerLink="/{{category.Name}}" [ngClass]="{'active':isActive(i)}" class="text-decoration-none"> {{category.Name}} </a>
+        </div>
         </li>
       </ul>
     </div>
