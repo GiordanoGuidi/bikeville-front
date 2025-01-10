@@ -1,6 +1,4 @@
-
-
-    <!-- Carosello -->
+ <!-- Carosello -->
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -22,44 +20,45 @@
                 <img id = "carouselimage6" src="assets/bike offroad.jpg" class="d-block w-100" alt="Accessories">
             </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 
-    <!-- Contenitore principale -->
-    <div class="container mt-4">
-        <div class="row gx-1">
-            <div class="col-6 topleft">
-                <a (click)="setActiveIndexByName('Bikes')" routerLink="/Bikes" class="image-container">
-                    <img src="assets/Biciclette.jpg" class="img-fluid zoom" alt="Responsive image">
-                    <div class="image-text"> Bicycles </div>
-                </a>
-            </div>
-            <div class="col-6 topright">
-                <a (click)="setActiveIndexByName('Components')" routerLink="/Components" class="image-container">
-                    <img src="assets/Componenti.jpg" class="img-fluid zoom" alt="Responsive image">
-                    <div class="image-text"> Components </div>
-                </a>
-            </div>
+<!-- Contenitore principale -->
+<div class="container mt-4">
+    <div class="row gx-1">
+        <div class="col-6 topleft">
+            <a (click)="setActiveIndexByName('Bikes')" routerLink="/Bikes" class="image-container">
+                <img src="assets/Biciclette.jpg" class="img-fluid zoom img-category" alt="Responsive image">
+                <div class="image-text"> Bicycles </div>
+            </a>
         </div>
-        <div class="row gx-1">
-            <div class="col-6 bottomleft">
-                <a (click)="setActiveIndexByName('Clothing')" routerLink="/Clothing" class="image-container">
-                    <img src="assets/Clothing.jpg" class="img-fluid zoom" alt="Responsive image">
-                    <div class="image-text"> Clothing </div>
-                </a>
-            </div>
-            <div class="col-6 bottomright">
-                <a (click)="setActiveIndexByName('Accessories')" routerLink="/Accessories" class="image-container">
-                    <img src="assets/Accessories.png" class="img-fluid zoom" alt="Responsive image">
-                    <div class="image-text"> Accessories </div>
-                </a>
-            </div>
+        <div class="col-6 topright">
+            <a (click)="setActiveIndexByName('Components')" routerLink="/Components" class="image-container">
+                <img src="assets/Componenti.jpg" class="img-fluid zoom img-category" alt="Responsive image">
+                <div class="image-text"> Components </div>
+            </a>
         </div>
     </div>
+    <div class="row gx-1">
+        <div class="col-6 bottomleft">
+            <a (click)="setActiveIndexByName('Clothing')" routerLink="/Clothing" class="image-container">
+                <img src="assets/Clothing.jpg" class="img-fluid zoom img-category" alt="Responsive image">
+                <div class="image-text"> Clothing </div>
+            </a>
+        </div>
+        <div class="col-6 bottomright">
+            <a (click)="setActiveIndexByName('Accessories')" routerLink="/Accessories" class="image-container">
+                <img src="assets/Accessories.png" class="img-fluid zoom img-category" alt="Responsive image">
+                <div class="image-text"> Accessories </div>
+            </a>
+        </div>
+    </div>
+</div>

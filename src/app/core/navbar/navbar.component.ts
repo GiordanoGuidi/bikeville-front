@@ -41,9 +41,7 @@ export class NavbarComponent {
   activeIndex:number| null = null;
   //Istanza flag showFilters
   showFilters : boolean = true
-
-  loggedUserData: any = null;
-
+  
   //Funzione per recuperare le categorie
   getParentCategories(): void {
     this.http.get<any[]>('https://localhost:7257/api/Products/parent-categories')
@@ -61,11 +59,6 @@ export class NavbarComponent {
   //Recupero le categorie all'inizializzazione del componente
   ngOnInit():void{
     this.getParentCategories();
-    // Sottoscrivo i cambiamenti dell'utente
-    this.loggedUserService.user$.subscribe((user) => {
-      this.loggedUserData = user;
-      console.log('Utente aggiornato:', user);
-    });
   }
 
   //Imposto l'id attivo corrispondente alla categoria
@@ -80,8 +73,21 @@ export class NavbarComponent {
 
   // Metodo per controllare se il ruolo è Admin
   isAdmin(): boolean {
-    return this.loggedUserData?.role === 'Admin';
+    const loggedUser = localStorage.getItem('loggedUser');
+    const loggedUserObject=loggedUser? JSON.parse(loggedUser):null;
+    console.log(loggedUserObject)
+    return loggedUserObject?.role === 'Admin';
   }
+
+  // Metodo per eseguire il logout
+  RunLogout() {
+    //Rimuovo i dati dell'utente loggato
+    this.loggedUserService.setLoggedUser(null);
+    //Rimuovo i dati dal localstorage
+     this.auth.SetLoginJwtInfo(false, '');
+     // aggiunto router che rimanda in home//
+     this.router.navigate(['/home']);
+   }
 }
 
 export class ParentCategories{
