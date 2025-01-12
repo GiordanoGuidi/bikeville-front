@@ -1,18 +1,20 @@
 .container {
-    width: 930px;
-    height: 630px;
+    width: 70%;
+    margin-top: 5%;
+    margin-bottom: 50px;
 }
 
 .img-carousell {
-    /* object-fit: contain; */
-    /* object-position: center; */
     height: 100%; 
 }
+
 .carousel-inner{
-  height: 400px;
+  height: 300px;
 }
 .carousel-item{
-  height: 400px;
+  height: 100%;
+  width: 100%;
+ 
 }
 
 .image-container {
@@ -25,7 +27,7 @@
 .img-category{
   height: 300px;
   width: 900px;
-  padding: 5px;
+  padding: 10px;
 }
 
 .image-text {
@@ -72,4 +74,22 @@
 
 #carouselimage6 {
   /* object-position: 50% 70%; */
+}
+
+/* Media query per breakpoint md (768px) */
+@media (min-width: 768px) {
+  .container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+}
+
+/* Media query per breakpoint md (992px) */
+@media (min-width: 992px) {
+  .container {
+    margin-top: 200px;
+    margin-bottom: 200px;
+  }
+  
 }
