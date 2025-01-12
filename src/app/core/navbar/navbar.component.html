@@ -1,10 +1,18 @@
-<nav class="navbar navbar-expand-lg" id="navbar">
-    <div class="container-fluid">
-      <a class="navbar-brand" routerLink="home">
-        <img id = "logoapp" src = "assets/App Logo Test 2.png" class = "ms-0" alt="">
-      </a>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
+<nav class="navbar navbar-expand-lg pt-2 pb-2 d-flex" id="navbar">
+  <!-- Contenitore logo -->
+  <div class="logo-container">
+    <a class="navbar-brand" routerLink="home">
+      <img id = "logoapp" src = "assets/App Logo Test 2.png" class = "ms-3" alt="">
+    </a>
+  </div>
+
+  <!--! I filtri nella navbar a modalità mobile li nasconderei -->
+  <!--# riduci immagine in mobile -->
+  <!-- Contenitore filtri e login/logout/AdminHub -->
+  <div class="d-flex flex-column navigation-container">
+    <div class="me-3" id="navbarNav">
+      <ul class="navbar-nav d-flex justify-content-end">
+        <div class="d-flex justify-content-end gap-3">
           <li *ngIf="isAdmin()" class="nav-item">
             <a class="nav-link"  routerLink="adminhub"> Admin Hub </a>
           </li>
@@ -21,28 +29,32 @@
              class="nav-link"  
              >Logout</a>
           </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-   <!-- Discussione -->
-  <!--! Nella show del prodotto perchè  non  si vede la foto?-->
-  <!-- Cose da fare -->
-  <!--! Sistemare il form register è disallineato e magari mettere un effetto sul bottone anche al login-->
-  <!--! validazione login  -->
-  
-  <!-- Filtri per Categoria Prodotto -->
-  <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
-    <div class="d-flex align-items-center m-2">
-      <ul class="d-flex  gap-3 gap-sm-4 gap-md-5 list-unstyled m-0 justify-content-center flex-wrap">
-        <li *ngFor="let category of categoriesArray; let i = index">
-          <div class="filter-container" [ngClass]="{'active': isActive(i)}">
-            <a id="filters" (click)="setActiveIndex(i)" routerLink="/{{category.Name}}" [ngClass]="{'active':isActive(i)}" class="text-decoration-none"> {{category.Name}} </a>
         </div>
-        </li>
       </ul>
     </div>
-  </nav>
+    <!-- Contenitore filtri -->
+    <div class="filters-container">
+      <!-- Filtri per Categoria Prodotto -->
+      <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
+        <div class="d-flex align-items-center m-2">
+          <ul class="d-flex list-unstyled m-0 justify-content-center flex-wrap">
+            <li *ngFor="let category of categoriesArray; let i = index"
+             class="li-spacing">
+              <div class="filter-container" [ngClass]="{'active': isActive(i)}">
+                <a id="filters" (click)="setActiveIndex(i)"
+                routerLink="/{{category.Name}}"
+                [ngClass]="{'active':isActive(i)}"
+                class="text-decoration-none"> {{category.Name}} </a>
+            </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</nav>
+  
+  
 
   <!-- Logout Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,6 +74,11 @@
   </div>
 </div>
 
+ <!-- Discussione -->
+  <!--! Nella show del prodotto perchè  non  si vede la foto?-->
+  <!-- Cose da fare -->
+  <!--! Sistemare il form register è disallineato e magari mettere un effetto sul bottone anche al login-->
+  <!--! validazione login  -->
 
 
  
