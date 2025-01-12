@@ -1,58 +1,61 @@
-<div class = "d-flex justify-content-center mt-5">
-    <div class = "card text-white bg-light text-center">
-        <div class = "card-header text-dark"> Inserire Credenziali 
-            <form (ngSubmit)="onSubmit()" class = "card-body d-flex justify-content-center flex-wrap gap-2" #userForm = "ngForm">
-                <div class="col-5">
-                    <input [(ngModel)]="user.FirstName" pattern="^[a-zA-ZÀ-ÿ]+$" class = "form-control" name="firstname" type = "text" placeholder = "Firstname" required #firstname = "ngModel" [ngClass]="{'is-invalid': firstname.touched && firstname.invalid, 'is-valid': firstname.touched && firstname.valid}">
-                    <div *ngIf="firstname.touched && firstname.invalid">
-                        <small class="text-danger" *ngIf="firstname.errors?.['required']">Il nome è obbligatorio.</small>
-                        <small class="text-danger" *ngIf="firstname.errors?.['pattern']">Il nome può contenere solo lettere.</small>
+<div class="h-100 w-100 d-flex justify-content-center">
+    <div class = "register-container">
+        <div class = "card text-white bg-light text-center">
+            <div class = "card-header text-dark"> Inserire Credenziali 
+                <form (ngSubmit)="onSubmit()" class = "card-body d-flex justify-content-center flex-wrap gap-2" #userForm = "ngForm">
+                    <div class="col-5">
+                        <input [(ngModel)]="user.FirstName" pattern="^[a-zA-ZÀ-ÿ]+$" class = "form-control" name="firstname" type = "text" placeholder = "Firstname" required #firstname = "ngModel" [ngClass]="{'is-invalid': firstname.touched && firstname.invalid, 'is-valid': firstname.touched && firstname.valid}">
+                        <div *ngIf="firstname.touched && firstname.invalid">
+                            <small class="text-danger" *ngIf="firstname.errors?.['required']">Il nome è obbligatorio.</small>
+                            <small class="text-danger" *ngIf="firstname.errors?.['pattern']">Il nome può contenere solo lettere.</small>
+                        </div>
                     </div>
-                </div>
-                <div class="col-5">
-                    <input [(ngModel)]="user.LastName" pattern="^[a-zA-ZÀ-ÿ]+$" class = "form-control" name="lastname" type = "text" placeholder = "Lastname" required #lastname="ngModel" [ngClass]="{'is-invalid': lastname.touched && lastname.invalid, 'is-valid': lastname.touched && lastname.valid}">
-                    <div *ngIf="lastname.touched && lastname.invalid">
-                        <small class="text-danger" *ngIf="lastname.errors?.['required']">Il cognome è obbligatorio.</small>
-                        <small class="text-danger" *ngIf="lastname.errors?.['pattern']">Il cognome può contenere solo lettere.</small>
+                    <div class="col-5">
+                        <input [(ngModel)]="user.LastName" pattern="^[a-zA-ZÀ-ÿ]+$" class = "form-control" name="lastname" type = "text" placeholder = "Lastname" required #lastname="ngModel" [ngClass]="{'is-invalid': lastname.touched && lastname.invalid, 'is-valid': lastname.touched && lastname.valid}">
+                        <div *ngIf="lastname.touched && lastname.invalid">
+                            <small class="text-danger" *ngIf="lastname.errors?.['required']">Il cognome è obbligatorio.</small>
+                            <small class="text-danger" *ngIf="lastname.errors?.['pattern']">Il cognome può contenere solo lettere.</small>
+                        </div>
                     </div>
-                </div>
-                <div class="col-4">
-                    <input [(ngModel)]="user.EmailAddress" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" class = "form-control" name="email" type = "text" placeholder = "Email" required #email = "ngModel" [ngClass]="{'is-invalid': email.touched && email.invalid, 'is-valid': email.touched && email.valid}">
-                    <div *ngIf="email.touched && email.invalid">
-                        <small class="text-danger" *ngIf="email.errors?.['required']">L'email è obbligatoria.</small>
-                        <small class="text-danger" *ngIf="email.errors?.['pattern']">Inserisci un'email valida.</small>
+                    <div class="col-4">
+                        <input [(ngModel)]="user.EmailAddress" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" class = "form-control" name="email" type = "text" placeholder = "Email" required #email = "ngModel" [ngClass]="{'is-invalid': email.touched && email.invalid, 'is-valid': email.touched && email.valid}">
+                        <div *ngIf="email.touched && email.invalid">
+                            <small class="text-danger" *ngIf="email.errors?.['required']">L'email è obbligatoria.</small>
+                            <small class="text-danger" *ngIf="email.errors?.['pattern']">Inserisci un'email valida.</small>
+                        </div>
                     </div>
-                </div>
-                <div class="col-3">
-                    <input [(ngModel)]="user.Phone" class = "form-control" name="phone" type = "text" placeholder = "Phone" pattern = "^[0-9]{10}$" #phone = "ngModel" [ngClass]="{'is-invalid': phone.touched && phone.invalid, 'is-valid': phone.touched && phone.valid}">
-                    <div *ngIf="phone.touched && phone.invalid">
-                        <small class="text-danger" *ngIf="phone.errors?.['pattern']">Inserisci un numero di telefono valido.</small>
+                    <div class="col-3">
+                        <input [(ngModel)]="user.Phone" class = "form-control" name="phone" type = "text" placeholder = "Phone" pattern = "^[0-9]{10}$" #phone = "ngModel" [ngClass]="{'is-invalid': phone.touched && phone.invalid, 'is-valid': phone.touched && phone.valid}">
+                        <div *ngIf="phone.touched && phone.invalid">
+                            <small class="text-danger" *ngIf="phone.errors?.['pattern']">Inserisci un numero di telefono valido.</small>
+                        </div>
                     </div>
-                </div>
-                <div class="col-3" >
-                    <select [(ngModel)]="user.Gender" class="form-control" name="gender" required #gender = "ngModel" [ngClass]="{'is-invalid': gender.touched && gender.invalid, 'is-valid': gender.touched && gender.valid}">
-                        <option value="" disabled selected>Genere</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                <div class="col-5">
-                    <input [(ngModel)]="user.CompanyName" class = "form-control" name="companyname" type = "text" #company = "ngModel" placeholder = "Company name" [ngClass]="{'is-valid': company.touched && company.valid}">
-                </div>
-                <div class="col-5">
-                    <input [(ngModel)]="user.Password" class = "form-control" name="password" type = "password" placeholder = "Password" required minlength = "8" #password = "ngModel" [ngClass]="{'is-invalid': password.touched && password.invalid, 'is-valid': password.touched && password.valid}">
-                    <div *ngIf="password.touched && password.invalid">
-                        <small class="text-danger" *ngIf="password.errors?.['required']">La password è obbligatoria.</small>
-                        <small class="text-danger" *ngIf="password.errors?.['minlength']">La password deve contenere almeno 8 caratteri.</small>
+                    <div class="col-3" >
+                        <select [(ngModel)]="user.Gender" class="form-control" name="gender" required #gender = "ngModel" [ngClass]="{'is-invalid': gender.touched && gender.invalid, 'is-valid': gender.touched && gender.valid}">
+                            <option value="" disabled selected>Genere</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    <div class="col-5">
+                        <input [(ngModel)]="user.CompanyName" class = "form-control" name="companyname" type = "text" #company = "ngModel" placeholder = "Company name" [ngClass]="{'is-valid': company.touched && company.valid}">
                     </div>
-                </div>
-                <div class="col-2">
-                    <button type="submit" class = "btn btn-dark mt-4" [disabled]="userForm.invalid"> Register </button>
-                </div>
-            </form>
+                    <div class="col-5">
+                        <input [(ngModel)]="user.Password" class = "form-control" name="password" type = "password" placeholder = "Password" required minlength = "8" #password = "ngModel" [ngClass]="{'is-invalid': password.touched && password.invalid, 'is-valid': password.touched && password.valid}">
+                        <div *ngIf="password.touched && password.invalid">
+                            <small class="text-danger" *ngIf="password.errors?.['required']">La password è obbligatoria.</small>
+                            <small class="text-danger" *ngIf="password.errors?.['minlength']">La password deve contenere almeno 8 caratteri.</small>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class = "btn btn-dark mt-4" [disabled]="userForm.invalid"> Register </button>
+                    </div>
+                </form>
+            </div>
+            
         </div>
-        
     </div>
 </div>
+
 
