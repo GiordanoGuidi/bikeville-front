@@ -3,17 +3,14 @@
     margin-top: 50px;
     margin-bottom: 150px;
 }
-
-.img-carousell {
-    height: 100%; 
-}
-
-.carousel-inner{
+.carousel-inner {
   height: 500px;
 }
+
 .carousel-item{
-  height: 100%;
-  width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+ 
 }
 h3{
   font-size: 25px;
@@ -54,30 +51,6 @@ h3{
   object-position: 50% 60%;
 
 } 
-
-#carouselimage2 {
-  /* object-position: 50% 70%; */
-
-}
-
-#carouselimage3 {
-  /* object-position: 50% 40%; */
-
-}
-
-#carouselimage4 {
-  /* object-position: 50% 15%; */
-
-}
-
-#carouselimage5 {
-  /* object-position: 50% 25%; */
-
-}
-
-#carouselimage6 {
-  /* object-position: 50% 70%; */
-}
 
 /* Media query per breakpoint md (768px) */
 /* @media (min-width: 768px) {
