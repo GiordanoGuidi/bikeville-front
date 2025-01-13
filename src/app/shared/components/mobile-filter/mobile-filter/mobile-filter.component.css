@@ -2,15 +2,16 @@
     height: 30px;
     display: flex;
     align-items: center;
-    background-color: black;
+    background-color: white;
     width: 100%;
     border-radius: 300px;
 }
 
 .filter-counter{
     border-radius:100px;
-    background-color: white;
+    background-color: black;
     padding: 0rem .625rem 0rem .625rem;
+    color:#00FF00 ;
 }
 .active-index{
     padding: .300rem .700rem .300rem .700rem;
