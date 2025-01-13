@@ -24,14 +24,14 @@ constructor(private userService: UserService, private router: Router) {}
 async onSubmit(): Promise<void> {
   //Questo renderlo magari un validazione di un form che se è true esegue il metodo
   if(await this.verifyMail(this.user.EmailAddress)) {
-    alert('Email già in uso');
+    alert('Email already in use');
     return;
   } else {
     console.log('User Data:', this.user); 
     this.userService.registerUser(this.user).subscribe(
     (response) => {
-      console.log('Registrazione avvenuta con successo:', response);
-      alert('Utente registrato con successo')
+      console.log('Registration success:', response);
+      alert('User registered successfully')
       this.user = {
         FirstName: '',
         LastName: '',
@@ -45,8 +45,8 @@ async onSubmit(): Promise<void> {
       this.router.navigate(['/home']);
     },
     (error) => {
-      console.error('Errore durante la registrazione:', error);
-      alert('Errore Inatteso');
+      console.error('Registration Error:', error);
+      alert('Unexpected Error');
     }
     );
   }
@@ -57,7 +57,7 @@ async verifyMail(EmailAddress: string): Promise<boolean> {
     const response = await fetch("https://localhost:7257/user/" + EmailAddress);
     
     if (!response.ok) {
-      throw new Error(`Errore HTTP: ${response.status}`);
+      throw new Error(`HTTP Error: ${response.status}`);
     }
 
     const result: boolean = await response.json();
@@ -65,7 +65,7 @@ async verifyMail(EmailAddress: string): Promise<boolean> {
     // Inverti il valore booleano e restituisci
     return result;
   } catch (error) {
-    console.error("Errore nella fetch:", error);
+    console.error("Fetch Error:", error);
     // Se c'è un errore, restituisci un valore di default, ad esempio `false`
     return true;
   }
