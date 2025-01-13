@@ -1,10 +1,23 @@
 #navbar {
-    height: 70px;
+    /* height: 100px; */
   }
   
 #navbar a{
     color: #f0f0f0;
     cursor: pointer;
+}
+
+.navigation-container{
+  flex: 1;
+}
+
+#logoapp {
+  width: 100px;
+  height: 60px;
+}
+
+.pippo{
+  display: inline-block;
 }
 
 .header-filters {
@@ -13,10 +26,14 @@
   overflow: visible;
 }
 
+.filters-container{
+  padding-right: 150px;
+}
+
 .filter-container {
   position: relative;
   display: inline-block;
-  z-index: 1; /* Contenitore controlla i livelli */
+  z-index: 1; 
 }
 
 .filter-container::before {
@@ -28,53 +45,70 @@
   height: 23px;
   background-color: #00ff00;
   transition: width 0.5s ease;
-  z-index: 1; /* Rettangolo sotto */
+  z-index: 1; 
 }
 
 .filter-container:hover::before {
-  width: 100%; /* Espandi il rettangolo */
+  width: 100%; 
 }
 
 .filter-container a {
   position: relative;
   text-decoration: none;
-  color: #f0f0f0; /* Colore iniziale */
+  color: #f0f0f0; 
   font-size: 18px;
   cursor: pointer;
-  z-index: 2; /* Testo sopra il rettangolo */
+  z-index: 2; 
   transition: color 0.5s ease;
   padding: 5px;
 }
 
 .filter-container a:hover {
-  color: black; /* Cambia colore del testo */
-  z-index: 3; /* Assicurati che sia sopra il rettangolo */
+  color: black !important; 
+  z-index: 3; 
 }
 
-.filter-container a.active {
-  color: black; /* Colore del testo attivo */
-  z-index: 3; /* Assicurati che sia sopra il rettangolo */
+.li-spacing .filter-container a.active {
+  color: black !important; 
+  z-index: 3; /
 }
 
 .filter-container a.active + ::before {
-  width: 100%; /* Mantieni il rettangolo espanso */
+  width: 100%; 
 }
 
 /* Per il contenitore attivo */
 .filter-container.active::before {
-    width: 100%; /* Barra verde allungata */
+    width: 100%; 
     background-color: #00ff00;
+    border-radius: 10px;
     z-index: 1;
 }
 
 /* Per il link attivo */
 .filter-container a.active {
-    color: black; /* Testo nero */
-    z-index: 3; /* Assicurati che il testo sia sopra */
+    color: black; 
+    z-index: 3; 
 }
 
+.li-spacing{
+  margin-right: 20px; 
+  margin-bottom: 10px; 
+}
+
+/*# Media Query */
+/* Media query per breakpoint md (768px) */
+@media (min-width: 768px) {
+  #logoapp {
+    width: 130px;
+    height: 70px;
+  }
+}
+ 
+/* Media query per breakpoint md (992px) */
+@media (min-width: 992px) {
   #logoapp {
     width: 180px;
-    height: 90px;
-    margin-top: 15px;
+    height: 100px;
   }
+}

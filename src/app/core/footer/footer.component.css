@@ -1,10 +1,8 @@
 
 /* Stile per il footer */
 footer {
-  /*TODO fare in modo che il footer sia sempre sul fondo della pagina */
-  background-color: #292C2C !important; /* Nuovo colore di sfondo */
-  color: white; /* Mantieni il testo leggibile */
-
+  background-color:#121212 !important; 
+  color: white;
   text-align: center;
   padding: 10px 0;
 }
