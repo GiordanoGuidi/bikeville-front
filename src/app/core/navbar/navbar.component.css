@@ -1,45 +1,110 @@
-#navbar {
-    height: 70px;
-    background-color: #4d4952;
-  }
-  
 #navbar a{
-    color: white;
+    color: #f0f0f0;
     cursor: pointer;
 }
 
-.header-filters{
-    width: 100%;
-    padding-top: 20px;
+.navigation-container{
+  flex: 1;
 }
 
-/* Stile per il link */
-.header-filters a {
-    position: relative;
-    text-decoration: none;
-    color: #000;
-    font-size: 18px;
-    cursor: pointer;
-  }
-  
-  /* Pseudo-elemento per la linea */
-  .header-filters a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0; 
-    height: 2px; 
-    background-color: #000; 
-    transition: width 0.5s ease; 
-  }
-  
-  /* L'effetto hover */
-  .header-filters a:hover::after {
+#logoapp {
+  width: 100px;
+  height: 60px;
+}
+
+.pippo{
+  display: inline-block;
+}
+
+.header-filters {
+  width: 100%;
+  z-index: 0;
+  overflow: visible;
+}
+
+.filters-container{
+  padding-right: 150px;
+}
+
+.filter-container {
+  position: relative;
+  display: inline-block;
+  z-index: 1; 
+}
+
+.filter-container::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 23px;
+  background-color: #00ff00;
+  transition: width 0.5s ease;
+  z-index: 1; 
+}
+
+.filter-container:hover::before {
+  width: 100%; 
+}
+
+.filter-container a {
+  position: relative;
+  text-decoration: none;
+  color: #f0f0f0; 
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 2; 
+  transition: color 0.5s ease;
+  padding: 5px;
+}
+
+.filter-container a:hover {
+  color: black !important; 
+  z-index: 3; 
+}
+
+.li-spacing .filter-container a.active {
+  color: black !important; 
+  z-index: 3; 
+}
+
+.filter-container a.active + ::before {
+  width: 100%; 
+}
+
+/* Per il contenitore attivo */
+.filter-container.active::before {
     width: 100%; 
+    background-color: #00ff00;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+/* Per il link attivo */
+.filter-container a.active {
+    color: black; 
+    z-index: 3; 
+}
+
+.li-spacing{
+  margin-right: 20px; 
+  margin-bottom: 10px; 
+}
+
+/*# Media Query */
+/* Media query per breakpoint md (768px) */
+@media (min-width: 768px) {
+  #logoapp {
+    width: 130px;
+    height: 70px;
   }
-  
-  /* Effetto per il link attivo */
-  .header-filters a.active::after {
-    width: 100%; 
+}
+ 
+/* Media query per breakpoint md (992px) */
+@media (min-width: 992px) {
+  #logoapp {
+    width: 180px;
+    height: 100px;
   }
+}

@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 /*Importo una libreria che permette di decodificare un JWT lato client*/
 import * as jwt_decode from 'jwt-decode';
 import { HtmlParser } from '@angular/compiler';
+import { LoggedUserService } from './service/loggedUser.service';
+import { LoggedUser } from '../interfaces/loggedUser-interface';
 
 
 @Component({
@@ -19,7 +21,7 @@ import { HtmlParser } from '@angular/compiler';
 
 export class LoginComponent {
   //DI del servizio AuthService
-  constructor(private authentication: AuthService,private router: Router) {}
+  constructor(private authentication: AuthService,private router: Router,private loggedUserService:LoggedUserService) {}
   loginCredentials: Credentials = new Credentials();
   jwtToken: any;
   decodedTokenPayload: any;
@@ -31,26 +33,25 @@ export class LoginComponent {
   async verifyMail(EmailAddress: string): Promise<boolean> {
     try {
       const response = await fetch("https://localhost:7257/user/" + EmailAddress);
-      
       if (!response.ok) {
-        throw new Error(`Errore HTTP: ${response.status}`);
+        throw new Error(`HTTP Error: ${response.status}`);
       }
-  
       const result: boolean = await response.json();
-  
       // Inverti il valore booleano e restituisci
       return result;
     } catch (error) {
-      console.error("Errore nella fetch:", error);
+      console.error("Fetch error:", error);
       // Se c'è un errore, restituisci un valore di default, ad esempio `false`
       return false;
     }
   }
 
   async RunLoginJwt(eml: string, pwd: string): Promise<void> {
+    console.log(this.userEmail)
+    console.log(this.userEmail)
     const isEmailRegistered = await this.verifyMail(this.userEmail);
     if (!isEmailRegistered) {
-      alert('Email non registrata. Per favore, registrati prima di effettuare il login.');
+      alert('Email not registered, please register before attempting to Log In');
       return;
     }
     if (eml && pwd) {
@@ -61,29 +62,33 @@ export class LoginComponent {
         next: (response: any) => {
           switch (response.status) {
             case HttpStatusCode.Ok:
-              console.log('Login effettuato ');
-              alert("Login Effettuato");
+              alert("Successfully Logged In");
+              console.log('Response body:', response.body);
+              console.log('Token:', response.body.token);
               //Assegno il valore recuperato dal body della response
               this.jwtToken = response.body.token;
               //Assegno il token  e il booleano al metodo 
               this.authentication.SetLoginJwtInfo(true, this.jwtToken);
-
-              this.authentication.adminCheck(this.loginCredentials.Email);
               /*Decodifica la stringa del token e restituisce un oggetto JSON
-              che rappresenta il payload del toke */
+              che rappresenta il payload del token */
               this.decodedTokenPayload = jwt_decode.jwtDecode(this.jwtToken);
+              console.log(this.decodedTokenPayload);
+              // Popola i dati nel servizio
+              this.loggedUserService.setLoggedUser ({
+                id: this.decodedTokenPayload.Id,
+                firstName: this.decodedTokenPayload.FirstName,
+                lastName: this.decodedTokenPayload.LastName,
+                email: this.decodedTokenPayload.email,
+                role: this.decodedTokenPayload.role
+              });
               //Imposto la flag a false per far sparire il form di login
               this.isLoginOpen = false;
               console.log(this.decodedTokenPayload);
-              console.log(this.decodedTokenPayload.unique_name);
-              console.log(this.decodedTokenPayload.iss);
-              console.log(this.decodedTokenPayload.aud);
-              console.log(this.decodedTokenPayload.exp);
-              //? aggiunto router che rimanda direttamente alla home dopo un login effettuato//
+              // aggiunto router che rimanda direttamente alla home dopo un login effettuato//
               this.router.navigate(['/home']);
               break;
             case HttpStatusCode.NoContent:
-              console.log('Senza risposta');
+              console.log('No Response');
               break;
           }
         },
@@ -91,13 +96,16 @@ export class LoginComponent {
           switch (err.status) {
             case HttpStatusCode.Unauthorized:
               this.authentication.SetLoginJwtInfo(false,this.jwtToken);
-              alert('Username o Password errati');
+              alert('Wrong Username or Password');
+              break;
+              dafault:
+              alert('Wrong Username or Password');
               break;
           }
         },
       });
     } else {
-      alert('Username e Password sono campi obbligatori');
+      alert('Username and Password are required');
     }
   }
 }

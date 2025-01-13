@@ -1,3 +1,7 @@
+#tablename {
+  color: white;
+}
+
 .main-table {
     width: 100%;
     border-collapse: collapse;
@@ -13,6 +17,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
+    background-color: #1f1e1e;
   }
   
   tr {
@@ -20,7 +25,7 @@
   }
   
   th {
-    background-color: #f4f4f4;
+    background-color: #1f1e1e;
     font-weight: bold;
   }
   
@@ -31,26 +36,40 @@
 
   #id {
     width: 60px;
+    color: white;
   }
 
   #title {
     width: 60px;
+    color: white;
   }
 
   #fname {
     width: 150px;
+    color: white;
+  }
+
+  #name {
+    color: white;
+  }
+
+  #company {
+    color: white;
   }
 
   #mname {
     width: 60px;
+    color: white;
   }
 
   #mail {
     width: 300px;
+    color: white;
   }
 
   #phone {
     width: 200px;
+    color: white;
   }
 
   .iconbutton {
@@ -69,34 +88,32 @@
 
   /*? css della navigazione ?*/
 
-  .pagination .page-item .page-link {
-    color: black;
-    background-color: white;
-    border-color: #4d4952;
-  }
+  .pagination .page-link{
+    color:white;
+    background-color: black;
+    border-color: #00ff00;
+}
   
   .pagination .page-item.active .page-link {
-    color: white;
-    background-color: #4d4952;
-    border-color: #4d4952;
-    box-shadow: 0 0 5px 2px grey;
-    
-  }
+    background-color: #00ff00; 
+    border-color: #00ff00;     
+    color: black;             
+}
   
   .pagination .page-item.disabled .page-link {
     color: white;
-    background-color: #4d4952;
-    border-color: #4d4952;
+    background-color: black;
+    border-color: black;
   }
 
   .pagination .page-item .page-link:focus {
     outline: none;
-    border-color: #4d4952;
-    box-shadow: 0 0 5px 2px grey;
+    border-color: black;
+    box-shadow: 0 0 5px 2px #00ff00;
   }
 
   .pagination .page-item .page-link:active {
-    background-color: white;
-    border-color: #4d4952;
-    box-shadow: 0 0 5px 2px grey;
+    background-color: #00ff00;
+    border-color: #00ff00;
+    box-shadow: 0 0 5px 2px black;
   }

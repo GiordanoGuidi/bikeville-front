@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private isLogged = false;
-  private isAdmin = false;
 
   //Creo istanza della classe HttpHeaders
   authenticationJwtHeader = new HttpHeaders({
@@ -17,7 +16,10 @@ export class AuthService {
   });
 
   //DI del servizio HttpClient
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Controllo se il login è persistito al caricamento
+    this.loadLoginState();
+  }
   
   //Richiesta post al backend(Controller Login)
   LoginJwtPost(credentials: Credentials): Observable<any> {
@@ -29,25 +31,21 @@ export class AuthService {
   //Metodo per gestire il token e l'intestazione della richiesta http al login e al logout
   SetLoginJwtInfo(isLogged: boolean, jwtToken: string = '') {
     if (isLogged) {
-      //Salvo nel localstorege il token
+      //Salvo nel localstorege il token e lo stato di login
       localStorage.setItem('jwtToken', jwtToken);
+      localStorage.setItem('isLogged', JSON.stringify(true));
       //Modifico l'intestazione della richiesta http
       this.authenticationJwtHeader = this.authenticationJwtHeader.set(
         'Authorization',
         'Bearer ' + jwtToken
       );
-      console.log('DOpo imposta Header ' + JSON.stringify(this.authenticationJwtHeader))
-      console.log('pippo');
-      console.log('pluto');
-
-    this.isLogged = isLogged;
-    console.log('salve');
-      
+      this.isLogged = isLogged;
     }
     else
     {
-      //Rimuovo il token dal localSorage
+      //Rimuovo i dati dal localStorage
       localStorage.removeItem('jwtToken');
+      localStorage.setItem('isLogged', JSON.stringify(false));
       //Resetta l'intestazione
       this.authenticationJwtHeader = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -62,32 +60,12 @@ export class AuthService {
     return this.isLogged;
   }
 
-  GetAdminInfo(): boolean {
-    return this.isAdmin;
-  }
+  // Metodo per caricare lo stato di login
+  private loadLoginState(): void {
+    const storedIsLogged = localStorage.getItem('isLogged');
 
-  async adminCheck(email: string): Promise<boolean> {
-    try {
-      const response = await fetch("https://localhost:7257/LoginJwt/admin/" + email, {
-        method: "POST",
-        body: JSON.stringify({email: email}),
-        headers: {
-        "Content-Type": "application/json"
-        }
-      });
-
-      if(!response.ok) {
-        throw new Error(`Errore HTTP: ${response.status}`);
-      }
-
-      const result: boolean = await response.json();
-
-      this.isAdmin = true;
-      return true;
-    } catch (error) {
-      console.error("Errore nella fetch:", error);
-      this.isAdmin = false;
-      return false;
+    if (storedIsLogged && JSON.parse(storedIsLogged)) {
+      this.isLogged = true;
     }
   }
 }

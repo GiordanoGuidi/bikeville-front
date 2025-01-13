@@ -1,7 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
-import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/bike-filter-interfaces';
+import { TypeFilter,ColorFilter,SizeFilter, PriceFilter } from '../../filters/filters-interfaces';
 import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { ProductnologhttpService } from '../../../shared/httpservices/productnologhttp.service';
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
@@ -9,6 +9,7 @@ import { MobileFilterComponent } from '../../../shared/components/mobile-filter/
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
 import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
 import { PaginationService } from '../../../shared/service/pagination-service';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-components',
@@ -172,4 +173,49 @@ export class BikeComponentsComponent {
     this.getBikeComponents();
     this.getBikeComponentsFilters();
   }
+
+  async  viewProduct(prodotto: Product) {
+    
+    const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
+    const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
+    const descriptionResponse = await fetch("https://localhost:7257/api/Products/getDescByModelId/" + prodotto.productModelId);
+    const category = await categoryResponse.text();
+    const model = await modelResponse.text();
+    const description = await descriptionResponse.json();
+
+    const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
+    Paragraph.innerHTML = `
+    <div>
+    <div class = "d-flex">
+    <div>
+    <img src = "data:image/gif;base64,${prodotto.thumbNailPhoto}" style = "min-width: 500px; height: auto;" alt="Immagine">
+    </div>
+    <div class = "d-flex flex-column justify-content-start ps-5">
+    <h1> ${prodotto.name} </h1>
+    <hr>
+    <h2>${prodotto.listPrice.toFixed(2)}€ </h2>
+    <p style = "font-size: 20px;"> <br>
+    Colore: ${prodotto.color || 'N/A'} <br>
+    Dimensione: ${prodotto.size || '0'} <br>
+    Peso: ${prodotto.weight || '0'} kg <br>
+    Categoria: ${category} <br>
+    Modello: ${model} <br>
+    Id: ${prodotto.productId} <br>
+    Numero: ${prodotto.productNumber} 
+    </p>
+    </div>
+    </div>
+    </div>
+    <hr>
+    <p style = "font-size: 20px;"> ${description[0].description} </p>
+    `;
+
+    const modalElement = document.getElementById('viewProduct');
+                if (modalElement) {
+                  const modal = new bootstrap.Modal(modalElement);
+                  modal.show();
+                } else {
+                  console.error('Modal element not found!');
+                }
+              }
 }

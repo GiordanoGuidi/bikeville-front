@@ -1,19 +1,20 @@
-<nav class="navbar navbar-expand-lg" id="navbar">
-    <div class="container-fluid ms-5 me-5">
-      <a class="navbar-brand" routerLink="home">
-        <img src = "assets/logo app.ico" width="60" height="30" alt="">
-        BikeVille
-      </a>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link"  routerLink="adminhub"> Admin Hub </a> <!--TODO provvisoria schermata prodotti admin per modificare listino-->
-          </li>
-          <li class="nav-item">
-            <a class="nav-link"  routerLink="product-nologin"> Products </a> <!--? spostato lista prodotti di Paola ?-->
-          </li>
-          <li class="nav-item">
-            <a *ngIf="auth.GetLoginInfo()" class="nav-link " routerLink="products"> Workers </a>
+<nav class="navbar navbar-expand-lg pt-2 pb-2 d-flex" id="navbar">
+  <!-- Contenitore logo -->
+  <div class="logo-container">
+    <a class="navbar-brand" routerLink="home">
+      <img id = "logoapp" src = "assets/App Logo Test 2.png" class = "ms-3" alt="">
+    </a>
+  </div>
+
+  <!--! I filtri nella navbar a modalità mobile li nasconderei -->
+  <!--# riduci immagine in mobile -->
+  <!-- Contenitore filtri e login/logout/AdminHub -->
+  <div class="d-flex flex-column navigation-container">
+    <div class="me-3" id="navbarNav">
+      <ul class="navbar-nav d-flex justify-content-end">
+        <div class="d-flex justify-content-end gap-1">
+          <li *ngIf="isAdmin()" class="nav-item">
+            <a class="nav-link"  routerLink="adminhub"> Admin Hub </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" *ngIf="!auth.GetLoginInfo()"  routerLink="register"> Register </a>
@@ -22,19 +23,62 @@
             <a class="nav-link" *ngIf="!auth.GetLoginInfo()"  routerLink="login"> Login </a>
           </li>
           <li class="nav-item">
-            <a *ngIf="auth.GetLoginInfo()" class="nav-link"  routerLink="logout">Logout</a>
+            <a  
+            type="button" data-bs-toggle="modal" data-bs-target="#logoutModal"
+            *ngIf="auth.GetLoginInfo()"
+             class="nav-link"  
+             >Logout</a>
           </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- Filtri per Categoria Prodotto -->
-  <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
-    <div class="d-flex align-items-center m-2">
-      <ul class="d-flex  gap-3 gap-sm-4 gap-md-5 list-unstyled m-0 justify-content-center flex-wrap">
-        <li *ngFor="let category of categoriesArray; let i = index">
-          <a (click)="setActiveIndex(i)" routerLink="/{{category.Name}}" [ngClass]="{'active':isActive(i)}" class="text-decoration-none text-dark">{{category.Name}}</a>
-        </li>
+        </div>
       </ul>
     </div>
-  </nav>
+    <!-- Contenitore filtri -->
+    <div class="filters-container">
+      <!-- Filtri per Categoria Prodotto -->
+      <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
+        <div class="d-flex align-items-center m-2">
+          <ul class="d-flex list-unstyled m-0 justify-content-center flex-wrap">
+            <li *ngFor="let category of categoriesArray; let i = index"
+             class="li-spacing">
+              <div class="filter-container" [ngClass]="{'active': isActive(i)}">
+                <a id="filters" (click)="setActiveIndex(i)"
+                routerLink="/{{category.Name}}"
+                [ngClass]="{'active':isActive(i)}"
+                class="text-decoration-none"> {{category.Name}} </a>
+            </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</nav>
+  
+  
+
+  <!-- Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <button type="button" class="btn btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body bg-dark text-light">
+        Logout from BikeVille.com ?
+      </div>
+      <div class="modal-footer bg-dark">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" (click)="RunLogout()">Yes</button>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" aria-label="Close">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Discussione -->
+  <!--! Nella show del prodotto perchè  non  si vede la foto?-->
+  <!-- Cose da fare -->
+  <!--! Sistemare il form register è disallineato e magari mettere un effetto sul bottone anche al login-->
+  <!--! validazione login  -->
+
+
+ 

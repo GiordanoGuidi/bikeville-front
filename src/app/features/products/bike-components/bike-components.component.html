@@ -45,7 +45,8 @@
                <div *ngFor="let component of paginatedProducts" class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
                     <!-- Card --> <!--#Questa è la card-->
                     <app-card class="w-100 h-100"
-                        [product]="component">
+                        [product]="component"
+                        (click)="viewProduct(component)">
                     </app-card>
                 </div>
 
@@ -67,3 +68,16 @@
         </div>
     </div>
 </section>
+
+<div class="modal" id="viewProduct" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id  = "productData"></p>
+        </div>
+      </div>
+    </div>
+  </div>

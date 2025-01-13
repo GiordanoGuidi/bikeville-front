@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
 import { Router,NavigationEnd } from '@angular/router';
+import { LoggedUserService } from '../login/service/loggedUser.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -19,10 +20,11 @@ export class NavbarComponent {
     private http: HttpClient,
     private activeIndexService:ActiveIndexService,
     private router:Router,
+    private loggedUserService:LoggedUserService,
   ){
     //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
-      console.log('Indice aggiornato ricevuto nel Navbar:', index);
+      console.log('Navbar index updated:', index);
       this.activeIndex = index;
     });
     // Gestione dei cambiamenti di rotta
@@ -39,7 +41,7 @@ export class NavbarComponent {
   activeIndex:number| null = null;
   //Istanza flag showFilters
   showFilters : boolean = true
-
+  
   //Funzione per recuperare le categorie
   getParentCategories(): void {
     this.http.get<any[]>('https://localhost:7257/api/Products/parent-categories')
@@ -68,6 +70,24 @@ export class NavbarComponent {
   isActive(index: number): boolean {
     return this.activeIndex === index; 
   }
+
+  // Metodo per controllare se il ruolo è Admin
+  isAdmin(): boolean {
+    const loggedUser = localStorage.getItem('loggedUser');
+    const loggedUserObject=loggedUser? JSON.parse(loggedUser):null;
+    console.log(loggedUserObject)
+    return loggedUserObject?.role === 'Admin';
+  }
+
+  // Metodo per eseguire il logout
+  RunLogout() {
+    //Rimuovo i dati dell'utente loggato
+    this.loggedUserService.setLoggedUser(null);
+    //Rimuovo i dati dal localstorage
+     this.auth.SetLoginJwtInfo(false, '');
+     // aggiunto router che rimanda in home//
+     this.router.navigate(['/home']);
+   }
 }
 
 export class ParentCategories{

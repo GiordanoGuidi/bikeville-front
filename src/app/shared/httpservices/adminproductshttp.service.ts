@@ -31,4 +31,8 @@ export class AdminproductshttpService {
   postAdminProduct(product: ProductDTO): Observable<ProductDTO>{
     return this.http.post<ProductDTO>('https://localhost:7257/api/Products', product);
   }
+
+  deleteAdminProduct(id: number): Observable<void>{
+    return this.http.delete<void>(`https://localhost:7257/api/Products/${id}`);
+  }
 }

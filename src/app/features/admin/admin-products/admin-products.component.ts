@@ -7,6 +7,8 @@ import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProductDTO } from '../../../shared/Models/productsDTO';
 import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
+import { Observable } from 'rxjs';
+
 
 
 @Component({
@@ -17,7 +19,9 @@ import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
   styleUrl: './admin-products.component.css'
 })
 export class AdminProductsComponent {
-  constructor(private httpRequest: AdminproductshttpService, private router: Router) { }
+  constructor(private httpRequest: AdminproductshttpService, private router: Router) { 
+
+  }
   products: Product[] = [];
   newProduct : ProductDTO = new ProductDTO();
   paginatedProducts: Product[] = [];
@@ -27,6 +31,8 @@ export class AdminProductsComponent {
 
   ngOnInit(): void {
     this.AdminProducts();
+   
+    
   }
 
   AdminProducts() {
@@ -53,7 +59,7 @@ addProduct(prodotto: NgForm) {
       this.AdminProducts();
       const modalElement = document.getElementById('addModal');
     if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
+      const modal = new bootstrap.Modal(modalElement) ;
       modal.hide();
     } else {
       console.error('Modal element not found!');
@@ -210,11 +216,60 @@ removeTimezoneOffset(date: Date): string {
     return `${year}-${month}-${day}`;
   }
 
-//TODO creare funzione per eliminare prodotto//
 
-deleteProduct(prodotto: Product){
 
+
+  
+//funzione per eliminare prodotto//
+
+setProductToDelete(productId: number): void{
+  this.currentProductId = productId;
+}
+
+
+
+deleteProduct(): void {
+  const modalElement = document.getElementById('deleteModal');
+
+  if (modalElement) {
+    const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+
+    // Ascolta l'evento di chiusura della modale
+    modalElement.addEventListener('hidden.bs.modal', () => {
+      const confirmed = confirm('Sei sicuro di voler eliminare questo prodotto?');
+      
+      if (confirmed) {
+        if (this.currentProductId != null) {
+          this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
+            next: (data) => {
+              console.log(`Prodotto con ID ${this.currentProductId} eliminato con successo.`, data);
+              alert('Product removed successfully');
+              this.AdminProducts(); // Aggiorna la lista dei prodotti
+            },
+            error: (err) => {
+              console.error('Errore durante l\'eliminazione:', err);
+              alert('Failed to remove product');
+            }
+          });
+        }
+      } else {
+        console.log('Eliminazione annullata');
+      }
+    }, { once: true }); // Esegui il callback solo una volta
+
+    // Chiudi la modale
+    modal.hide();
+  } else {
+    console.error('Modal element not found!');
   }
+}
+
+
+
+
+
+
+
 
 //? funzioni di navigazione ?//
 
