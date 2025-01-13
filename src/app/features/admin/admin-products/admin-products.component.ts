@@ -237,8 +237,10 @@ deleteProduct(prodotto: Product){
       const ListPrice = (document.getElementById("editlistPrice") as HTMLInputElement).valueAsNumber;
       const Size = (document.getElementById("editsize") as HTMLInputElement).value;
       const Weight = (document.getElementById("editweight") as HTMLInputElement).valueAsNumber;
-      const ProductCategoryId = parseInt((document.getElementById("editcat") as HTMLInputElement).value, 10);
-      const ProductModelId = parseInt((document.getElementById("editmod") as HTMLInputElement).value, 10);
+      const ProductCategory = (document.getElementById("editcat") as HTMLInputElement).value;
+      console.log(ProductCategory);
+      const ProductModel = (document.getElementById("editmod") as HTMLInputElement).value;
+      console.log(ProductModel);
       const SellStartDate = (document.getElementById("editsellStartDate") as HTMLInputElement).value;
       const SellEndDate = (document.getElementById("editsellEndDate") as HTMLInputElement).value;
       const DiscontinuedDate = (document.getElementById("editdiscontinuedDate") as HTMLInputElement).value;
@@ -259,8 +261,8 @@ deleteProduct(prodotto: Product){
         listPrice: isNaN(ListPrice) ? null : ListPrice,
         size: Size || null,
         weight: isNaN(Weight) ? null : Weight,
-        productCategoryId: isNaN(ProductCategoryId) ? null : ProductCategoryId,
-        productModelId: isNaN(ProductModelId) ? null : ProductModelId,
+        productCategory: ProductCategory|| null,
+        productModel: ProductModel|| null,
         sellStartDate: SellStartDate ? new Date(SellStartDate) : null,
         sellEndDate: SellEndDate ? new Date(SellEndDate) : null,
         discontinuedDate: DiscontinuedDate ? new Date(DiscontinuedDate) : null,

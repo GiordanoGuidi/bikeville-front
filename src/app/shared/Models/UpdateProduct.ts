@@ -6,8 +6,8 @@ export class UpdatedProduct{
     listPrice: number|null = 0;
     size: string|null = '';
     weight: number|null = 0;
-    productCategoryId: number|null= 0;
-    productModelId: number|null = 0;
+    productCategory: string|null= '';
+    productModel: string|null = '';
     sellStartDate: Date|null= new Date();
     sellEndDate: Date|null= new Date(); 
     discontinuedDate: Date|null= new Date();
