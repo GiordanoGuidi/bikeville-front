@@ -1,6 +1,7 @@
 .login-container{
     margin-top: 100px;
     margin-bottom: 100px;
+    width: 60%;
 }
 
 /* Media query per breakpoint md (992px) */

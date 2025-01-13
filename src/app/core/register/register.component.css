@@ -1,5 +1,18 @@
 .register-container{
     margin-top: 100px;
     margin-bottom: 100px;
-    width: 60%;;
+    width: 60%;
 }
+
+input{
+    padding-right: 5px;
+}
+
+/* Media query per breakpoint md (992px) */
+@media (min-width: 992px) {
+    .register-container{
+        margin-top: 150px;
+        margin-bottom: 150px;
+    }
+}
+

@@ -1,7 +1,7 @@
 .container {
     width: 70%;
-    margin-top: 5%;
-    margin-bottom: 50px;
+    margin-top: 50px;
+    margin-bottom: 150px;
 }
 .carousel-inner {
   height: 500px;
@@ -10,6 +10,11 @@
 .carousel-item{
   min-height: 100%;
   object-fit: cover;
+ 
+}
+h3{
+  font-size: 25px;
+  font-style: italic;
 }
 
 .image-container {
@@ -48,19 +53,19 @@
 } 
 
 /* Media query per breakpoint md (768px) */
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .container {
     margin-top: 100px;
     margin-bottom: 100px;
 }
 
-}
+} */
 
 /* Media query per breakpoint md (992px) */
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .container {
     margin-top: 200px;
     margin-bottom: 200px;
   }
   
-}
+} */
