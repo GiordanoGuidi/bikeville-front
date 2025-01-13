@@ -20,7 +20,6 @@ import { Observable } from 'rxjs';
 })
 export class AdminProductsComponent {
   constructor(private httpRequest: AdminproductshttpService, private router: Router) { 
-
   }
   products: Product[] = [];
   newProduct : ProductDTO = new ProductDTO();
@@ -28,13 +27,12 @@ export class AdminProductsComponent {
   productId : number = 0;
   currentPage = 1;
   itemsPerPage = 50;
-
+  currentProductId:number|null =null;
   ngOnInit(): void {
     this.AdminProducts();
-   
-    
   }
 
+  //Funzione per caricare i prodotti
   AdminProducts() {
     this.httpRequest.getAdminProducts().subscribe({
       next: (data) => {
@@ -47,8 +45,7 @@ export class AdminProductsComponent {
     });
   }
 
-//TODO funzione per aggiungere un prodotto//
-
+// funzione per aggiungere un prodotto//
 addProduct(prodotto: NgForm) {
   this.newProduct = prodotto.value;
   console.log(this.newProduct);
@@ -80,7 +77,6 @@ onFileSelected(event: Event): void {
   if (fileInput.files && fileInput.files[0]) {
     const file = fileInput.files[0];
     const reader = new FileReader();
-
     // Quando il file è stato letto
     reader.onload = () => {
       const base64String = (reader.result as string);
@@ -95,11 +91,9 @@ onFileSelected(event: Event): void {
 }
 
 
-//* funzione per visualizzare prodotti ?//
-
+//funzione per visualizzare prodotti //
 async viewProduct(prodotto: Product) {
     const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
-
     const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
         const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
 
@@ -132,8 +126,8 @@ async viewProduct(prodotto: Product) {
     <strong>Product Model:</strong> ${model}<br>
     <img src = "image/gif/${prodotto.thumbNailPhoto}"<br>
     `;
-    //TODO Verificare percorso immagini prodotti//
 
+    //! Verificare percorso immagini prodotti//
     const modalElement = document.getElementById('viewModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
@@ -143,7 +137,7 @@ async viewProduct(prodotto: Product) {
     }
   }
 
-//* funzione che popola la scheda che modifica i prodotti esistenti ?//
+// funzione che popola la scheda che modifica i prodotti esistenti //
 // CHIEDERE A DAVIDE
 async editProduct(prodotto: Product) {
   this.productId = prodotto.productId;
@@ -203,16 +197,13 @@ async editProduct(prodotto: Product) {
     ThumbFile.value = prodotto.thumbnailPhotoFileName.toString();
   }
 
-//* funzione per aggirare problemi di fuso orario *//
-
+// funzione per aggirare problemi di fuso orario //
 removeTimezoneOffset(date: Date): string {
     const localDate = new Date(date);
     localDate.setHours(0, 0, 0, 0);
-  
     const year = localDate.getFullYear();
     const month = (localDate.getMonth() + 1).toString().padStart(2, '0');
     const day = localDate.getDate().toString().padStart(2, '0');
-  
     return `${year}-${month}-${day}`;
   }
 
@@ -221,13 +212,12 @@ removeTimezoneOffset(date: Date): string {
 
   
 //funzione per eliminare prodotto//
-
 setProductToDelete(productId: number): void{
   this.currentProductId = productId;
 }
 
 
-
+//Funzione per eliminare un prodotto
 deleteProduct(): void {
   const modalElement = document.getElementById('deleteModal');
 
