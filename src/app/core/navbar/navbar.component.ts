@@ -75,7 +75,6 @@ export class NavbarComponent {
   isAdmin(): boolean {
     const loggedUser = localStorage.getItem('loggedUser');
     const loggedUserObject=loggedUser? JSON.parse(loggedUser):null;
-    console.log(loggedUserObject)
     return loggedUserObject?.role === 'Admin';
   }
 
