@@ -34,13 +34,13 @@ export class LoginComponent {
     try {
       const response = await fetch("https://localhost:7257/user/" + EmailAddress);
       if (!response.ok) {
-        throw new Error(`Errore HTTP: ${response.status}`);
+        throw new Error(`HTTP Error: ${response.status}`);
       }
       const result: boolean = await response.json();
       // Inverti il valore booleano e restituisci
       return result;
     } catch (error) {
-      console.error("Errore nella fetch:", error);
+      console.error("Fetch error:", error);
       // Se c'è un errore, restituisci un valore di default, ad esempio `false`
       return false;
     }
@@ -51,7 +51,7 @@ export class LoginComponent {
     console.log(this.userEmail)
     const isEmailRegistered = await this.verifyMail(this.userEmail);
     if (!isEmailRegistered) {
-      alert('Email non registrata. Per favore, registrati prima di effettuare il login.');
+      alert('Email not registered, please register before attempting to Log In');
       return;
     }
     if (eml && pwd) {
@@ -62,7 +62,7 @@ export class LoginComponent {
         next: (response: any) => {
           switch (response.status) {
             case HttpStatusCode.Ok:
-              alert("Login Effettuato");
+              alert("Successfully Logged In");
               console.log('Response body:', response.body);
               console.log('Token:', response.body.token);
               //Assegno il valore recuperato dal body della response
@@ -88,7 +88,7 @@ export class LoginComponent {
               this.router.navigate(['/home']);
               break;
             case HttpStatusCode.NoContent:
-              console.log('Senza risposta');
+              console.log('No Response');
               break;
           }
         },
@@ -96,13 +96,16 @@ export class LoginComponent {
           switch (err.status) {
             case HttpStatusCode.Unauthorized:
               this.authentication.SetLoginJwtInfo(false,this.jwtToken);
-              alert('Username o Password errati');
+              alert('Wrong Username or Password');
+              break;
+              dafault:
+              alert('Wrong Username or Password');
               break;
           }
         },
       });
     } else {
-      alert('Username e Password sono campi obbligatori');
+      alert('Username and Password are required');
     }
   }
 }
