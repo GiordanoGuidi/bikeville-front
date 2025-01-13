@@ -1,5 +1,5 @@
 .card {
-    background-color: #fefdff;
+    background-color: #121212;
     border-radius: 10px;
     padding: 10px;
     display: flex;
@@ -9,6 +9,7 @@
     height: 100%;
     width: 100%;
     cursor: pointer;
+    color: white;
   }
   
   .card-body {

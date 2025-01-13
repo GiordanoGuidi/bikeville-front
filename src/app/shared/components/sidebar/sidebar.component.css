@@ -2,6 +2,7 @@
     min-height: 100%;
     width: 200px;
     padding-left: 20px;
+    color: white;
 }
 .active-index{
     padding: .300rem .700rem .300rem .700rem;

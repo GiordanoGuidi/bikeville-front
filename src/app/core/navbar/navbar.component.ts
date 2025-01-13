@@ -24,7 +24,7 @@ export class NavbarComponent {
   ){
     //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
-      console.log('Indice aggiornato ricevuto nel Navbar:', index);
+      console.log('Navbar index updated:', index);
       this.activeIndex = index;
     });
     // Gestione dei cambiamenti di rotta
