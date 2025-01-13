@@ -50,6 +50,7 @@ addProduct(prodotto: NgForm) {
     next: (data) => {
       console.log('Product successfully added:', data);
       alert('Product added successfully!');
+      this.AdminProducts();
       const modalElement = document.getElementById('addModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
@@ -66,6 +67,7 @@ addProduct(prodotto: NgForm) {
 }
 
 
+
 onFileSelected(event: Event): void {
   const fileInput = event.target as HTMLInputElement;
 
@@ -75,13 +77,17 @@ onFileSelected(event: Event): void {
 
     // Quando il file è stato letto
     reader.onload = () => {
-      this.newProduct.thumbNailPhoto = (reader.result as string).split(',')[1]; // Ottieni solo la stringa Base64
+      const base64String = (reader.result as string);
+      // Rimuove il prefisso data:image/png;base64,
+      const base64WithoutPrefix = base64String.split(',')[1];
+      this.newProduct.thumbNailPhoto = base64WithoutPrefix; // Ottieni solo la stringa Base64
     };
-
+    console.log(this.newProduct.thumbNailPhoto);
     // Leggi il file come una URL data (Base64)
     reader.readAsDataURL(file);
   }
 }
+
 
 //* funzione per visualizzare prodotti ?//
 
@@ -250,7 +256,7 @@ deleteProduct(prodotto: Product){
       let ThumbnailPhoto: string | null = null;
       if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
-        ThumbnailPhoto = await this.convertFileToBase64(file);
+        ThumbnailPhoto =  this.newProduct.thumbNailPhoto;
       }
   
       const updatedProduct: UpdatedProduct = {
@@ -294,13 +300,6 @@ deleteProduct(prodotto: Product){
     }
   }
   
-  private async convertFileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  }
+  
   
 }

@@ -110,107 +110,108 @@
   </div>
 
 <!--? modale per modificare prodotto ?-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #editModal> 
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Modifica Prodotto</h5>
+        <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <div class="row g-2">
+            <div class="mb-3">
+              <label for="editname" class="form-label">Name</label>
+              <input type="text" id="editname" class="form-control w-100" placeholder="Insert Name">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editproductNumber" class="form-label">Product Number</label>
+              <input type="text" id="editproductNumber" class="form-control w-100" placeholder="Insert Product Number">
+            </div>
+            <div class="col mb-3">
+              <label for="editcolor" class="form-label">Color</label>
+              <input type="text" id="editcolor" class="form-control w-100" placeholder="Insert Color">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editcost" class="form-label">StandardCost</label>
+              <input type="number" id="editcost" class="form-control w-100" placeholder="Insert Standard Cost">
+            </div>
+            <div class="col mb-3">
+              <label for="editlistPrice" class="form-label">ListPrice</label>
+              <input type="number" id="editlistPrice" class="form-control w-100" placeholder="Insert List Price">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editsize" class="form-label">Size</label>
+              <input type="text" id="editsize" class="form-control w-100" placeholder="Insert Size">
+            </div>
+            <div class="col mb-3">
+              <label for="editweight" class="form-label">Weight</label>
+              <input type="number" id="editweight" class="form-control w-100" placeholder="Insert Weight">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editcat" class="form-label">Category</label>
+              <input type="text" id="editcat" class="form-control w-100" placeholder="Insert Category">
+            </div>
+            <div class="col mb-3">
+              <label for="editmod" class="form-label">Model</label>
+              <input type="text" id="editmod" class="form-control w-100" placeholder="Insert Model">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editsellStartDate" class="form-label">Sell Start Date</label>
+              <input type="date" id="editsellStartDate" class="form-control w-100" placeholder="Insert Sell Start Date">
+            </div>
+            <div class="col mb-3">
+              <label for="editsellEndDate" class="form-label">Sell End Date</label>
+              <input type="date" id="editsellEndDate" class="form-control w-100" placeholder="Insert Sell End Date">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editdiscontinuedDate" class="form-label">Discontinued Date</label>
+              <input type="date" id="editdiscontinuedDate" class="form-control w-100" placeholder="Insert Discontinued Date">
+            </div>
+            <div class="col mb-3">
+              <label for="editthumbnailPhotoFileName" class="form-label">Thumbnail Filename</label>
+              <input type="text" id="editthumbnailPhotoFileName" class="form-control w-100" placeholder="Insert Thumbnail Filename">
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
+              <input type="file" id="thumbnailPhoto" class="form-control w-100" placeholder="Insert Thumbnail Photo" (change)="onFileSelected($event)" accept="image/*">
+              
+              <!-- Optional: Display Base64 string (read-only) -->
+              <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" name="ThumbnailPhoto" [(ngModel)]="newProduct.thumbNailPhoto" readonly>
 
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #editModal>
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="ModalLabel">Modifica Prodotto</h5>
-          <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id = "editForm">
-            <div class="row g-2">
-              <div class="mb-3">
-                <label for="editname" class="form-label">Name</label>
-                <input type="text" id="editname" class="form-control w-100" placeholder="Insert Name">
-              </div>
+              <!-- Preview Image -->
+              <img *ngIf="newProduct.thumbNailPhoto; else noImage" 
+                   [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" 
+                   alt="{{newProduct.name}} thumbnail" 
+                   class="img-fluid img-thumbnail" loading="lazy" />
+              <ng-template #noImage>
+                <div class="alert alert-danger" role="alert">No image selected</div>
+              </ng-template>
             </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editproductNumber" class="form-label">Product Number</label>
-                <input type="text" id="editproductNumber" class="form-control w-100" placeholder="Insert Product Number">
-              </div>
-              <div class="col mb-3">
-                <label for="editcolor" class="form-label">Color</label>
-                <input type="text" id="editcolor" class="form-control w-100" placeholder="Insert Color">
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editcost" class="form-label">StandardCost</label>
-                <input type="number" id="editcost" class="form-control w-100" placeholder="Insert Standard Cost">
-              </div>
-              <div class="col mb-3">
-                <label for="editlistPrice" class="form-label">ListPrice</label>
-                <input type="number" id="editlistPrice" class="form-control w-100" placeholder="Insert List Price">
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editsize" class="form-label">Size</label>
-                <input type="text" id="editsize" class="form-control w-100" placeholder="Insert Size">
-              </div>
-              <div class="col mb-3">
-                <label for="editweight" class="form-label">Weight</label>
-                <input type="number" id="editweight" class="form-control w-100" placeholder="Insert Weight">
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editcat" class="form-label">Category</label>
-                <input type="text" id="editcat" class="form-control w-100" placeholder="Insert Category">
-              </div>
-              <div class="col mb-3">
-                <label for="editmod" class="form-label">Model</label>
-                <input type="text" id="editmod" class="form-control w-100" placeholder="Insert Model">
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editsellStartDate" class="form-label">Sell Start Date</label>
-                <input type="date" id="editsellStartDate" class="form-control w-100" placeholder="Insert Sell Start Date">
-              </div>
-              <div class="col mb-3">
-                <label for="editsellEndDate" class="form-label">Sell End Date</label>
-                <input type="date" id="editsellEndDate" class="form-control w-100" placeholder="Insert Sell End Date">
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editdiscontinuedDate" class="form-label">Discontinued Date</label>
-                <input type="date" id="editdiscontinuedDate" class="form-control w-100" placeholder="Insert Discontinued Date">
-              </div>
-              <div class="col mb-3">
-                <label for="editthumbnailPhotoFileName" class="form-label">Thumbnail Filename</label>
-                <input type="text" id="editthumbnailPhotoFileName" class="form-control w-100" placeholder="Insert Thumbnail Filename">
-              </div>
-            </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
-                <input type="file" id="thumbnailPhoto" class="form-control w-100" placeholder="Insert Thumbnail Photo">
-                 <input type="file" id="thumbnailPhoto" class="form-control w-100" (change)="onFileSelected($event)" accept="image/*">
-                <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" name="ThumbnailPhoto" [(ngModel)]="newProduct.thumbNailPhoto" readonly>
-                
-                <img *ngIf="newProduct.thumbNailPhoto; else noImage" 
-                     [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" 
-                     alt="{{newProduct.name}} thumbnail" 
-                     class="img-fluid img-thumbnail" loading="lazy" />
-                <ng-template #noImage>
-                  <div class="alert alert-danger" role="alert">No image selected</div>
-                </ng-template>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-primary" (click)="editConfirm()">Salva</button>
-        </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+        <button type="button" class="btn btn-primary" (click)="editConfirm()">Salva</button>
       </div>
     </div>
   </div>
+</div>
 
 <!--? modale per eliminare prodotto ?-->
 
