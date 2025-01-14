@@ -4,7 +4,7 @@ import { AuthService } from '../../shared/authentication/auth.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
-import { Router,NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { LoggedUserService } from '../login/service/loggedUser.service';
 @Component({
   selector: 'app-navbar',
