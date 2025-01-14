@@ -9,7 +9,11 @@ import { MobileFilterComponent } from '../../../shared/components/mobile-filter/
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
 import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
 import { PaginationService } from '../../../shared/service/pagination-service';
+import { AuthService } from '../../../shared/authentication/auth.service';
+import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+
+declare const $: any;
 @Component({
   selector: 'app-bikes',
   standalone: true,
@@ -23,6 +27,8 @@ import * as bootstrap from 'bootstrap';
 })
 export class BikesComponent {
   constructor(
+    public auth : AuthService,
+    private router: Router,
     private http: HttpClient,
     private httpRequest:ProductnologhttpService,
     private paginationService: PaginationService
@@ -177,6 +183,12 @@ export class BikesComponent {
    ngOnInit():void{
     this.getBikeFilters();
     this.getBikes();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        // Remove modal backdrop on navigation
+        $(".modal-backdrop").remove();
+      }
+    });
   }
 
  async  viewProduct(prodotto: Product) {
@@ -200,13 +212,12 @@ export class BikesComponent {
      <hr>
      <h2>${prodotto.listPrice.toFixed(2)}€ </h2>
      <p style = "font-size: 20px;"> <br>
-     Colore: ${prodotto.color || 'N/A'} <br>
-     Dimensione: ${prodotto.size || '0'} <br>
-     Peso: ${prodotto.weight || '0'} kg <br>
-     Categoria: ${category} <br>
-     Modello: ${model} <br>
-     Id: ${prodotto.productId} <br>
-     Numero: ${prodotto.productNumber} 
+     <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
+     <strong>Size:</strong> ${prodotto.size || '0'} <br>
+     <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
+     <strong>Category:</strong> ${category} <br>
+     <strong>Model:</strong> ${model} <br>
+     <strong>Number:</strong> ${prodotto.productNumber} 
      </p>
      </div>
      </div>

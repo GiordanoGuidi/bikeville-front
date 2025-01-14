@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { AdmincustomershttpService } from '../../../shared/httpservices/admincustomershttp.service';
 import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Customer } from '../../../shared/Models/customer';
 import { forkJoin } from 'rxjs';
+
+declare const $: any;
 
 @Component({
   selector: 'app-admin-customers',
@@ -25,6 +27,12 @@ export class AdminCustomersComponent {
 
     ngOnInit(): void {
       this.AdminCustomers();
+      this.router.events.subscribe(event => {
+                if (event instanceof NavigationStart) {
+                  // Remove modal backdrop on navigation
+                  $(".modal-backdrop").remove();
+                }
+              });
     }
 
     AdminCustomers() {

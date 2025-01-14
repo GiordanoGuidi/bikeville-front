@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
 import { AdminproductshttpService } from '../../../shared/httpservices/adminproductshttp.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProductDTO } from '../../../shared/Models/productsDTO';
 import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
 import { Observable } from 'rxjs';
 
-
+declare const $: any;
 
 @Component({
   selector: 'app-admin-products',
@@ -30,6 +30,12 @@ export class AdminProductsComponent {
   currentProductId:number|null =null;
   ngOnInit(): void {
     this.AdminProducts();
+    this.router.events.subscribe(event => {
+          if (event instanceof NavigationStart) {
+            // Remove modal backdrop on navigation
+            $(".modal-backdrop").remove();
+          }
+        });
   }
 
   //Funzione per caricare i prodotti

@@ -88,7 +88,7 @@
 <!-- modale per visualizzare prodotto -->
   <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #viewModal>
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Prodotto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -106,7 +106,7 @@
 <!-- modale per modificare prodotto -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #editModal> 
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+    <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Modifica Prodotto</h5>
         <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -201,7 +201,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-        <button type="button" class="btn btn-primary" (click)="editConfirm()">Salva</button>
+        <button type="button" class="btn btn-success" (click)="editConfirm()">Salva</button>
       </div>
     </div>
   </div>
@@ -210,7 +210,7 @@
 <!-- modale per eliminare prodotto -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #deleteModal>
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Elimina Prodotto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -229,7 +229,7 @@
 <!-- modale per aggiungere prodotto -->
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #addModal>
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Aggiungi Prodotto</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -239,7 +239,7 @@
             <div class="row g-2">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <input type="text" id="name" class="form-control w-100" placeholder="Insert Name" 
+                <input type="text" id="nameAdd" class="form-control w-100" placeholder="Insert Name" 
                 name="Name" required [(ngModel)]="newProduct.name" >
               </div>
             </div>
@@ -250,13 +250,13 @@
               </div>
               <div class="col mb-3">
                 <label for="color" class="form-label">Color</label>
-                <input type="text" id="color" class="form-control w-100" placeholder="Insert Color" name="Color"  [(ngModel)]="newProduct.color">
+                <input type="text" id="colorAdd" class="form-control w-100" placeholder="Insert Color" name="Color"  [(ngModel)]="newProduct.color">
               </div>
             </div>
             <div class="row g-2">
               <div class="col mb-3">
                 <label for="cost" class="form-label">StandardCost</label>
-                <input type="number" id="cost" class="form-control w-100" placeholder="Insert Standard Cost" name="StandardCost" [(ngModel)] = "newProduct.standardCost">
+                <input type="number" id="costAdd" class="form-control w-100" placeholder="Insert Standard Cost" name="StandardCost" [(ngModel)] = "newProduct.standardCost">
               </div>
               <div class="col mb-3">
                 <label for="listPrice" class="form-label">ListPrice</label>
