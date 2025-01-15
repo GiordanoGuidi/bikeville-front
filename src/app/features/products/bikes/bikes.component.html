@@ -69,14 +69,17 @@
     </div>
 </section>
 
-<div class="modal" id="viewProduct" tabindex="-1">
-    <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content">
+<div class="modal fade" id="viewProduct" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content bg-dark text-light p-4">
         <div class="modal-header text-center">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p id  = "productData"></p>
+          <button *ngIf="auth.GetLoginInfo()" type = "button" class = "btn addToCart">
+            <i class="fa-solid fa-cart-shopping">  Add To Cart</i>
+          </button>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../../shared/Models/products';
 import { AdminproductshttpService } from '../../../shared/httpservices/adminproductshttp.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProductDTO } from '../../../shared/Models/productsDTO';
@@ -10,6 +10,7 @@ import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
 import { Observable } from 'rxjs';
 import { ModalSessionService } from '../../../shared/service/modal-session.service';
 import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
+declare const $: any;
 
 
 @Component({
@@ -35,7 +36,12 @@ export class AdminProductsComponent {
   
   ngOnInit(): void {
     this.AdminProducts();
-    
+    this.router.events.subscribe(event => {
+          if (event instanceof NavigationStart) {
+            // Remove modal backdrop on navigation
+            $(".modal-backdrop").remove();
+          }
+        });
   }
 
   //Funzione per caricare i prodotti

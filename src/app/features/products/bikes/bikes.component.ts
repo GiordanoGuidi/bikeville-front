@@ -9,7 +9,11 @@ import { MobileFilterComponent } from '../../../shared/components/mobile-filter/
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
 import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
 import { PaginationService } from '../../../shared/service/pagination-service';
+import { AuthService } from '../../../shared/authentication/auth.service';
+import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+
+declare const $: any;
 @Component({
   selector: 'app-bikes',
   standalone: true,
@@ -23,6 +27,8 @@ import * as bootstrap from 'bootstrap';
 })
 export class BikesComponent {
   constructor(
+    public auth : AuthService,
+    private router: Router,
     private http: HttpClient,
     private httpRequest:ProductnologhttpService,
     private paginationService: PaginationService
@@ -177,6 +183,12 @@ export class BikesComponent {
    ngOnInit():void{
     this.getBikeFilters();
     this.getBikes();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        // Remove modal backdrop on navigation
+        $(".modal-backdrop").remove();
+      }
+    });
   }
 
  async  viewProduct(prodotto: Product) {
@@ -190,29 +202,30 @@ export class BikesComponent {
  
      const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
      Paragraph.innerHTML = `
-     <div>
-     <div class = "d-flex">
-     <div>
-     <img src = "data:image/gif;base64,${prodotto.thumbNailPhoto}" style = "min-width: 500px; height: auto;" alt="Immagine">
-     </div>
-     <div class = "d-flex flex-column justify-content-start ps-5">
-     <h1> ${prodotto.name} </h1>
-     <hr>
-     <h2>${prodotto.listPrice.toFixed(2)}€ </h2>
-     <p style = "font-size: 20px;"> <br>
-     Colore: ${prodotto.color || 'N/A'} <br>
-     Dimensione: ${prodotto.size || '0'} <br>
-     Peso: ${prodotto.weight || '0'} kg <br>
-     Categoria: ${category} <br>
-     Modello: ${model} <br>
-     Id: ${prodotto.productId} <br>
-     Numero: ${prodotto.productNumber} 
-     </p>
-     </div>
-     </div>
-     </div>
-     <hr>
-     <p style = "font-size: 20px;"> ${description[0].description} </p>
+     <div class="container">
+      <div class="row">
+      <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
+      <img src="data:image/gif;base64,${prodotto.thumbNailPhoto}" style="height:150px; width:auto" class = "img-fluid" alt="Immagine">
+      </div>
+      <div class="col-12 col-lg-6">
+      <div class="d-flex flex-column justify-content-start">
+        <h1>${prodotto.name}</h1>
+        <hr>
+        <h2>${prodotto.listPrice.toFixed(2)}€</h2>
+        <p style="font-size: 20px;">
+          <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
+          <strong>Size:</strong> ${prodotto.size || '0'} <br>
+          <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
+          <strong>Category:</strong> ${category} <br>
+          <strong>Model:</strong> ${model} <br>
+          <strong>Number:</strong> ${prodotto.productNumber}
+        </p>
+      </div>
+      </div>
+      </div>
+      <hr>
+      <p style="font-size: 20px;">${description[0].description}</p>
+      </div>
      `;
  
      const modalElement = document.getElementById('viewProduct');
