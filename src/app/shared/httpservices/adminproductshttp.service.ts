@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../Models/products';
 import { ProductDTO } from '../Models/productsDTO';
 import { UpdatedProduct } from '../Models/UpdateProduct';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,16 @@ export class AdminproductshttpService {
   
 
   postAdminProduct(product: ProductDTO): Observable<ProductDTO>{
-    return this.http.post<ProductDTO>('https://localhost:7257/api/Products', product);
+    // Recupero il token JWT dal localStorage
+    const jwtToken = localStorage.getItem('jwtToken');
+    // Imposto gli headers con il token
+    const headers = new HttpHeaders({
+    'Authorization': `Bearer ${jwtToken}`,
+    'Content-Type': 'application/json', 
+    });
+    return this.http.post<ProductDTO>('https://localhost:7257/api/Products',
+     product,
+    {headers});
   }
 
   deleteAdminProduct(id: number): Observable<void>{

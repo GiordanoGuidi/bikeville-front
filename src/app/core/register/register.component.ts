@@ -22,7 +22,7 @@ constructor(private userService: UserService, private router: Router) {}
 @ViewChild('userForm') userForm!: NgForm;
 //Metodo eseguito al submit del form
 async onSubmit(): Promise<void> {
-  //Questo renderlo magari un validazione di un form che se è true esegue il metodo
+  //Controllo che la mail sia valida
   if(await this.verifyMail(this.user.EmailAddress)) {
     alert('Email already in use');
     return;

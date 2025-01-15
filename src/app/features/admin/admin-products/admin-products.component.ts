@@ -8,18 +8,23 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ProductDTO } from '../../../shared/Models/productsDTO';
 import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
 import { Observable } from 'rxjs';
-
+import { ModalSessionService } from '../../../shared/service/modal-session.service';
+import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
 declare const $: any;
+
 
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,SessionModalComponent],
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.css'
 })
 export class AdminProductsComponent {
-  constructor(private httpRequest: AdminproductshttpService, private router: Router) { 
+  constructor(private httpRequest: AdminproductshttpService, 
+    private router: Router,
+    private modalService:ModalSessionService,
+  ) { 
   }
   products: Product[] = [];
   newProduct : ProductDTO = new ProductDTO();
@@ -28,6 +33,7 @@ export class AdminProductsComponent {
   currentPage = 1;
   itemsPerPage = 50;
   currentProductId:number|null =null;
+  
   ngOnInit(): void {
     this.AdminProducts();
     this.router.events.subscribe(event => {
@@ -69,13 +75,26 @@ addProduct(prodotto: NgForm) {
     }
     },
     error: (err) => {
-      console.error('Errore', err);
-      alert('Failed to add product. Check the logs for details.');
-    },
+      console.log('Errore', err.response);
+      // Se l'errore ha un codice di stato 401 (Unauthorized)
+      if (err.status === 401) {
+        this.modalService.openModal();
+        // const errorMessage = err.error?.Message || 'Unauthorized request';
+        // Scrivo il messaggio in console
+        // console.log(errorMessage);
+        // Mostro l'alert
+        // alert(errorMessage);
+      }else if(err.status === 409){
+        const errorMessage = err.error?.Message || 'Product already exist change Name or ProductNumber';
+          // Scrivo il messaggio in console
+          console.log(errorMessage);
+          // Mostro l'alert
+          alert(errorMessage);
+      }else {
+      alert('Failed to add product');
+    }}
   });
 }
-
-
 
 onFileSelected(event: Event): void {
   const fileInput = event.target as HTMLInputElement;
@@ -95,7 +114,6 @@ onFileSelected(event: Event): void {
     reader.readAsDataURL(file);
   }
 }
-
 
 //funzione per visualizzare prodotti //
 async viewProduct(prodotto: Product) {
@@ -212,10 +230,6 @@ removeTimezoneOffset(date: Date): string {
     const day = localDate.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-
-
-
-
   
 //funzione per eliminare prodotto//
 setProductToDelete(productId: number): void{
@@ -260,14 +274,7 @@ deleteProduct(): void {
   }
 }
 
-
-
-
-
-
-
-
-//? funzioni di navigazione ?//
+// funzioni di navigazione ?//
 
   changePage(page: number) {
     this.currentPage = page;
@@ -350,7 +357,4 @@ deleteProduct(): void {
       alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
     }
   }
-  
-  
-  
 }
