@@ -56,3 +56,12 @@
     background-color: #00ff00;
     border-color: black;
 }
+
+@media (max-width: 992px) {
+    #productData .row {
+      flex-direction: column-reverse;
+    }
+    #productData img {
+      margin-bottom: 20px;
+    }
+  }
