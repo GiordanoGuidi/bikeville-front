@@ -79,11 +79,6 @@ addProduct(prodotto: NgForm) {
       // Se l'errore ha un codice di stato 401 (Unauthorized)
       if (err.status === 401) {
         this.modalService.openModal();
-        // const errorMessage = err.error?.Message || 'Unauthorized request';
-        // Scrivo il messaggio in console
-        // console.log(errorMessage);
-        // Mostro l'alert
-        // alert(errorMessage);
       }else if(err.status === 409){
         const errorMessage = err.error?.Message || 'Product already exist change Name or ProductNumber';
           // Scrivo il messaggio in console
@@ -117,68 +112,101 @@ onFileSelected(event: Event): void {
 
 //funzione per visualizzare prodotti //
 async viewProduct(prodotto: Product) {
-    const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
-    const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
-        const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
-
-        if (!categoryResponse.ok) {
-            console.error("Errore nel recupero della categoria");
-        }
-        if (!modelResponse.ok) {
-            console.error("Errore nel recupero del modello");
-        }
-
-        const category = await categoryResponse.text();
-        const model = await modelResponse.text();
-        if (prodotto.size == null) {
-          prodotto.size = "";
-        }
-        if (!prodotto.weight == null) {
-          prodotto.weight = 0;
-        }
-
-    Paragraph.innerHTML = `
-    <strong>Id:</strong> ${prodotto.productId}<br>
-    <strong>Name:</strong> ${prodotto.name}<br>
-    <strong>Product Number:</strong> ${prodotto.productNumber}<br>
-    <strong>Color:</strong> ${prodotto.color}<br>
-    <strong>Standard Cost:</strong> ${prodotto.standardCost.toFixed(2)} €<br>
-    <strong>List Price:</strong> ${prodotto.listPrice.toFixed(2)} €<br>
-    <strong>Size:</strong> ${prodotto.size}<br>
-    <strong>Weight:</strong> ${prodotto.weight}<br>
-    <strong>Product Category:</strong> ${category}<br>
-    <strong>Product Model:</strong> ${model}<br>
-    <img src = "image/gif/${prodotto.thumbNailPhoto}"<br>
-    `;
-
-    //! Verificare percorso immagini prodotti//
-    const modalElement = document.getElementById('viewModal');
-    if (modalElement) {
-      const modal = new bootstrap.Modal(modalElement);
-      modal.show();
-    } else {
-      console.error('Modal element not found!');
-    }
+  const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
+  //Verifico la validità del token
+  const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+    method: "GET",
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, 
+    },
+  });
+  //Se il token non è valido faccio rieseguire il login
+  if (!tokenCheckResponse.ok) {
+    console.error("Token non valido o scaduto");
+    this.modalService.openModal();
+    return;
   }
 
+  const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
+  const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
+
+  if (!categoryResponse.ok) {
+      console.error("Errore nel recupero della categoria");
+  }
+  if (!modelResponse.ok) {
+      console.error("Errore nel recupero del modello");
+  }
+
+  const category = await categoryResponse.text();
+  const model = await modelResponse.text();
+  if (prodotto.size == null) {
+    prodotto.size = "";
+  }
+  if (!prodotto.weight == null) {
+    prodotto.weight = 0;
+  }
+
+  Paragraph.innerHTML = `
+  <strong>Id:</strong> ${prodotto.productId}<br>
+  <strong>Name:</strong> ${prodotto.name}<br>
+  <strong>Product Number:</strong> ${prodotto.productNumber}<br>
+  <strong>Color:</strong> ${prodotto.color}<br>
+  <strong>Standard Cost:</strong> ${prodotto.standardCost.toFixed(2)} €<br>
+  <strong>List Price:</strong> ${prodotto.listPrice.toFixed(2)} €<br>
+  <strong>Size:</strong> ${prodotto.size}<br>
+  <strong>Weight:</strong> ${prodotto.weight}<br>
+  <strong>Product Category:</strong> ${category}<br>
+  <strong>Product Model:</strong> ${model}<br>
+  <img src = "image/gif/${prodotto.thumbNailPhoto}"<br>
+  `;
+
+  //! Verificare percorso immagini prodotti//
+  const modalElement = document.getElementById('viewModal');
+  if (modalElement) {
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  } else {
+    console.error('Modal element not found!');
+  }
+}
+
 // funzione che popola la scheda che modifica i prodotti esistenti //
-// CHIEDERE A DAVIDE
 async editProduct(prodotto: Product) {
-  this.productId = prodotto.productId;
-  console.log(this.productId)
+  //Verifico la validità del token
+  const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, 
+    },
+  });
+  //Se il token non è valido faccio rieseguire il login
+  if (!tokenCheckResponse.ok) {
+    console.error("Token non valido o scaduto");
+    this.modalService.openModal();
+    return;
+  }else{
+    // Se il token è valido, mostra la modale "edit"
+  const modalElement = document.getElementById('editModal');
+  if (modalElement) {
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  } else {
+    console.error('Modal element not found!');
+  }
+    this.productId = prodotto.productId;
     const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
-        const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
-
-        if (!categoryResponse.ok) {
-            console.error("Errore nel recupero della categoria");
-        }
-        if (!modelResponse.ok) {
-            console.error("Errore nel recupero del modello");
-        }
-
-        const category = await categoryResponse.text();
-        const model = await modelResponse.text();
-
+    const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
+  
+    if (!categoryResponse.ok) {
+        console.error("Errore nel recupero della categoria");
+    }
+    if (!modelResponse.ok) {
+        console.error("Errore nel recupero del modello");
+    }
+  
+    const category = await categoryResponse.text();
+    const model = await modelResponse.text();
+  
     const Name = document.getElementById("editname") as HTMLInputElement;
     const ProductNumber = document.getElementById("editproductNumber") as HTMLInputElement;
     const Color = document.getElementById("editcolor") as HTMLInputElement;
@@ -192,7 +220,7 @@ async editProduct(prodotto: Product) {
     const SellEnd = document.getElementById("editsellEndDate") as HTMLInputElement;
     const Disc = document.getElementById("editdiscontinuedDate") as HTMLInputElement;
     const ThumbFile = document.getElementById("editthumbnailPhotoFileName") as HTMLInputElement;
-
+  
     if (prodotto.sellStartDate && !(prodotto.sellStartDate instanceof Date)) {
       prodotto.sellStartDate = new Date(prodotto.sellStartDate);
     }
@@ -202,7 +230,7 @@ async editProduct(prodotto: Product) {
     if (prodotto.discontinueDate && !(prodotto.discontinueDate instanceof Date)) {
       prodotto.discontinueDate = new Date(prodotto.discontinueDate);
     }
-
+  
     Name.value = prodotto.name;
     ProductNumber.value = prodotto.productNumber;
     Color.value = prodotto.color;
@@ -220,6 +248,7 @@ async editProduct(prodotto: Product) {
     console.log(Disc.valueAsDate);
     ThumbFile.value = prodotto.thumbnailPhotoFileName.toString();
   }
+}
 
 // funzione per aggirare problemi di fuso orario //
 removeTimezoneOffset(date: Date): string {
@@ -231,8 +260,28 @@ removeTimezoneOffset(date: Date): string {
     return `${year}-${month}-${day}`;
   }
   
-//funzione per eliminare prodotto//
-setProductToDelete(productId: number): void{
+//funzione selezionare il prodotto da eliminare//
+async setProductToDelete(productId: number){
+  //Verifico la validità del token
+  const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("jwtToken")}`, 
+    },
+  });
+  //Se il token non è valido faccio rieseguire il login
+  if (!tokenCheckResponse.ok) {
+    console.error("Token non valido o scaduto");
+    this.modalService.openModal();
+    return;
+  }else{
+    // Se il token è valido, mostra la modale "edit"
+  const modalElement = document.getElementById('deleteModal');
+  if (modalElement) {
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+}
   this.currentProductId = productId;
 }
 
