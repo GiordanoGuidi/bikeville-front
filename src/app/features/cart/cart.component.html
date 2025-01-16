@@ -1,0 +1,26 @@
+<div class="cart-overlay" id="cart">
+    <div class="cart-header">
+      <h3>Shopping Cart</h3>
+      <i class="fa-solid fa-x" (click)="toggleCart()"></i>
+    </div>
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cartItems; let i = index" (mouseenter)="hoveredItem = i" (mouseleave)="hoveredItem = null">
+        <div class="details">
+          <h6>{{ item.name }}</h6>
+          <i class="fa-solid fa-x itemX" *ngIf="hoveredItem === i" (click)="confirmRemoveItem(i)"></i>
+          <p>€ {{ item.price.toFixed(2) }} x {{ item.quantity }}</p>
+          <div id = "plusminus" class="d-flex ms-10">
+            <i id = "minus" class="fa-solid fa-minus" *ngIf="hoveredItem === i" (click)="minusItem(i)"></i>
+            <i id = "plus" class="fa-solid fa-plus" *ngIf="hoveredItem === i" (click)="plusItem(i)"></i>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="bg-light">
+        <br>
+        <strong id = "total" class="total bg-light">Total: {{ cartTotal.toFixed(2) }} €</strong>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,7 @@
+<div [ngClass]="['alert', 'alert-dismissible', 'fade','w-100', 'show','alert-' + alert.status]"  role="alert">
+    <p class="text-white">{{alert.message}}</p>
+    <button type="button" class="btn-close custom-close-btn p-2 margin-custom"
+     data-bs-dismiss="alert" aria-label="Close"
+     (click)="closeAlert()"     
+     ></button>
+</div>

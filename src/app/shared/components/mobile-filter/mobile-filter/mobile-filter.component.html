@@ -2,9 +2,9 @@
 <div type="button" class="mobile-filter mb-2 d-md-none d-flex justify-content-between align-items-center"
 data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
     <div>
-        <i class="fa-solid fa-filter ms-2 text-dark"></i>
+        <i class="fa-solid fa-filter ms-2 c-black"></i>
         <a  class="text-dark ms-3 text-decoration-none">
-            Filters</a>
+            Filtri</a>
     </div>
     <div>
         <span class="filter-counter me-2">{{activeFilter.length}}</span>
@@ -12,15 +12,15 @@ data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="stati
 </div>
 <!-- Offcanvas -->
 <div class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
-    <div class="offcanvas-header bg-dark">
+    <div class="offcanvas-header bg-offcanvas border-green">
       <h5 class="offcanvas-title text-white" id="staticBackdropLabel">{{title}} filters</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" class="btn-close bg-x" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body border-green">
       <div class="filters-container">
         <!-- Dropdown Filtro per tipo bicicletta-->
         <div class="dropdown mb-3">
-            <button class="btn-filter btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn-filter btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Type
             </button>
             <ul [ngClass]="{'scroll-menu':parentCategoryId!=1}" class="dropdown-menu">

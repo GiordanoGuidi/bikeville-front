@@ -24,4 +24,8 @@ export class AdmincustomershttpService {
    updateAdminCustomers(id: number, customer: UpdateCustomer): Observable<Customer> {
       return this.http.put<Customer>(`https://localhost:7257/api/Customers/${id}`, customer);
     }
+
+  deleteAdminCustomer(id: number): Observable<void>{
+    return this.http.delete<void>(`https://localhost:7257/api/Customers/${id}`);
+  }
 }
