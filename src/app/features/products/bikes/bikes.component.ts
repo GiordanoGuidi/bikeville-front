@@ -62,6 +62,8 @@ export class BikesComponent {
   activeFilter: { filterType: string; value: any }[] = [];
   //Prodotti paginati
   paginatedProducts:Product[]=[];
+
+  isProductAdded = false;
   
 
  
@@ -243,5 +245,9 @@ export class BikesComponent {
 
 addToCart(product: Product) {
   this.cart.addCartItem(product);
+  this.isProductAdded = true;
+    setTimeout(() => {
+      this.isProductAdded = false;
+    }, 1000);
 }
 }

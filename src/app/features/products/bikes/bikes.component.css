@@ -67,3 +67,17 @@
       margin-bottom: 20px;
     }
   }
+
+  #productAdded {
+    margin-right: 20px;
+    color: #00ff00;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#productAdded.fade {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}

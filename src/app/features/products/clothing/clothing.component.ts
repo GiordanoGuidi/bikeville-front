@@ -64,6 +64,8 @@ export class ClothingComponent {
   //Prodotti paginati
   paginatedProducts:Product[]=[];
 
+  isProductAdded = false;
+
   //#Function
   //Recupero i filtri dal backend
   getDressFilters():void{
@@ -239,5 +241,9 @@ export class ClothingComponent {
 
       addToCart(product: Product) {
         this.cart.addCartItem(product);
+        this.isProductAdded = true;
+          setTimeout(() => {
+        this.isProductAdded = false;
+        }, 1000);
       }
 }

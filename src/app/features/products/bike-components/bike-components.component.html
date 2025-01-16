@@ -77,9 +77,12 @@
       </div>
       <div class="modal-body">
         <p id  = "productData"></p>
-        <button *ngIf="auth.GetLoginInfo()" type = "button" class = "btn btn-warning addToCart" (click)="this.addToCart(this.selectedProduct)">
-          <i class="fa-solid fa-cart-shopping">  Add To Cart</i>
-        </button>
+        <div class = "d-flex flex-row justify-content-end">
+          <p id = "productAdded" [class.fade]="isProductAdded"> Product Added to Cart! </p>
+          <button *ngIf="auth.GetLoginInfo()" type = "button" class = "btn btn-warning addToCart" (click)="this.addToCart(this.selectedProduct)">
+            <i class="fa-solid fa-cart-shopping">  Add To Cart</i>
+          </button>
+        </div>
       </div>
     </div>
   </div>

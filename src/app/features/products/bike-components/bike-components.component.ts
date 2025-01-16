@@ -63,6 +63,8 @@ export class BikeComponentsComponent {
   //Prodotti paginati
   paginatedProducts:Product[]=[];
 
+  isProductAdded = false;
+
   //#Function
   //Recupero tutti i componenti delle biciclette
   getBikeComponents():void{
@@ -235,5 +237,9 @@ export class BikeComponentsComponent {
               }
     addToCart(product: Product) {
       this.cart.addCartItem(product);
+      this.isProductAdded = true;
+        setTimeout(() => {
+      this.isProductAdded = false;
+        }, 1000);
     }
 }

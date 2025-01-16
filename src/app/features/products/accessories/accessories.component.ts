@@ -60,6 +60,8 @@ export class AccessoriesComponent {
   //Prodotti paginati
   paginatedProducts:Product[]=[];
 
+  isProductAdded = false;
+
   //#Function
   //Recupero i filtri dal backend
   getAccessoryFilters():void{
@@ -234,5 +236,9 @@ async  viewProduct(prodotto: Product) {
   }
   addToCart(product: Product) {
     this.cart.addCartItem(product);
+    this.isProductAdded = true;
+      setTimeout(() => {
+    this.isProductAdded = false;
+      }, 1000);
   }
 }
