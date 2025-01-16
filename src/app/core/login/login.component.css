@@ -16,3 +16,10 @@
     background-color: #121212;
     
 }
+app-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
