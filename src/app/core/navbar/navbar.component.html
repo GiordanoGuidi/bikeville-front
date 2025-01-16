@@ -29,6 +29,13 @@
              class="nav-link"  
              >Logout</a>
           </li>
+          <div class = "cart-container" *ngIf="auth.GetLoginInfo()">
+            <div class = "cart">
+              <div class="cart-icon" (click)="toggleCart()">
+                <i class="fa-solid fa-cart-shopping cart-count"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </ul>
     </div>

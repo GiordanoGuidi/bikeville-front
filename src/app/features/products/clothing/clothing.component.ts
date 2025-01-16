@@ -12,6 +12,7 @@ import { PaginationService } from '../../../shared/service/pagination-service';
 import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { CartService } from '../../../shared/service/cart.service';
 
 declare const $: any;
 
@@ -31,11 +32,13 @@ export class ClothingComponent {
     public auth : AuthService,
     private router: Router,
     private http: HttpClient,
+    public cart : CartService,
     private httpRequest:ProductnologhttpService,
     private paginationService: PaginationService
   ){
   }
   //#Dates
+  selectedProduct!: Product;
   //array di vestiti 
   clothes :Product[]=[]
   //array di tipi di vestiti
@@ -191,6 +194,7 @@ export class ClothingComponent {
 
   async  viewProduct(prodotto: Product) {
        
+       this.selectedProduct = prodotto;
        const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
        const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
        const descriptionResponse = await fetch("https://localhost:7257/api/Products/getDescByModelId/" + prodotto.productModelId);
@@ -232,4 +236,8 @@ export class ClothingComponent {
                      console.error('Modal element not found!');
                    }
                  }
+
+      addToCart(product: Product) {
+        this.cart.addCartItem(product);
+      }
 }
