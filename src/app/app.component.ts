@@ -3,11 +3,13 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { FooterComponent } from "./core/footer/footer.component";
 import { Router } from '@angular/router';
+import { CartComponent } from './features/cart/cart.component';
+import { FormsModule } from '@angular/forms';
 import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent,FooterComponent,RouterModule],
+  imports: [NavbarComponent,FooterComponent,RouterModule,CartComponent,FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

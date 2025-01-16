@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { LoggedUserService } from '../login/service/loggedUser.service';
+import { CartComponent } from '../../features/cart/cart.component';
+import { CartService } from '../../shared/service/cart.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -21,6 +23,7 @@ export class NavbarComponent {
     private activeIndexService:ActiveIndexService,
     private router:Router,
     private loggedUserService:LoggedUserService,
+    private cartService: CartService,
   ){
     //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
@@ -41,6 +44,7 @@ export class NavbarComponent {
   activeIndex:number| null = null;
   //Istanza flag showFilters
   showFilters : boolean = true
+  cartCount: number = 0;
   
   //Funzione per recuperare le categorie
   getParentCategories(): void {
@@ -59,6 +63,7 @@ export class NavbarComponent {
   //Recupero le categorie all'inizializzazione del componente
   ngOnInit():void{
     this.getParentCategories();
+    this.cartCount = this.cartService.getCartCount();
   }
 
   //Imposto l'id attivo corrispondente alla categoria
@@ -87,6 +92,11 @@ export class NavbarComponent {
      // aggiunto router che rimanda in home//
      this.router.navigate(['/home']);
    }
+
+  toggleCart() {
+    const cartOverlay = document.getElementById('cart');
+    if (cartOverlay) cartOverlay.classList.toggle('open');
+  }
 }
 
 export class ParentCategories{
