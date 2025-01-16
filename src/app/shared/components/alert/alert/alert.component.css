@@ -1,0 +1,15 @@
+.alert-ok{
+    background-color: black;
+    border: 1px solid  #00ff00;
+}
+.alert-error{
+    background-color: #2C0B0E ;
+}
+.custom-close-btn {
+    background-color: white;  
+    color: white;  
+  }
+.margin-custom{
+margin-top: 10px;
+margin-right: 10px;
+}
