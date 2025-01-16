@@ -12,6 +12,7 @@ import { PaginationService } from '../../../shared/service/pagination-service';
 import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
+import { CartService } from '../../../shared/service/cart.service';
 
 declare const $: any;
 
@@ -29,12 +30,14 @@ declare const $: any;
 export class BikeComponentsComponent {
   constructor(
     public auth : AuthService,
+    public cart : CartService,
     private router: Router,
     private http:HttpClient,
     private httpRequest:ProductnologhttpService,
     private paginationService: PaginationService
   ){}
   //#Dates
+  selectedProduct!: Product;
   //Assegno l'id della parentcategory delle biciclette
   parentCategoryId = 2; 
   //array dei componenti
@@ -188,6 +191,7 @@ export class BikeComponentsComponent {
 
   async  viewProduct(prodotto: Product) {
     
+    this.selectedProduct = prodotto;
     const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
     const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
     const descriptionResponse = await fetch("https://localhost:7257/api/Products/getDescByModelId/" + prodotto.productModelId);
@@ -229,4 +233,7 @@ export class BikeComponentsComponent {
                   console.error('Modal element not found!');
                 }
               }
+    addToCart(product: Product) {
+      this.cart.addCartItem(product);
+    }
 }

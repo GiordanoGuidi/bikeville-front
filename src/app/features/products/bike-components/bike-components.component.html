@@ -77,7 +77,7 @@
       </div>
       <div class="modal-body">
         <p id  = "productData"></p>
-        <button *ngIf="auth.GetLoginInfo()" type = "button" class = "btn btn-warning addToCart">
+        <button *ngIf="auth.GetLoginInfo()" type = "button" class = "btn btn-warning addToCart" (click)="this.addToCart(this.selectedProduct)">
           <i class="fa-solid fa-cart-shopping">  Add To Cart</i>
         </button>
       </div>

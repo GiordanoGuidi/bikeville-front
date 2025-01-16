@@ -112,3 +112,24 @@
     height: 100px;
   }
 }
+
+.cart {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.cart i {
+  position:relative;
+  bottom: 0px;
+  top: 2px;
+}
+
+.cart-container {
+  padding-right: 5px;
+  padding-left: 10px;
+  padding-top: 5px;
+  cursor: pointer;
+}
