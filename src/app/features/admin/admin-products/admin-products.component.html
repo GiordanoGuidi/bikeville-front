@@ -3,6 +3,12 @@
     <h2 id = "title" class = "text-center">ADMIN PRODUCTS PANEL</h2>
     <br>
 
+    <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
+      <!-- Componente alert -->
+      <app-alert>
+      </app-alert>
+    </div>
+
 <!-- bottone per aggiungere un prodotto -->
     <button type = "button" class = "btn btn-success addbutton" data-bs-toggle = "modal" data-bs-target = "#addModal">
       <i class = "fa-solid fa-plus"></i>

@@ -91,9 +91,7 @@ export class LoginComponent {
               this.isLoginOpen = false;
               console.log(this.decodedTokenPayload);
               // aggiunto router che rimanda direttamente alla home dopo un login effettuato//
-              setTimeout(() => {
-                this.router.navigate(['/home']);
-              }, 100); 
+                this.router.navigate(['/home'])
               break;
             case HttpStatusCode.NoContent:
               console.log('No Response');

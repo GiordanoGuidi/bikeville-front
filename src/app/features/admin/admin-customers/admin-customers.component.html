@@ -3,6 +3,12 @@
     <h2 id = "tablename" class = "text-center w-100">ADMIN CUSTOMERS PANEL</h2>
     <br>
 
+    <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
+      <!-- Componente alert -->
+      <app-alert>
+      </app-alert>
+    </div>
+
 <!--? navigazione superiore ?-->
 
     <nav class = "text-center">

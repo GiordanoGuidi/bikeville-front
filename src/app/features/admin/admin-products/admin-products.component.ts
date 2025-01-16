@@ -10,13 +10,15 @@ import { UpdatedProduct } from '../../../shared/Models/UpdateProduct';
 import { Observable } from 'rxjs';
 import { ModalSessionService } from '../../../shared/service/modal-session.service';
 import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
+import { AlertComponent } from '../../../shared/components/alert/alert/alert.component';
+import { AlertService } from '../../../shared/service/alert.service';
 declare const $: any;
 
 
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [CommonModule, FormsModule,SessionModalComponent],
+  imports: [CommonModule, FormsModule,SessionModalComponent,AlertComponent],
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.css'
 })
@@ -24,6 +26,7 @@ export class AdminProductsComponent {
   constructor(private httpRequest: AdminproductshttpService, 
     private router: Router,
     private modalService:ModalSessionService,
+    private alertService:AlertService
   ) { 
   }
   products: Product[] = [];
@@ -33,9 +36,15 @@ export class AdminProductsComponent {
   currentPage = 1;
   itemsPerPage = 50;
   currentProductId:number|null =null;
+  //Flag per mostarre l'alert
+  showAlert = false;
   
   ngOnInit(): void {
     this.AdminProducts();
+    //Iscrizione al servizio
+    this.alertService.alertState$.subscribe(state => {
+      this.showAlert = state.visible;
+    });
     this.router.events.subscribe(event => {
           if (event instanceof NavigationStart) {
             // Remove modal backdrop on navigation
@@ -64,7 +73,7 @@ addProduct(prodotto: NgForm) {
   this.httpRequest.postAdminProduct(this.newProduct).subscribe({
     next: (data) => {
       console.log('Product successfully added:', data);
-      alert('Product added successfully!');
+      this.alertService.showAlert('Product added successfully!', 'ok');
       this.AdminProducts();
       const modalElement = document.getElementById('addModal');
     if (modalElement) {
@@ -84,9 +93,9 @@ addProduct(prodotto: NgForm) {
           // Scrivo il messaggio in console
           console.log(errorMessage);
           // Mostro l'alert
-          alert(errorMessage);
+          this.alertService.showAlert('Product already exist change Name or ProductNumber', 'error');
       }else {
-      alert('Failed to add product');
+        this.alertService.showAlert('Failed to add product', 'error');
     }}
   });
 }
@@ -288,27 +297,26 @@ async setProductToDelete(productId: number){
 
 //Funzione per eliminare un prodotto
 deleteProduct(): void {
-        if (this.currentProductId != null) {
-          this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
-            next: (data) => {
-              console.log(`Prodotto con ID ${this.currentProductId} eliminato con successo.`, data);
-              alert('Product removed successfully');
-              this.AdminProducts(); // Aggiorna la lista dei prodotti
-              const modalElement = document.getElementById('deleteModal');
-              if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                  modal.hide();
-              } else {
-                  console.error('Modal element not found!');
-              }
-            },
-            error: (err) => {
-              console.error('Errore durante l\'eliminazione:', err);
-              alert('Failed to remove product');
-            }
-          });
+  if (this.currentProductId != null) {
+    this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
+      next: (data) => {
+        console.log(`Prodotto con ID ${this.currentProductId} eliminato con successo.`, data);
+        this.alertService.showAlert('Product removed successfully', 'ok');
+        this.AdminProducts(); // Aggiorna la lista dei prodotti
+        const modalElement = document.getElementById('deleteModal');
+        if (modalElement) {
+          const modal = new bootstrap.Modal(modalElement);
+            modal.hide();
+        } else {
+            console.error('Modal element not found!');
         }
-   
+      },
+      error: (err) => {
+        console.error('Errore durante l\'eliminazione:', err);
+        this.alertService.showAlert('Failed to remove product', 'error');
+      }
+    });
+  }
 }
 
 // funzioni di navigazione ?//
@@ -374,7 +382,7 @@ deleteProduct(): void {
       // Chiamata al servizio
       this.httpRequest.updateAdminProduct(this.productId, updatedProduct).subscribe({
         next: () => {
-          alert("Modifiche salvate con successo!");
+          this.alertService.showAlert('Modifiche salvate con successo!', 'ok');
           document.getElementById("editForm")?.onreset;
           const modal = document.getElementById("editModal");
           if (modal) {
@@ -386,12 +394,12 @@ deleteProduct(): void {
         },
         error: (err) => {
           console.error("Errore durante il salvataggio:", err);
-          alert("Errore durante il salvataggio delle modifiche!");
+          this.alertService.showAlert('Errore durante il salvataggio delle modifiche!', 'error');
         },
       });
     } catch (error) {
       console.error("Errore:", error);
-      alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
+      this.alertService.showAlert('Si è verificato un errore inaspettato durante il salvataggio delle modifiche.', 'error');
     }
   }
 }
