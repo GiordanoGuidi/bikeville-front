@@ -1,0 +1,11 @@
+.bg-x{
+    background-color: #00ff00 ;
+}
+
+.border{
+    border: 1px solid white;
+}
+
+.close-btn:hover{
+    color: #00ff00;
+}

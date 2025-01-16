@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from '../authentication/auth.service';
 import { Observable } from 'rxjs';
 import { Customer } from '../Models/customer';
-
+import { UpdateCustomer } from '../Models/UpdateCustomer';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,5 +19,13 @@ export class AdmincustomershttpService {
 
   getMail(id: number): Observable<any>{
     return this.http.get(`https://localhost:7257/getMail/${id}`, {responseType: 'text'});
+  }
+
+   updateAdminCustomers(id: number, customer: UpdateCustomer): Observable<Customer> {
+      return this.http.put<Customer>(`https://localhost:7257/api/Customers/${id}`, customer);
+    }
+
+  deleteAdminCustomer(id: number): Observable<void>{
+    return this.http.delete<void>(`https://localhost:7257/api/Customers/${id}`);
   }
 }

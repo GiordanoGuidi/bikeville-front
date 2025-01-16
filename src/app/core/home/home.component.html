@@ -28,6 +28,16 @@
     </button>
 </div> 
 
+<!-- Contenitore alert -->
+<div class="w-70 mt-4 me-5 ms-5 d-flex justify-content-center">
+    <!-- Componente alert -->
+     <div *ngIf="showAlert" class="w-50">
+         <app-alert class="w-100"
+         (close)="showAlert=false">
+         </app-alert>
+     </div>
+ </div>
+
 
 <!-- Scritta homepage -->
 <div class="d-flex justify-content-center align-items-center p-5">

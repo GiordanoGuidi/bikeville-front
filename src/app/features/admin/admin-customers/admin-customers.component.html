@@ -54,7 +54,7 @@
             <button type = "button" class = "btn btn-warning iconbutton" data-bs-toggle = "modal" data-bs-target = "#editModal" (click)="editCustomer(customer)">
               <i class = "fa-solid fa-edit"></i>
             </button>
-            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="deleteCustomer(customer)">
+            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="setCustomerToDelete(customer.customerId)">
               <i class = "fa-solid fa-trash"></i>
             </button>
           </td>
@@ -107,7 +107,7 @@
       <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Modifica Utente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form id = "editForm">
@@ -150,16 +150,12 @@
                 <label for="editcompany" class="form-label">Company</label>
                 <input type="text" id="editcompany" class="form-control w-100" placeholder="Insert Company">
               </div>
-              <div class="col mb-3">
-                <label for="editsalesperson" class="form-label">Sales Person</label>
-                <input type="text" id="editsalesperson" class="form-control w-100" placeholder="Insert Sales Person">
-              </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-success">Salva</button>
+          <button type="button" class="btn btn-success" (click)="ConfirmEditCustomer()">Salva</button>
         </div>
       </div>
     </div>
@@ -179,7 +175,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-danger">Elimina</button>
+          <button type="button" class="btn btn-danger" (click)="deleteCustomer()" data-bs-dismiss="modal">Elimina</button>
         </div>
       </div>
     </div>

@@ -56,10 +56,10 @@
             <button type = "button" class = "btn btn-primary iconbutton" (click)="viewProduct(product)">
               <i class = "fa-solid fa-eye"></i>
             </button>
-            <button type = "button" class = "btn btn-warning iconbutton" data-bs-toggle = "modal" data-bs-target = "#editModal" (click)="editProduct(product)">
+            <button type = "button" class = "btn btn-warning iconbutton"  (click)="editProduct(product)">
               <i class = "fa-solid fa-edit"></i>
             </button>
-            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="setProductToDelete(product.productId)">
+            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal"  (click)="setProductToDelete(product.productId)">
               <i class = "fa-solid fa-trash"></i>
             </button>
           </td>
@@ -91,7 +91,7 @@
       <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Prodotto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-x" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p id  = "productData"></p>
@@ -109,7 +109,7 @@
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Modifica Prodotto</h5>
-        <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="closeModalButton" class="btn-close bg-x" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="editForm">
@@ -213,7 +213,7 @@
       <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Elimina Prodotto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-x" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <p>Vuoi eliminare questo prodotto ?</p>
@@ -232,7 +232,7 @@
       <div class="modal-content bg-dark text-light">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabel">Aggiungi Prodotto</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-x" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form #addProductForm="ngForm">
@@ -328,4 +328,6 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
+<!-- Modale sessione scaduta -->
+<app-session-modal></app-session-modal>

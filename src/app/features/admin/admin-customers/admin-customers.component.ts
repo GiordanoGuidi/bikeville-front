@@ -6,7 +6,7 @@ import * as bootstrap from 'bootstrap';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Customer } from '../../../shared/Models/customer';
 import { forkJoin } from 'rxjs';
-
+import { UpdateCustomer } from '../../../shared/Models/UpdateCustomer';
 declare const $: any;
 
 @Component({
@@ -22,8 +22,10 @@ export class AdminCustomersComponent {
     paginatedCustomers: Customer[] = [];
     email: string = "";
     currentPage = 1;
+    customerId : number = 0;
     itemsPerPage = 50;
     emailMap: { [key: number]: string } = {};
+    customerToDelete: number | null = null;
 
     ngOnInit(): void {
       this.AdminCustomers();
@@ -39,13 +41,15 @@ export class AdminCustomersComponent {
       this.httpRequest.getAdminCustomers().subscribe({
         next: (data) => {
           this.customers = data;
-          this.preloadEmails(data); // Precarica le email
+        //  this.preloadEmails(data); // Precarica le email
+        this.updatePaginatedCustomers();
         },
         error: (err) => {
           console.error('Error:', err);
         },
       });
     }
+
 
     preloadEmails(customers: any[]) {
       const emailRequests = customers.map((customer) =>
@@ -96,7 +100,6 @@ export class AdminCustomersComponent {
       <strong>Company:</strong> ${cliente.companyName}<br>
       <strong>Email:</strong> ${cliente.emailAddress}<br>
       <strong>Phone:</strong> ${cliente.phone}<br>
-      <strong>Sales Person:</strong> ${cliente.salesPerson}<br>
       `;
 
       const modalElement = document.getElementById('viewModal');
@@ -109,6 +112,9 @@ export class AdminCustomersComponent {
     }
 
     editCustomer(cliente: Customer) {
+      this.customerId = cliente.customerId;
+      console.log( cliente.customerId);
+      
       const Title = document.getElementById("edittitle") as HTMLInputElement;
       const FirstName = document.getElementById("editfirstname") as HTMLInputElement;
       const MiddleName = document.getElementById("editmiddlename") as HTMLInputElement;
@@ -117,7 +123,6 @@ export class AdminCustomersComponent {
       const Company = document.getElementById("editcompany") as HTMLInputElement;
       const Email = document.getElementById("editemail") as HTMLInputElement;
       const Phone = document.getElementById("editphone") as HTMLInputElement;
-      const SalesPerson = document.getElementById("editsalesperson") as HTMLInputElement;
 
       Title.value = cliente.title;
       FirstName.value = cliente.firstName;
@@ -127,10 +132,75 @@ export class AdminCustomersComponent {
       Company.value = cliente.companyName;
       Email.value = cliente.emailAddress;
       Phone.value = cliente.phone;
-      SalesPerson.value = cliente.salesPerson;
     }
 
-    deleteCustomer(cliente: Customer){
-    
+    async ConfirmEditCustomer() {
+      try {
+        console.log((document.getElementById("edittitle") as HTMLInputElement).value);
+        const Title = (document.getElementById("edittitle") as HTMLInputElement).value;
+        const FirstName = (document.getElementById("editfirstname") as HTMLInputElement).value;
+        const MiddleName = (document.getElementById("editmiddlename") as HTMLInputElement).value;
+        const LastName = (document.getElementById("editlastname") as HTMLInputElement).value;
+        const Suffix = (document.getElementById("editsuffix") as HTMLInputElement).value;
+        const Company = (document.getElementById("editcompany") as HTMLInputElement).value;
+        const Email = (document.getElementById("editemail") as HTMLInputElement).value;
+        const Phone = (document.getElementById("editphone") as HTMLInputElement).value;
+  
+        const updatedCustomer: UpdateCustomer = {
+          title: Title || null,
+          firstName: FirstName || null,
+          middleName: MiddleName || null,
+          lastName: LastName || null,
+          suffix: Suffix || null,
+          companyName: Company || null,
+          emailAddress: Email || null,
+          phone: Phone || null,
+        };
+  
+        this.httpRequest.updateAdminCustomers(this.customerId, updatedCustomer).subscribe({
+          next: () => {
+            alert("Modifiche salvate con successo!");
+            document.getElementById("editForm")?.onreset;
+            const modal = document.getElementById("editModal");
+            if (modal) {
+              document.getElementById("closeModalButton")?.click();
+              const bootstrapModal = bootstrap.Modal.getInstance(modal);
+              this.AdminCustomers();
+            }
+          }
+        });
+      } catch (error) {
+        console.error("Errore:", error);
+        alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
+      }
+    }
+
+    setCustomerToDelete(customerId: number): void{
+      this.customerToDelete = customerId;
+    }
+  
+    deleteCustomer(): void{
+      if(this.customerToDelete != null){
+        this.httpRequest.deleteAdminCustomer(this.customerToDelete).subscribe({
+          next: (data) => {
+            console.log(`Prodotto con ID ${this.customerToDelete} eliminato con successo.`, data);
+            // Aggiorna la lista dei prodotti o notifica l'utente
+            alert('Product removed successfully');
+            this.AdminCustomers();
+            const modalElement = document.getElementById('deleteModal');
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                 modal.hide();
+             } else {
+                 console.error('Modal element not found!');
+             }
+          },
+          error: (err) => {
+            console.error('Errore durante l\'eliminazione:', err);
+            // Mostra un messaggio di errore all'utente
+            alert('Failed to remove product');
+          }
+        }); 
+      }
     }
 }
