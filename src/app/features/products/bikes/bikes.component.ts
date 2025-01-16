@@ -205,7 +205,7 @@ export class BikesComponent {
      <div class="container">
       <div class="row">
       <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
-      <img src="data:image/gif;base64,${prodotto.thumbNailPhoto}" style="height:150px; width:auto" class = "img-fluid" alt="Immagine">
+      <img src="data:image/gif;base64,${prodotto.thumbNailPhoto}" style="height:150px; width:250px" class = "img-fluid" alt="Immagine">
       </div>
       <div class="col-12 col-lg-6">
       <div class="d-flex flex-column justify-content-start">

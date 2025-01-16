@@ -1,17 +1,17 @@
 <!-- SessionModal -->
 <div *ngIf="isModalOpen" class="modal show d-block" id="sessionModal" tabindex="-1" aria-labelledby="exampleModalLabel" >
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content bg-dark text-white">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Session expired</h1>
-          <button type="button" class="btn-close"  (click)="closeModal()"></button>
+          <button type="button" class="btn-close bg-x"  (click)="closeModal()"></button>
         </div>
         <div class="modal-body">
-            La tua sessione è scaduta. Riprova a fare il login.
+          Your session has expired. Please try logging in again.
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-          <button type="button" class="btn btn-primary" (click)="redirectToLogin()">Login</button>
+          <button type="button" class="btn bg-x" (click)="redirectToLogin()">Login</button>
         </div>
       </div>
     </div>
