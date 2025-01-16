@@ -28,7 +28,7 @@
 }
 
 .btn-filter{
-    background-color: #4D4952;
+    background-color: #121212;
     color: white;
 }
 .scroll-menu{
@@ -86,7 +86,6 @@
     border: 1px solid red;
     color: red;
 }
-
 /* #Colori */
 .red{
 background-color: #E51D22;
@@ -111,4 +110,13 @@ background-color: #E51D22;
 }
 .grey{
     background-color: grey;
+}
+.bg-offcanvas{
+    background-color: #1F1E1E ;
+}
+.bg-x{
+    background-color: #00ff00 ;
+}
+.c-black{
+    color: black;
 }

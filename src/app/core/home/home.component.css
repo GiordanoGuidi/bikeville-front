@@ -1,10 +1,6 @@
 .container {
     width: 70%;
-    margin-top: 50px;
-    margin-bottom: 150px;
-}
-.carousel-inner {
-  height: 500px;
+    margin-bottom: 100px;
 }
 
 .carousel-item{
@@ -13,7 +9,7 @@
  
 }
 h3{
-  font-size: 25px;
+  font-size: 18px;
   font-style: italic;
 }
 
@@ -53,19 +49,17 @@ h3{
 } 
 
 /* Media query per breakpoint md (768px) */
-/* @media (min-width: 768px) {
-  .container {
-    margin-top: 100px;
-    margin-bottom: 100px;
+@media (min-width: 768px) {
+h3{
+  font-size: 20px;
 }
 
-} */
+} 
 
 /* Media query per breakpoint md (992px) */
-/* @media (min-width: 992px) {
-  .container {
-    margin-top: 200px;
-    margin-bottom: 200px;
+ @media (min-width: 992px) {
+  h3{
+    font-size: 25px;
   }
   
-} */
+} 

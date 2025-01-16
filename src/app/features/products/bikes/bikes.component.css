@@ -15,7 +15,9 @@
     padding-left: 20px;
     padding-right: 20px;
 }
-
+.bg-x{
+    background-color: #00ff00 ;
+}
 
 /*# Media Query */
 /* Media query per breakpoint md (768px) */
