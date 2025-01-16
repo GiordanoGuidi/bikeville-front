@@ -49,9 +49,8 @@ async onSubmit(): Promise<void> {
         Password: ''
       };
       this.userForm.resetForm();
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 100); 
+      //redirect homepage
+      this.router.navigate(['/home']);
     },
     (error) => {
       console.error('Registration Error:', error);

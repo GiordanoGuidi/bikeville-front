@@ -7,17 +7,22 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Customer } from '../../../shared/Models/customer';
 import { forkJoin } from 'rxjs';
 import { UpdateCustomer } from '../../../shared/Models/UpdateCustomer';
+import { AlertComponent } from '../../../shared/components/alert/alert/alert.component';
+import { AlertService } from '../../../shared/service/alert.service';
 declare const $: any;
 
 @Component({
   selector: 'app-admin-customers',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,AlertComponent],
   templateUrl: './admin-customers.component.html',
   styleUrl: './admin-customers.component.css'
 })
 export class AdminCustomersComponent {
-    constructor(private httpRequest: AdmincustomershttpService, private router: Router) { }
+    constructor(private httpRequest: AdmincustomershttpService,
+       private router: Router,
+       private alertService:AlertService
+      ) { }
     customers: Customer[] = [];
     paginatedCustomers: Customer[] = [];
     email: string = "";
@@ -26,9 +31,15 @@ export class AdminCustomersComponent {
     itemsPerPage = 50;
     emailMap: { [key: number]: string } = {};
     customerToDelete: number | null = null;
+    //Flag per mostarre l'alert
+    showAlert = false;
 
     ngOnInit(): void {
       this.AdminCustomers();
+      //Iscrizione al servizio
+      this.alertService.alertState$.subscribe(state => {
+        this.showAlert = state.visible;
+      });
       this.router.events.subscribe(event => {
                 if (event instanceof NavigationStart) {
                   // Remove modal backdrop on navigation
@@ -159,7 +170,7 @@ export class AdminCustomersComponent {
   
         this.httpRequest.updateAdminCustomers(this.customerId, updatedCustomer).subscribe({
           next: () => {
-            alert("Modifiche salvate con successo!");
+            this.alertService.showAlert('Modifiche salvate con successo!', 'ok');
             document.getElementById("editForm")?.onreset;
             const modal = document.getElementById("editModal");
             if (modal) {
@@ -171,7 +182,7 @@ export class AdminCustomersComponent {
         });
       } catch (error) {
         console.error("Errore:", error);
-        alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
+        this.alertService.showAlert('Si è verificato un errore inaspettato durante il salvataggio delle modifiche.', 'ok');
       }
     }
 

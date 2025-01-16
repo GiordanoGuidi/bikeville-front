@@ -20,10 +20,21 @@ export class AlertComponent {
   ngOnInit() {
     this.alertService.alertState$.subscribe(state => {
       this.alert = state;
+       // Se l'alert è visibile, avvia il timer per chiuderlo dopo 3 secondi
+       if (this.alert.visible) {
+        this.autoCloseAlert();
+      }
     });
   }
   // Metodo per chiudere l'alert
   closeAlert() {
     this.alertService.hideAlert();
+  }
+
+  // Funzione per chiudere automaticamente l'alert dopo 3 secondi
+  autoCloseAlert() {
+    setTimeout(() => {
+      this.closeAlert();
+    }, 3000); // Tempo in millisecondi
   }
 }
