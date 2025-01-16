@@ -9,7 +9,7 @@
       </app-alert>
     </div>
 
-<!--? navigazione superiore ?-->
+<!--navigazione superiore ?-->
 
     <nav class = "text-center">
       <ul class="pagination justify-content-start text-white" style="margin: 20px;">
@@ -26,7 +26,7 @@
       </ul>
     </nav>
 
-<!--? tabella degli utenti ?-->
+<!-- tabella degli utenti ?-->
 
     <table class="table table-bordered table-striped main-table">
       <thead>
@@ -57,7 +57,7 @@
             <button type = "button" class = "btn btn-primary iconbutton" (click)="viewCustomer(customer)">
               <i class = "fa-solid fa-eye"></i>
             </button>
-            <button type = "button" class = "btn btn-warning iconbutton" data-bs-toggle = "modal" data-bs-target = "#editModal" (click)="editCustomer(customer)">
+            <button type = "button" class = "btn btn-warning iconbutton" (click)="editCustomer(customer)">
               <i class = "fa-solid fa-edit"></i>
             </button>
             <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="setCustomerToDelete(customer.customerId)">
@@ -69,7 +69,7 @@
     </table>
     <br>
 
-<!--? navigazione inferiore ?-->
+<!-- navigazione inferiore ?-->
 
     <nav>
       <ul class="pagination justify-content-center">
@@ -87,7 +87,7 @@
     </nav>
   </div>
 
-  <!--? modale per visualizzare utente ?-->
+  <!-- modale per visualizzare utente ?-->
 
   <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #viewModal>
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -106,7 +106,7 @@
     </div>
   </div>
 
-  <!--? modale per modificare utente ?-->
+  <!-- modale per modificare utente ?-->
 
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #editModal>
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -186,3 +186,6 @@
       </div>
     </div>
   </div>
+
+  <!-- Modale sessione scaduta -->
+<app-session-modal></app-session-modal>

@@ -9,19 +9,22 @@ import { forkJoin } from 'rxjs';
 import { UpdateCustomer } from '../../../shared/Models/UpdateCustomer';
 import { AlertComponent } from '../../../shared/components/alert/alert/alert.component';
 import { AlertService } from '../../../shared/service/alert.service';
+import { ModalSessionService } from '../../../shared/service/modal-session.service';
+import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
 declare const $: any;
 
 @Component({
   selector: 'app-admin-customers',
   standalone: true,
-  imports: [CommonModule, FormsModule,AlertComponent],
+  imports: [CommonModule, FormsModule,AlertComponent,SessionModalComponent],
   templateUrl: './admin-customers.component.html',
   styleUrl: './admin-customers.component.css'
 })
 export class AdminCustomersComponent {
     constructor(private httpRequest: AdmincustomershttpService,
        private router: Router,
-       private alertService:AlertService
+       private alertService:AlertService,
+       private modalService:ModalSessionService
       ) { }
     customers: Customer[] = [];
     paginatedCustomers: Customer[] = [];
@@ -102,10 +105,23 @@ export class AdminCustomersComponent {
       this.paginatedCustomers = this.customers.slice(startIndex, endIndex);
     }
 
-    viewCustomer(cliente: Customer) {
-      const Paragraph = document.getElementById("customerData") as HTMLParagraphElement;
+  async viewCustomer(cliente: Customer) {
+    //Verifico la validità del token
+    const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    });
+    //Se il token non è valido faccio rieseguire il login
+    if (!tokenCheckResponse.ok) {
+      console.error("Token non valido o scaduto");
+      this.modalService.openModal();
+      return;
+    }
+    const Paragraph = document.getElementById("customerData") as HTMLParagraphElement;
 
-      Paragraph.innerHTML = `
+    Paragraph.innerHTML = `
       <strong>Id:</strong> ${cliente.customerId}<br>
       <strong>Full Name:</strong> ${cliente.title || ''} ${cliente.firstName || ''} ${cliente.middleName || ''} ${cliente.lastName || ''} ${cliente.suffix || ''}<br>
       <strong>Company:</strong> ${cliente.companyName}<br>
@@ -113,37 +129,57 @@ export class AdminCustomersComponent {
       <strong>Phone:</strong> ${cliente.phone}<br>
       `;
 
-      const modalElement = document.getElementById('viewModal');
-          if (modalElement) {
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
-          } else {
-            console.error('Modal element not found!');
-          }
+    const modalElement = document.getElementById('viewModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    } else {
+      console.error('Modal element not found!');
     }
+  }
 
-    editCustomer(cliente: Customer) {
-      this.customerId = cliente.customerId;
-      console.log( cliente.customerId);
-      
-      const Title = document.getElementById("edittitle") as HTMLInputElement;
-      const FirstName = document.getElementById("editfirstname") as HTMLInputElement;
-      const MiddleName = document.getElementById("editmiddlename") as HTMLInputElement;
-      const LastName = document.getElementById("editlastname") as HTMLInputElement;
-      const Suffix = document.getElementById("editsuffix") as HTMLInputElement;
-      const Company = document.getElementById("editcompany") as HTMLInputElement;
-      const Email = document.getElementById("editemail") as HTMLInputElement;
-      const Phone = document.getElementById("editphone") as HTMLInputElement;
-
-      Title.value = cliente.title;
-      FirstName.value = cliente.firstName;
-      MiddleName.value = cliente.middleName;
-      LastName.value = cliente.lastName;
-      Suffix.value = cliente.suffix;
-      Company.value = cliente.companyName;
-      Email.value = cliente.emailAddress;
-      Phone.value = cliente.phone;
+  async editCustomer(cliente: Customer) {
+    //Verifico la validità del token
+    const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    });
+    //Se il token non è valido faccio rieseguire il login
+    if (!tokenCheckResponse.ok) {
+      console.error("Token non valido o scaduto");
+      this.modalService.openModal();
+      return;
     }
+    const modalElement = document.getElementById('editModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      } else {
+        console.error('Modal element not found!');
+      }
+    this.customerId = cliente.customerId;
+    console.log(cliente.customerId);
+
+    const Title = document.getElementById("edittitle") as HTMLInputElement;
+    const FirstName = document.getElementById("editfirstname") as HTMLInputElement;
+    const MiddleName = document.getElementById("editmiddlename") as HTMLInputElement;
+    const LastName = document.getElementById("editlastname") as HTMLInputElement;
+    const Suffix = document.getElementById("editsuffix") as HTMLInputElement;
+    const Company = document.getElementById("editcompany") as HTMLInputElement;
+    const Email = document.getElementById("editemail") as HTMLInputElement;
+    const Phone = document.getElementById("editphone") as HTMLInputElement;
+
+    Title.value = cliente.title;
+    FirstName.value = cliente.firstName;
+    MiddleName.value = cliente.middleName;
+    LastName.value = cliente.lastName;
+    Suffix.value = cliente.suffix;
+    Company.value = cliente.companyName;
+    Email.value = cliente.emailAddress;
+    Phone.value = cliente.phone;
+  }
 
     async ConfirmEditCustomer() {
       try {
@@ -186,7 +222,7 @@ export class AdminCustomersComponent {
             if (err.status === 409) { // Assumi che 409 sia restituito in caso di email duplicata
               alert("Email già in uso, riprovare.");
             } else {
-              alert("Si è verificato un errore durante il salvataggio delle modifiche.");
+            this.alertService.showAlert('Si è verificato un errore durante il salvataggio delle modifiche.', 'error');
             }
             console.error("Errore:", err);
           }
@@ -198,18 +234,33 @@ export class AdminCustomersComponent {
     }
 
 
-    setCustomerToDelete(customerId: number): void{
-      this.customerToDelete = customerId;
-    }
+  async setCustomerToDelete(customerId: number) {
+    this.customerToDelete = customerId;
+  }
 
   
-    deleteCustomer(): void{
+    async deleteCustomer(){
+      //Verifico la validità del token
+    const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    });
+    //Se il token non è valido faccio rieseguire il login
+    if (!tokenCheckResponse.ok) {
+      console.error("Token non valido o scaduto");
+      this.modalService.openModal();
+      return;
+    }
       if(this.customerToDelete != null){
         this.httpRequest.deleteAdminCustomer(this.customerToDelete).subscribe({
           next: (data) => {
             console.log(`Prodotto con ID ${this.customerToDelete} eliminato con successo.`, data);
+            
             // Aggiorna la lista dei prodotti o notifica l'utente
-            alert('Product removed successfully');
+            this.alertService.showAlert('Customer removed successfully', 'ok');
+            alert('Customer removed successfully');
             this.AdminCustomers();
             const modalElement = document.getElementById('deleteModal');
             if (modalElement) {
