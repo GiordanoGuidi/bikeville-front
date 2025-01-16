@@ -135,7 +135,7 @@ export class AdminCustomersComponent {
 
     async ConfirmEditCustomer() {
       try {
-        console.log((document.getElementById("edittitle") as HTMLInputElement).value);
+        // Recupera i valori dal form
         const Title = (document.getElementById("edittitle") as HTMLInputElement).value;
         const FirstName = (document.getElementById("editfirstname") as HTMLInputElement).value;
         const MiddleName = (document.getElementById("editmiddlename") as HTMLInputElement).value;
@@ -144,7 +144,8 @@ export class AdminCustomersComponent {
         const Company = (document.getElementById("editcompany") as HTMLInputElement).value;
         const Email = (document.getElementById("editemail") as HTMLInputElement).value;
         const Phone = (document.getElementById("editphone") as HTMLInputElement).value;
-  
+    
+        // Crea l'oggetto updatedCustomer
         const updatedCustomer: UpdateCustomer = {
           title: Title || null,
           firstName: FirstName || null,
@@ -155,17 +156,27 @@ export class AdminCustomersComponent {
           emailAddress: Email || null,
           phone: Phone || null,
         };
-  
+    
+        // Invio della richiesta al server
         this.httpRequest.updateAdminCustomers(this.customerId, updatedCustomer).subscribe({
           next: () => {
             alert("Modifiche salvate con successo!");
-            document.getElementById("editForm")?.onreset;
+            document.getElementById("editForm")?.onreset; // Resetta il form
             const modal = document.getElementById("editModal");
             if (modal) {
               document.getElementById("closeModalButton")?.click();
               const bootstrapModal = bootstrap.Modal.getInstance(modal);
-              this.AdminCustomers();
+              this.AdminCustomers(); // Aggiorna i dati
             }
+          },
+          error: (err) => {
+            // Gestione dell'errore
+            if (err.status === 409) { // Assumi che 409 sia restituito in caso di email duplicata
+              alert("Email già in uso, riprovare.");
+            } else {
+              alert("Si è verificato un errore durante il salvataggio delle modifiche.");
+            }
+            console.error("Errore:", err);
           }
         });
       } catch (error) {
@@ -173,6 +184,7 @@ export class AdminCustomersComponent {
         alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
       }
     }
+    
   
     deleteCustomer(cliente: Customer){
     
