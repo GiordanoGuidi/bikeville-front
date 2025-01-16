@@ -25,6 +25,7 @@ export class AdminCustomersComponent {
     customerId : number = 0;
     itemsPerPage = 50;
     emailMap: { [key: number]: string } = {};
+    customerToDelete: number | null = null;
 
     ngOnInit(): void {
       this.AdminCustomers();
@@ -173,8 +174,33 @@ export class AdminCustomersComponent {
         alert("Si è verificato un errore inaspettato durante il salvataggio delle modifiche.");
       }
     }
+
+    setCustomerToDelete(customerId: number): void{
+      this.customerToDelete = customerId;
+    }
   
-    deleteCustomer(cliente: Customer){
-    
+    deleteCustomer(): void{
+      if(this.customerToDelete != null){
+        this.httpRequest.deleteAdminCustomer(this.customerToDelete).subscribe({
+          next: (data) => {
+            console.log(`Prodotto con ID ${this.customerToDelete} eliminato con successo.`, data);
+            // Aggiorna la lista dei prodotti o notifica l'utente
+            alert('Product removed successfully');
+            this.AdminCustomers();
+            const modalElement = document.getElementById('deleteModal');
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                 modal.hide();
+             } else {
+                 console.error('Modal element not found!');
+             }
+          },
+          error: (err) => {
+            console.error('Errore durante l\'eliminazione:', err);
+            // Mostra un messaggio di errore all'utente
+            alert('Failed to remove product');
+          }
+        }); 
+      }
     }
 }
