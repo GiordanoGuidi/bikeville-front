@@ -9,19 +9,24 @@ import * as jwt_decode from 'jwt-decode';
 import { HtmlParser } from '@angular/compiler';
 import { LoggedUserService } from './service/loggedUser.service';
 import { LoggedUser } from '../interfaces/loggedUser-interface';
-
+import { AlertService } from '../../shared/service/alert.service';
+import { AlertComponent } from '../../shared/components/alert/alert/alert.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,AlertComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
 export class LoginComponent {
   //DI del servizio AuthService
-  constructor(private authentication: AuthService,private router: Router,private loggedUserService:LoggedUserService) {}
+  constructor(private authentication: AuthService,
+    private router: Router,
+    private loggedUserService:LoggedUserService,
+    private alertService:AlertService,
+  ) {}
   loginCredentials: Credentials = new Credentials();
   jwtToken: any;
   decodedTokenPayload: any;
@@ -29,6 +34,8 @@ export class LoginComponent {
   isLoginOpen: boolean = true;
   userEmail: string = '';
   userPassword: string = '';
+  showAlert = false;
+  
   
   async verifyMail(EmailAddress: string): Promise<boolean> {
     try {
@@ -51,7 +58,7 @@ export class LoginComponent {
     console.log(this.userEmail)
     const isEmailRegistered = await this.verifyMail(this.userEmail);
     if (!isEmailRegistered) {
-      alert('Email not registered, please register before attempting to Log In');
+      this.alertService.showAlert('Incorrect email or password', 'error');
       return;
     }
     if (eml && pwd) {
@@ -62,9 +69,8 @@ export class LoginComponent {
         next: (response: any) => {
           switch (response.status) {
             case HttpStatusCode.Ok:
-              alert("Successfully Logged In");
-              console.log('Response body:', response.body);
-              console.log('Token:', response.body.token);
+              //Mostro l'alert tramite il servizio
+              this.alertService.showAlert('Successfully Logged In', 'ok');
               //Assegno il valore recuperato dal body della response
               this.jwtToken = response.body.token;
               //Assegno il token  e il booleano al metodo 
@@ -85,7 +91,9 @@ export class LoginComponent {
               this.isLoginOpen = false;
               console.log(this.decodedTokenPayload);
               // aggiunto router che rimanda direttamente alla home dopo un login effettuato//
-              this.router.navigate(['/home']);
+              setTimeout(() => {
+                this.router.navigate(['/home']);
+              }, 100); 
               break;
             case HttpStatusCode.NoContent:
               console.log('No Response');
@@ -96,17 +104,20 @@ export class LoginComponent {
           switch (err.status) {
             case HttpStatusCode.Unauthorized:
               this.authentication.SetLoginJwtInfo(false,this.jwtToken);
-              alert('Wrong Username or Password');
-              break;
-              dafault:
-              alert('Wrong Username or Password');
               break;
           }
         },
       });
     } else {
-      alert('Username and Password are required');
+      this.alertService.showAlert('Errore durante il login', 'error');
     }
+  }
+
+  //Iscrizione al servizio
+  ngOnInit(): void {
+    this.alertService.alertState$.subscribe(state => {
+      this.showAlert = state.visible;
+    });
   }
 }
 

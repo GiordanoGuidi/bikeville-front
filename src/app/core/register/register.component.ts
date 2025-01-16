@@ -5,33 +5,40 @@ import { UserService } from './service/registerUser-service';
 import { ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { AlertComponent } from '../../shared/components/alert/alert/alert.component';
+import { AlertService } from '../../shared/service/alert.service';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,AlertComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
 // Creo un istanza di User
 user : NewUser = new NewUser();
+//Flag per mostarre l'alert
+showAlert = false;
+
 //Di dello userservice
-constructor(private userService: UserService, private router: Router) {}
+constructor(private userService: UserService,
+   private router: Router,
+   private alertService : AlertService
+  ) {}
 
 @ViewChild('userForm') userForm!: NgForm;
 //Metodo eseguito al submit del form
 async onSubmit(): Promise<void> {
   //Controllo che la mail sia valida
   if(await this.verifyMail(this.user.EmailAddress)) {
-    alert('Email already in use');
+    this.alertService.showAlert('Email already in use', 'error');
     return;
   } else {
     console.log('User Data:', this.user); 
     this.userService.registerUser(this.user).subscribe(
     (response) => {
       console.log('Registration success:', response);
-      alert('User registered successfully')
+      this.alertService.showAlert('User registered successfully', 'ok');
       this.user = {
         FirstName: '',
         LastName: '',
@@ -42,7 +49,9 @@ async onSubmit(): Promise<void> {
         Password: ''
       };
       this.userForm.resetForm();
-      this.router.navigate(['/home']);
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 100); 
     },
     (error) => {
       console.error('Registration Error:', error);
@@ -69,6 +78,13 @@ async verifyMail(EmailAddress: string): Promise<boolean> {
     // Se c'è un errore, restituisci un valore di default, ad esempio `false`
     return true;
   }
+}
+
+//Iscrizione al servizio
+ngOnInit(): void {
+  this.alertService.alertState$.subscribe(state => {
+    this.showAlert = state.visible;
+  });
 }
 
 
