@@ -39,13 +39,11 @@ export class AdminCustomersComponent {
 
     ngOnInit(): void {
       this.AdminCustomers();
-      //Iscrizione al servizio
       this.alertService.alertState$.subscribe(state => {
         this.showAlert = state.visible;
       });
       this.router.events.subscribe(event => {
                 if (event instanceof NavigationStart) {
-                  // Remove modal backdrop on navigation
                   $(".modal-backdrop").remove();
                 }
               });
@@ -55,8 +53,8 @@ export class AdminCustomersComponent {
       this.httpRequest.getAdminCustomers().subscribe({
         next: (data) => {
           this.customers = data;
-        //  this.preloadEmails(data); // Precarica le email
-        this.updatePaginatedCustomers();
+          this.preloadEmails(data);
+          this.updatePaginatedCustomers();
         },
         error: (err) => {
           console.error('Error:', err);
@@ -65,15 +63,10 @@ export class AdminCustomersComponent {
     }
 
 
-    preloadEmails(customers: any[]) {
-      const emailRequests = customers.map((customer) =>
-        this.httpRequest.getMail(customer.customerId)
-      );
-  
-      // Esegui tutte le richieste HTTP in parallelo
+   preloadEmails(customers: any[]) {
+      const emailRequests = customers.map((customer) => this.httpRequest.getMail(customer.customerId));
       forkJoin(emailRequests).subscribe({
         next: (emails) => {
-          // Associa ogni email al rispettivo cliente
           customers.forEach((customer, index) => {
             customer.emailAddress = emails[index];
             this.emailMap[customer.customerId] = emails[index];
