@@ -11,12 +11,18 @@
               <hr>
                 <div class = "card-body">
                     <form #loginForm="ngForm" (ngSubmit)="RunLoginJwt(userEmail,userPassword)"> 
-                        <input class = "form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" type = "text" placeholder = "Email" name="email" #email="ngModel" [(ngModel)]="userEmail" required [ngClass]="{'is-invalid': email.touched && email.invalid, 'is-valid': email.touched && email.valid}">
+                        <input class = "form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" 
+                        type = "text" placeholder = "Email" name="email" 
+                        #email="ngModel" [(ngModel)]="userEmail" required 
+                        [ngClass]="{'is-invalid': email.touched && email.invalid, 'is-valid': email.touched && email.valid}">
                         <div *ngIf="email.invalid && email.touched" class="text-danger">
                             <small *ngIf="email.errors?.['required']">Email is required.</small>
                             <small *ngIf="email.errors?.['pattern']">Invalid Format.</small>
                           </div>
-                        <input class = "form-control mt-2" type = "password" placeholder = "Password" name="password" #password="ngModel" [(ngModel)]="userPassword" minlength="8" required [ngClass]="{'is-invalid': password.touched && password.invalid, 'is-valid': password.touched && password.valid}">
+                        <input class = "form-control mt-2" type = "password" 
+                        placeholder = "Password" name="password" #password="ngModel"
+                        [(ngModel)]="userPassword" minlength="8" required 
+                        [ngClass]="{'is-invalid': password.touched && password.invalid, 'is-valid': password.touched && password.valid}">
                         <div *ngIf="password.invalid && password.touched" class="text-danger">
                             <small *ngIf="password.errors?.['required']">Password is required.</small>
                             <small *ngIf="password.errors?.['minlength']">Password must be at least 8 characters long.</small>

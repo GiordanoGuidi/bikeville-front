@@ -20,7 +20,7 @@ user : NewUser = new NewUser();
 //Flag per mostarre l'alert
 showAlert = false;
 
-//Di dello userservice
+//Di dei service
 constructor(private userService: UserService,
    private router: Router,
    private alertService : AlertService
@@ -34,31 +34,35 @@ async onSubmit(): Promise<void> {
     this.alertService.showAlert('Email already in use', 'error');
     return;
   } else {
-    console.log('User Data:', this.user); 
-    this.userService.registerUser(this.user).subscribe(
-    (response) => {
-      console.log('Registration success:', response);
-      this.alertService.showAlert('User registered successfully', 'ok');
-      this.user = {
-        FirstName: '',
-        LastName: '',
-        EmailAddress: '',
-        Phone: '',
-        Gender: '',
-        CompanyName: '',
-        Password: ''
-      };
-      this.userForm.resetForm();
-      //redirect homepage
-      this.router.navigate(['/home']);
-    },
-    (error) => {
+    this.userService.registerUser(this.user).subscribe({
+      next:(response)=>{
+        this.alertService.showAlert('User registered successfully', 'ok');
+        this.user = {
+          FirstName: '',
+          LastName: '',
+          EmailAddress: '',
+          Phone: '',
+          Gender: '',
+          CompanyName: '',
+          Password: ''
+        };
+        //Resetto il form
+        this.userForm.resetForm();
+        //redirect homepage
+        this.router.navigate(['/home']);
+      },
+    error:(error)=>{
       console.error('Registration Error:', error);
+      //!implementare componente alert
       alert('Unexpected Error');
+    },
+    complete: () => {
+      //!Chiusura del loder
+      console.log('Registrazione completata!');
     }
-    );
-  }
-}
+  });
+}};
+  
 
 async verifyMail(EmailAddress: string): Promise<boolean> {
   try {
@@ -85,6 +89,7 @@ ngOnInit(): void {
     this.showAlert = state.visible;
   });
 }
+
 
 
 }

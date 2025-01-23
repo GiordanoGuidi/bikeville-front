@@ -78,7 +78,6 @@ export class LoginComponent {
               /*Decodifica la stringa del token e restituisce un oggetto JSON
               che rappresenta il payload del token */
               this.decodedTokenPayload = jwt_decode.jwtDecode(this.jwtToken);
-              console.log(this.decodedTokenPayload);
               // Popola i dati nel servizio
               this.loggedUserService.setLoggedUser ({
                 id: this.decodedTokenPayload.Id,
@@ -89,7 +88,6 @@ export class LoginComponent {
               });
               //Imposto la flag a false per far sparire il form di login
               this.isLoginOpen = false;
-              console.log(this.decodedTokenPayload);
               // aggiunto router che rimanda direttamente alla home dopo un login effettuato//
                 this.router.navigate(['/home'])
               break;

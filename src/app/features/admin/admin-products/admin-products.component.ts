@@ -193,7 +193,7 @@ async viewProduct(prodotto: Product) {
   }
 }
 
-// funzione che popola la scheda che modifica i prodotti esistenti //
+// funzione che popola la scheda che modifica i prodotti esistenti
 async editProduct(prodotto: Product) {
   //Verifico la validità del token
   const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
