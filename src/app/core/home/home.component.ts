@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
 import { AlertComponent } from '../../shared/components/alert/alert/alert.component';
 import { AlertService } from '../../shared/service/alert.service';
-import { LoaderComponent } from '../../shared/loader/loader.component';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
 @Component({
   selector: 'app-home',
   standalone: true,

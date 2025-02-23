@@ -44,8 +44,11 @@
           <ul class="d-flex list-unstyled m-0 justify-content-center flex-wrap">
             <li *ngFor="let category of categoriesArray; let i = index" class="li-spacing">
               <div class="filter-container" [ngClass]="{'active': isActive(i)}">
-                <a id="filters" (click)="setActiveIndex(i)" routerLink="/{{category.Name}}"
-                  [ngClass]="{'active':isActive(i)}" class="text-decoration-none"> {{category.Name}} </a>
+                <a id="filters" 
+                (click)="setActiveIndex(i)" 
+                routerLink="/{{category.Name}}"
+                [ngClass]="{'active':isActive(i)}"
+                class="text-decoration-none"> {{category.Name}} </a>
               </div>
             </li>
           </ul>
