@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caricamento</title>
-  <!-- Aggiunta dei link ai CSS -->
-  <link rel="stylesheet" href="caricamento.css">
-</head>
-<body>
-  <!-- Angular app loader -->
-  <div *ngIf="isLoading | async" class="loader-overlay">
-    <app-loader></app-loader>
-  </div>
-
-  <!-- Contenuto principale -->
-  <div class="container">
-    <div class="loader">
-      <img src="logo bici.png" alt="Logo bici" class="logo">
+<div class="loader-overlay">
+    <div class="spinner spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
-  </div>
-
-  <!-- Angular bundle scripts -->
-  <script type="module" src="caricamento1.js"></script>
-</body>
-</html>
+</div>
