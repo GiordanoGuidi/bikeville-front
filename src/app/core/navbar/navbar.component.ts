@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/authentication/auth.service';
 import { CommonModule } from '@angular/common';
@@ -11,20 +11,20 @@ import { CartService } from '../../shared/service/cart.service';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule,CommonModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
   //Costruttore
-  constructor (
-    public auth : AuthService,
+  constructor(
+    public auth: AuthService,
     private http: HttpClient,
-    private activeIndexService:ActiveIndexService,
-    private router:Router,
-    private loggedUserService:LoggedUserService,
+    private activeIndexService: ActiveIndexService,
+    private router: Router,
+    private loggedUserService: LoggedUserService,
     private cartService: CartService,
-  ){
+  ) {
     //Abbonamento a activeIndexService
     this.activeIndexService.activeIndex$.subscribe(index => {
       console.log('Navbar index updated:', index);
@@ -34,34 +34,34 @@ export class NavbarComponent {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Se l'url non è /login,/register showFilters sarà vera
-        this.showFilters = !['/login', '/register','/adminproducts','/adminhub','/admincustomers'].includes(event.url);
+        this.showFilters = !['/login', '/register', '/adminproducts', '/adminhub', '/admincustomers'].includes(event.url);
       }
     });
   }
   //Array delle categorie
-  categoriesArray : ParentCategories[]=[];
+  categoriesArray: ParentCategories[] = [];
   //Istanza variabile activeIndex
-  activeIndex:number| null = null;
+  activeIndex: number | null = null;
   //Istanza flag showFilters
-  showFilters : boolean = true
+  showFilters: boolean = true
   cartCount: number = 0;
-  
+
   //Funzione per recuperare le categorie
   getParentCategories(): void {
     this.http.get<any[]>('https://localhost:7257/api/Products/parent-categories')
       .subscribe((categories) => {
         categories.forEach(category => {
           // Crea un'istanza della classe ParentCategories con i dati ricevuti
-        const parentCategory = new ParentCategories(category.productCategoryId, category.name);
-        // Aggiungi l'istanza all'array delle categorie
-        this.categoriesArray.push(parentCategory);
+          const parentCategory = new ParentCategories(category.productCategoryId, category.name);
+          // Aggiungi l'istanza all'array delle categorie
+          this.categoriesArray.push(parentCategory);
         });
         console.log(this.categoriesArray); // Verifica l'array popolato
       });
   }
 
   //Recupero le categorie all'inizializzazione del componente
-  ngOnInit():void{
+  ngOnInit(): void {
     this.getParentCategories();
     this.cartCount = this.cartService.getCartCount();
   }
@@ -73,13 +73,13 @@ export class NavbarComponent {
 
   //Funzione per controllare che l'activeIndex sia uguale all'indice della categoria
   isActive(index: number): boolean {
-    return this.activeIndex === index; 
+    return this.activeIndex === index;
   }
 
   // Metodo per controllare se il ruolo è Admin
   isAdmin(): boolean {
     const loggedUser = localStorage.getItem('loggedUser');
-    const loggedUserObject=loggedUser? JSON.parse(loggedUser):null;
+    const loggedUserObject = loggedUser ? JSON.parse(loggedUser) : null;
     return loggedUserObject?.role === 'Admin';
   }
 
@@ -88,10 +88,10 @@ export class NavbarComponent {
     //Rimuovo i dati dell'utente loggato
     this.loggedUserService.setLoggedUser(null);
     //Rimuovo i dati dal localstorage
-     this.auth.SetLoginJwtInfo(false, '');
-     // aggiunto router che rimanda in home//
-     this.router.navigate(['/home']);
-   }
+    this.auth.SetLoginJwtInfo(false, '');
+    // aggiunto router che rimanda in home//
+    this.router.navigate(['/home']);
+  }
 
   toggleCart() {
     const cartOverlay = document.getElementById('cart');
@@ -99,10 +99,10 @@ export class NavbarComponent {
   }
 }
 
-export class ParentCategories{
-  Id :number = 0;
-  Name :string = '';
-  constructor(id:number=0,name:string=''){
+export class ParentCategories {
+  Id: number = 0;
+  Name: string = '';
+  constructor(id: number = 0, name: string = '') {
     this.Id = id;
     this.Name = name;
   }

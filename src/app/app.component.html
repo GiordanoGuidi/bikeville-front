@@ -4,7 +4,12 @@
 </header>
 
 <main>
+    <!-- Carrello -->
     <app-cart></app-cart>
+    <!-- Loader -->
+    <div *ngIf="loaderService.loading$ | async">
+        <app-loader></app-loader>
+    </div>
     <!-- Visualizzazione dei Routerlink -->
     <router-outlet></router-outlet>
 </main>

@@ -1,4 +1,4 @@
-<section id="bike-components" class="mt-4">
+<section *ngIf="!isLoading" id="bike-components" class="mt-4">
      <!-- Container principale -->
     <div class="main-container align-items-center d-flex flex-column
      flex-md-row md align-items-md-start p-3 md-align-items-normal">
@@ -42,7 +42,8 @@
             <!-- Lista prodotti -->
             <div class="product-list d-flex flex-wrap gap-3">
                <!-- Itero il componente card sui prodotti paginati -->
-               <div *ngFor="let component of paginatedProducts" class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+               <div *ngFor="let component of paginatedProducts" 
+               class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
                     <!-- Card --> <!--#Questa è la card-->
                     <app-card class="w-100 h-100"
                         [product]="component"

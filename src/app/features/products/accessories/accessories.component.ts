@@ -13,7 +13,7 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-
+import { LoaderService } from '../../../shared/loader/loader.service';
 declare const $: any;
 @Component({
   selector: 'app-accessories',
@@ -30,8 +30,12 @@ export class AccessoriesComponent {
     private router: Router,
     private http: HttpClient,
     private httpRequest:ProductnologhttpService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    public loaderService: LoaderService
   ){
+    this.loaderService.loading$.subscribe(state => {
+      this.isLoading = state;
+    })
   }
   //#Dates
   selectedProduct!: Product;
@@ -59,12 +63,14 @@ export class AccessoriesComponent {
   activeFilter: { filterType: string; value: any }[] = [];
   //Prodotti paginati
   paginatedProducts:Product[]=[];
-
   isProductAdded = false;
+  //Flag per mostrare il loader
+  isLoading = false;
 
   //#Function
   //Recupero i filtri dal backend
   getAccessoryFilters():void{
+    this.loaderService.show();
     this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
        // Verifico e assegno i tipi di biciclette
@@ -84,6 +90,7 @@ export class AccessoriesComponent {
       }
     }, error => {
       console.error('Errore durante il recupero dei filtri', error);
+      this.loaderService.hide();
     });
   }
 
@@ -92,9 +99,11 @@ export class AccessoriesComponent {
     this.httpRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
       next:(data)=>{
         this.accessories = data;
+        this.loaderService.hide();
       },
       error: (err) => {
         console.error('Error:', err);
+        this.loaderService.hide();
       },
     });
   }
@@ -191,7 +200,6 @@ export class AccessoriesComponent {
   }
 
 async  viewProduct(prodotto: Product) {
-    
     this.selectedProduct = prodotto;
     const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
     const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
@@ -234,6 +242,7 @@ async  viewProduct(prodotto: Product) {
                 console.error('Modal element not found!');
               }
   }
+  
   addToCart(product: Product) {
     this.cart.addCartItem(product);
     this.isProductAdded = true;

@@ -1,135 +1,140 @@
-<div class="container">
-    <br>
-    <h2 id = "tablename" class = "text-center w-100">ADMIN CUSTOMERS PANEL</h2>
-    <br>
+<!-- Loader -->
+<div *ngIf="isLoading">
+  <app-loader></app-loader>
+</div>
 
-    <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
-      <!-- Componente alert -->
-      <app-alert>
-      </app-alert>
-    </div>
+<div *ngIf="!isLoading" class="container">
+  <br>
+  <h2 id="tablename" class="text-center w-100">ADMIN CUSTOMERS PANEL</h2>
+  <br>
 
-<!--navigazione superiore ?-->
-
-    <nav class = "text-center">
-      <ul class="pagination justify-content-start text-white" style="margin: 20px;">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
-        </li>
-        <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
-          [class.active]="currentPage === i + 1">
-          <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-        </li>
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
-        </li>
-      </ul>
-    </nav>
-
-<!-- tabella degli utenti ?-->
-
-    <table class="table table-bordered table-striped main-table">
-      <thead>
-        <tr>
-          <th scope="col" id = "id">Id</th>
-          <th scope="col" id = "title">Title</th>
-          <th scope="col" id = "name">Name</th>
-          <th scope="col" id = "company">CompanyName</th>
-          <th scope="col" id = "mail">Email</th>
-          <th scope="col" id = "phone">Phone</th>
-          <th scope="col" id = "icons"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let customer of paginatedCustomers">
-          <td id = "id">{{ customer.customerId }}</td>
-          <td id = "title">{{ customer.title }}</td>
-          <td id="name">
-            {{ customer.firstName }} 
-            {{ customer.middleName ? customer.middleName : '' }} 
-            {{ customer.lastName }} 
-            {{ customer.suffix ? ', ' + customer.suffix : '' }}
-          </td>
-          <td id = "company">{{ customer.companyName }}</td>
-          <td id = "mail">{{ customer.emailAddress }}</td>
-          <td id = "phone">{{ customer.phone }}</td>
-          <td id = "icons">
-            <button type = "button" class = "btn btn-primary iconbutton" (click)="viewCustomer(customer)">
-              <i class = "fa-solid fa-eye"></i>
-            </button>
-            <button type = "button" class = "btn btn-warning iconbutton" (click)="editCustomer(customer)">
-              <i class = "fa-solid fa-edit"></i>
-            </button>
-            <button type = "button" class = "btn btn-danger iconbutton" data-bs-toggle = "modal" data-bs-target = "#deleteModal" (click)="setCustomerToDelete(customer.customerId)">
-              <i class = "fa-solid fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-
-<!-- navigazione inferiore ?-->
-
-    <nav>
-      <ul class="pagination justify-content-center">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
-        </li>
-        <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
-          [class.active]="currentPage === i + 1">
-          <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-        </li>
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
-        </li>
-      </ul>
-    </nav>
+  <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
+    <!-- Componente alert -->
+    <app-alert>
+    </app-alert>
   </div>
 
-  <!-- modale per visualizzare utente ?-->
 
-  <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #viewModal>
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content bg-dark text-light">
-        <div class="modal-header">
-          <h5 class="modal-title" id="ModalLabel">Utente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p id  = "customerData"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-        </div>
+  <!--navigazione superiore ?-->
+  <nav class="text-center">
+    <ul class="pagination justify-content-start text-white" style="margin: 20px;">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
+      </li>
+      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
+        [class.active]="currentPage === i + 1">
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- tabella degli utenti ?-->
+  <table class="table table-bordered table-striped main-table">
+    <thead>
+      <tr>
+        <th scope="col" id="id">Id</th>
+        <th scope="col" id="title">Title</th>
+        <th scope="col" id="name">Name</th>
+        <th scope="col" id="company">CompanyName</th>
+        <th scope="col" id="mail">Email</th>
+        <th scope="col" id="phone">Phone</th>
+        <th scope="col" id="icons"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of paginatedCustomers">
+        <td id="id">{{ customer.customerId }}</td>
+        <td id="title">{{ customer.title }}</td>
+        <td id="name">
+          {{ customer.firstName }}
+          {{ customer.middleName ? customer.middleName : '' }}
+          {{ customer.lastName }}
+          {{ customer.suffix ? ', ' + customer.suffix : '' }}
+        </td>
+        <td id="company">{{ customer.companyName }}</td>
+        <td id="mail">{{ customer.emailAddress }}</td>
+        <td id="phone">{{ customer.phone }}</td>
+        <td id="icons">
+          <button type="button" class="btn btn-primary iconbutton" (click)="viewCustomer(customer)">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+          <button type="button" class="btn btn-warning iconbutton" (click)="editCustomer(customer)">
+            <i class="fa-solid fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger iconbutton" data-bs-toggle="modal" data-bs-target="#deleteModal"
+            (click)="setCustomerToDelete(customer.customerId)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+
+  <!-- navigazione inferiore ?-->
+  <nav>
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
+      </li>
+      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
+        [class.active]="currentPage === i + 1">
+        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- modale per visualizzare utente ?-->
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
+  #viewModal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Utente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="customerData"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- modale per modificare utente ?-->
-
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #editModal>
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content bg-dark text-light">
-        <div class="modal-header">
-          <h5 class="modal-title" id="ModalLabel">Modifica Utente</h5>
-          <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id = "editForm">
-            <div class="row g-2">
-              <div class="col-2 mb-3">
-                <label for="edittitle" class="form-label">Title</label>
-                <input type="text" id="edittitle" class="form-control w-100" placeholder="Mr/Ms">
-              </div>
-              <div class="col-7 mb-3">
-                <label for="editfirstname" class="form-label">First Name</label>
-                <input type="text" id="editfirstname" class="form-control w-100" placeholder="Insert First Name">
-              </div>
-              <div class="col-3 mb-3">
-                <label for="editmiddlename" class="form-label">Middle Name</label>
-                <input type="text" id="editmiddlename" class="form-control w-100" placeholder="Ins. Middle Name">
-              </div>
+<!-- modale per modificare utente ?-->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
+  #editModal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Modifica Utente</h5>
+        <button type="button" id="closeModalButton" class="btn-close" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <div class="row g-2">
+            <div class="col-2 mb-3">
+              <label for="edittitle" class="form-label">Title</label>
+              <input type="text" id="edittitle" class="form-control w-100" placeholder="Mr/Ms">
+            </div>
+            <div class="col-7 mb-3">
+              <label for="editfirstname" class="form-label">First Name</label>
+              <input type="text" id="editfirstname" class="form-control w-100" placeholder="Insert First Name">
+            </div>
+            <div class="col-3 mb-3">
+              <label for="editmiddlename" class="form-label">Middle Name</label>
+              <input type="text" id="editmiddlename" class="form-control w-100" placeholder="Ins. Middle Name">
+            </div>
             <div class="row g-2">
               <div class="col-10 mb-3">
                 <label for="editlastname" class="form-label">Last Name</label>
@@ -140,52 +145,52 @@
                 <input type="text" id="editsuffix" class="form-control w-100" placeholder="Jr/Sr">
               </div>
             </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-4 mb-3">
+              <label for="editphone" class="form-label">Phone</label>
+              <input type="text" id="editphone" class="form-control w-100" placeholder="Insert Phone">
             </div>
-            <div class="row g-2">
-              <div class="col-4 mb-3">
-                <label for="editphone" class="form-label">Phone</label>
-                <input type="text" id="editphone" class="form-control w-100" placeholder="Insert Phone">
-              </div>
-              <div class="col-8 mb-3">
-                <label for="editemail" class="form-label">Email</label>
-                <input type="text" id="editemail" class="form-control w-100" placeholder="Insert Email">
-              </div>
+            <div class="col-8 mb-3">
+              <label for="editemail" class="form-label">Email</label>
+              <input type="text" id="editemail" class="form-control w-100" placeholder="Insert Email">
             </div>
-            <div class="row g-2">
-              <div class="col mb-3">
-                <label for="editcompany" class="form-label">Company</label>
-                <input type="text" id="editcompany" class="form-control w-100" placeholder="Insert Company">
-              </div>
+          </div>
+          <div class="row g-2">
+            <div class="col mb-3">
+              <label for="editcompany" class="form-label">Company</label>
+              <input type="text" id="editcompany" class="form-control w-100" placeholder="Insert Company">
             </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-success" (click)="ConfirmEditCustomer()">Salva</button>
-        </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+        <button type="button" class="btn btn-success" (click)="ConfirmEditCustomer()">Salva</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!--? modale per eliminare utente ?-->
-
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" #deleteModal>
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content bg-dark text-light">
-        <div class="modal-header">
-          <h5 class="modal-title" id="ModalLabel">Elimina Utente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Vuoi eliminare questo Utente ?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-          <button type="button" class="btn btn-danger" (click)="deleteCustomer()" data-bs-dismiss="modal">Elimina</button>
-        </div>
+<!--? modale per eliminare utente ?-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
+  #deleteModal>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">Elimina Utente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Vuoi eliminare questo Utente ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCustomer()" data-bs-dismiss="modal">Elimina</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modale sessione scaduta -->
+<!-- Modale sessione scaduta -->
 <app-session-modal></app-session-modal>

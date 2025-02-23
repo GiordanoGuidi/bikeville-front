@@ -2,36 +2,32 @@
   <!-- Contenitore logo -->
   <div class="logo-container">
     <a class="navbar-brand" routerLink="home">
-      <img id = "logoapp" src = "assets/App Logo Test 2.png" class = "ms-3" alt="">
+      <img id="logoapp" src="assets/App Logo Test 2.png" class="ms-3" alt="">
     </a>
   </div>
 
   <!--! I filtri nella navbar a modalità mobile li nasconderei -->
-  <!--# riduci immagine in mobile -->
-  
+
   <!-- Contenitore filtri e login/logout/AdminHub -->
   <div class="d-flex flex-column navigation-container">
     <div class="me-3" id="navbarNav">
       <ul class="navbar-nav d-flex justify-content-end">
         <div class="d-flex justify-content-end gap-1">
           <li *ngIf="isAdmin()" class="nav-item">
-            <a class="nav-link"  routerLink="adminhub"> Admin Hub </a>
+            <a class="nav-link" routerLink="adminhub"> Admin Hub </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" *ngIf="!auth.GetLoginInfo()"  routerLink="register"> Register </a>
+            <a class="nav-link" *ngIf="!auth.GetLoginInfo()" routerLink="register"> Register </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" *ngIf="!auth.GetLoginInfo()"  routerLink="login"> Login </a>
+            <a class="nav-link" *ngIf="!auth.GetLoginInfo()" routerLink="login"> Login </a>
           </li>
           <li class="nav-item">
-            <a  
-            type="button" data-bs-toggle="modal" data-bs-target="#logoutModal"
-            *ngIf="auth.GetLoginInfo()"
-             class="nav-link"  
-             >Logout</a>
+            <a type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" *ngIf="auth.GetLoginInfo()"
+              class="nav-link">Logout</a>
           </li>
-          <div class = "cart-container" *ngIf="auth.GetLoginInfo()">
-            <div class = "cart">
+          <div class="cart-container" *ngIf="auth.GetLoginInfo()">
+            <div class="cart">
               <div class="cart-icon" (click)="toggleCart()">
                 <i class="fa-solid fa-cart-shopping cart-count"></i>
               </div>
@@ -46,14 +42,11 @@
       <nav *ngIf="showFilters" class="header-filters d-flex justify-content-center">
         <div class="d-flex align-items-center m-2">
           <ul class="d-flex list-unstyled m-0 justify-content-center flex-wrap">
-            <li *ngFor="let category of categoriesArray; let i = index"
-             class="li-spacing">
+            <li *ngFor="let category of categoriesArray; let i = index" class="li-spacing">
               <div class="filter-container" [ngClass]="{'active': isActive(i)}">
-                <a id="filters" (click)="setActiveIndex(i)"
-                routerLink="/{{category.Name}}"
-                [ngClass]="{'active':isActive(i)}"
-                class="text-decoration-none"> {{category.Name}} </a>
-            </div>
+                <a id="filters" (click)="setActiveIndex(i)" routerLink="/{{category.Name}}"
+                  [ngClass]="{'active':isActive(i)}" class="text-decoration-none"> {{category.Name}} </a>
+              </div>
             </li>
           </ul>
         </div>
@@ -61,10 +54,10 @@
     </div>
   </div>
 </nav>
-  
-  
 
-  <!-- Logout Modal -->
+
+
+<!-- Logout Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -82,11 +75,8 @@
   </div>
 </div>
 
- <!-- Discussione -->
-  <!--! Nella show del prodotto perchè  non  si vede la foto?-->
-  <!-- Cose da fare -->
-  <!--! Sistemare il form register è disallineato e magari mettere un effetto sul bottone anche al login-->
-  <!--! validazione login  -->
-
-
- 
+<!-- Discussione -->
+<!--! Nella show del prodotto perchè  non  si vede la foto?-->
+<!-- Cose da fare -->
+<!--! Sistemare il form register è disallineato e magari mettere un effetto sul bottone anche al login-->
+<!--! validazione login  -->

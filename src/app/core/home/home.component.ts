@@ -4,11 +4,11 @@ import { RouterModule } from '@angular/router';
 import { ActiveIndexService } from '../../shared/service/active-index.service';
 import { AlertComponent } from '../../shared/components/alert/alert/alert.component';
 import { AlertService } from '../../shared/service/alert.service';
-
+import { LoaderComponent } from '../../shared/loader/loader.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterModule,AlertComponent,CommonModule],
+  imports: [RouterModule, AlertComponent, CommonModule, LoaderComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -16,13 +16,13 @@ export class HomeComponent {
   //Flag per mostarre l'alert
   showAlert = false;
   constructor(
-    private activeIndexService : ActiveIndexService,
-    private alertService:AlertService
-  ){
+    private activeIndexService: ActiveIndexService,
+    private alertService: AlertService
+  ) {
   }
-   // Chiamo il metodo del servizio per aggiornare il valore
+  // Chiamo il metodo del servizio per aggiornare il valore
   setActiveIndexByName(value: string | null) {
-    console.log('Nuovo indice attivo:', value); 
+    console.log('Nuovo indice attivo:', value);
     this.activeIndexService.setActiveIndexByName(value);
   }
 

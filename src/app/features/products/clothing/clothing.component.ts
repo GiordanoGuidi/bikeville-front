@@ -13,7 +13,7 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-
+import { LoaderService } from '../../../shared/loader/loader.service';
 declare const $: any;
 
 @Component({
@@ -34,8 +34,12 @@ export class ClothingComponent {
     private http: HttpClient,
     public cart : CartService,
     private httpRequest:ProductnologhttpService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
+    public loaderService: LoaderService
   ){
+    this.loaderService.loading$.subscribe(state=>{
+      this.isLoading = state;
+    })
   }
   //#Dates
   selectedProduct!: Product;
@@ -63,12 +67,14 @@ export class ClothingComponent {
   activeFilter: { filterType: string; value: any }[] = [];
   //Prodotti paginati
   paginatedProducts:Product[]=[];
-
   isProductAdded = false;
+  //Flag per mostare o meno il loader
+  isLoading = false;
 
   //#Function
   //Recupero i filtri dal backend
   getDressFilters():void{
+    this.loaderService.show();
     this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
        // Verifico e assegno i tipi di biciclette
@@ -88,6 +94,7 @@ export class ClothingComponent {
       }
     }, error => {
       console.error('Errore durante il recupero dei filtri', error);
+      this.loaderService.hide();
     });
   }
 
@@ -96,9 +103,11 @@ export class ClothingComponent {
     this.httpRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
       next:(data)=>{
         this.clothes = data;
+        this.loaderService.hide();
       },
       error: (err) => {
         console.error('Error:', err);
+        this.loaderService.hide();
       },
     });
   }

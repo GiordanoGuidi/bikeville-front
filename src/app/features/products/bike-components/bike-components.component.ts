@@ -13,7 +13,7 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-
+import { LoaderService } from '../../../shared/loader/loader.service';
 declare const $: any;
 
 @Component({
@@ -34,8 +34,13 @@ export class BikeComponentsComponent {
     private router: Router,
     private http:HttpClient,
     private httpRequest:ProductnologhttpService,
-    private paginationService: PaginationService
-  ){}
+    private paginationService: PaginationService,
+    public loaderService: LoaderService
+  ){
+    this.loaderService.loading$.subscribe(state =>{
+      this.isLoading = state;
+    })
+  }
   //#Dates
   selectedProduct!: Product;
   //Assegno l'id della parentcategory delle biciclette
@@ -62,8 +67,9 @@ export class BikeComponentsComponent {
   selectedPrice :number|null=null;
   //Prodotti paginati
   paginatedProducts:Product[]=[];
-
   isProductAdded = false;
+  //Flag per mostrare il loader
+  isLoading =false;
 
   //#Function
   //Recupero tutti i componenti delle biciclette
@@ -71,15 +77,18 @@ export class BikeComponentsComponent {
     this.httpRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
       next:(data)=>{
         this.components=data;
+        this.loaderService.hide();
       },
       error: (err) => {
         console.error('Error:', err);
+        this.loaderService.hide();
       },
     });
   }
 
   //Recupero i filtri dei componenti delle biciclette
   getBikeComponentsFilters():void{
+    this.loaderService.show();
     this.httpRequest.getProductFilters(this.parentCategoryId)
       .subscribe((response)=>{
          // Verifico e assegno i tipi di biciclette
@@ -99,6 +108,7 @@ export class BikeComponentsComponent {
       }
       }, error => {
         console.error('Errore durante il recupero dei filtri', error);
+      this.loaderService.hide();
       });
   }
 
@@ -181,8 +191,8 @@ export class BikeComponentsComponent {
   }
 
   ngOnInit():void{
-    this.getBikeComponents();
     this.getBikeComponentsFilters();
+    this.getBikeComponents();
     this.router.events.subscribe(event => {
           if (event instanceof NavigationStart) {
             // Remove modal backdrop on navigation
