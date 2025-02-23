@@ -1,4 +1,4 @@
-<section *ngIf="!isLoading" id="bikes" class="mt-4">
+<section *ngIf="!showSkeleton && !isLoading" id="bikes" class="mt-4">
   <!-- Container principale -->
   <div class="main-container align-items-center d-flex flex-column
      flex-md-row md  align-items-md-start p-3 md-align-items-normal">
@@ -66,6 +66,12 @@
     </div>
   </div>
 </section>
+
+<!-- Creo spazio vuoto per non mostrare 
+il footer durante caricamento dei dati -->
+<div *ngIf="showSkeleton">
+  <app-skeleton-container></app-skeleton-container>
+</div>
 
 
 <div class="modal fade" id="viewProduct" tabindex="-1">

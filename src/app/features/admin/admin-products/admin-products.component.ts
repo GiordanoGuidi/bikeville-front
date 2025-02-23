@@ -12,7 +12,7 @@ import { ModalSessionService } from '../../../shared/service/modal-session.servi
 import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
 import { AlertComponent } from '../../../shared/components/alert/alert/alert.component';
 import { AlertService } from '../../../shared/service/alert.service';
-import { LoaderService } from '../../../shared/loader/loader.service';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
 declare const $: any;
 
 

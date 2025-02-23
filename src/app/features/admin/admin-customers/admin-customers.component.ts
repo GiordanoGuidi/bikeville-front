@@ -11,15 +11,21 @@ import { AlertComponent } from '../../../shared/components/alert/alert/alert.com
 import { AlertService } from '../../../shared/service/alert.service';
 import { ModalSessionService } from '../../../shared/service/modal-session.service';
 import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
-import { LoaderService } from '../../../shared/loader/loader.service';
-import { LoaderComponent } from '../../../shared/loader/loader.component';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { HttpHeaders } from '@angular/common/http';
+import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
 declare const $: any;
 
 @Component({
   selector: 'app-admin-customers',
   standalone: true,
-  imports: [CommonModule, FormsModule, AlertComponent, SessionModalComponent, LoaderComponent],
+  imports: [CommonModule, 
+    FormsModule, 
+    AlertComponent, 
+    SessionModalComponent,
+    LoaderComponent,
+    SkeletonContainerComponent],
   templateUrl: './admin-customers.component.html',
   styleUrl: './admin-customers.component.css'
 })
@@ -43,6 +49,8 @@ export class AdminCustomersComponent {
   showAlert = false;
   //Flag per mostrare o meno illoader
   isLoading = false;
+  //Flag per mostrare la pagina vuota prima del caricamento dei dati
+  showSkeleton = true;
 
   ngOnInit(): void {
     this.AdminCustomers();
@@ -73,6 +81,7 @@ export class AdminCustomersComponent {
 
       error: (err) => {
         console.error('Error:', err);
+        this.loaderService.hide();
       },
     });
   }

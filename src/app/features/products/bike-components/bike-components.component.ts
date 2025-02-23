@@ -13,8 +13,10 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-import { LoaderService } from '../../../shared/loader/loader.service';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
 declare const $: any;
+
 
 @Component({
   selector: 'app-components',
@@ -23,7 +25,8 @@ declare const $: any;
             SidebarComponent,
             MobileFilterComponent,
             CardComponent,
-            PaginationComponent],
+            PaginationComponent,
+          SkeletonContainerComponent],
   templateUrl: './bike-components.component.html',
   styleUrl: './bike-components.component.css'
 })
@@ -70,6 +73,8 @@ export class BikeComponentsComponent {
   isProductAdded = false;
   //Flag per mostrare il loader
   isLoading =false;
+  //Flag per mostrare la pagina vuota prima del caricamento dei dati
+  showSkeleton = true;
 
   //#Function
   //Recupero tutti i componenti delle biciclette
@@ -78,10 +83,12 @@ export class BikeComponentsComponent {
       next:(data)=>{
         this.components=data;
         this.loaderService.hide();
+        this.showSkeleton = false;
       },
       error: (err) => {
         console.error('Error:', err);
         this.loaderService.hide();
+        this.showSkeleton = false;
       },
     });
   }
