@@ -1,77 +1,19 @@
-#tablename {
-  color: white;
-}
-
 .main-table {
-    width: 100%;
+    width: 90%;
     border-collapse: collapse;
-    table-layout: fixed;
   }
 
   .main-table th, .main-table td,
   .secondary-table th, .secondary-table td {
-    padding: 4px;
     text-align: center;
-    border: 1px solid #ccc;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: middle;
+    color: white;
     background-color: #1f1e1e;
-  }
-  
-  tr {
-    height: 5px;
   }
   
   th {
-    background-color: #1f1e1e;
     font-weight: bold;
   }
   
-  #icons {
-    width: 174px;
-    text-align: center;
-  }
-
-  #id {
-    width: 60px;
-    color: white;
-  }
-
-  #title {
-    width: 60px;
-    color: white;
-  }
-
-  #fname {
-    width: 150px;
-    color: white;
-  }
-
-  #name {
-    color: white;
-  }
-
-  #company {
-    color: white;
-  }
-
-  #mname {
-    width: 60px;
-    color: white;
-  }
-
-  #mail {
-    width: 300px;
-    color: white;
-  }
-
-  #phone {
-    width: 200px;
-    color: white;
-  }
-
   .iconbutton {
     width: 50px;
     margin-left: 2px;
@@ -86,8 +28,7 @@
     width: 50px;
   }
 
-  /*? css della navigazione ?*/
-
+  /*css della navigazione */
   .pagination .page-link{
     color:white;
     background-color: black;
@@ -116,4 +57,15 @@
     background-color: #00ff00;
     border-color: #00ff00;
     box-shadow: 0 0 5px 2px black;
+  }
+
+  .modal-content{
+    width: 75%;
+  }
+  /*# Media Query */
+  /* Media query per breakpoint md (768px) */
+  @media (min-width: 768px) {
+    .modal-content{
+      width: 100%;
+    }
   }

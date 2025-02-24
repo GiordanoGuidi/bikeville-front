@@ -1,6 +1,6 @@
-<div *ngIf="!isLoading" class="container">
+<div *ngIf="!isLoading" class="container d-flex flex-column align-items-center">
   <br>
-  <h2 id="tablename" class="text-center w-100">ADMIN CUSTOMERS PANEL</h2>
+  <h2 id="tablename" class="text-center w-100 text-white">ADMIN CUSTOMERS</h2>
   <br>
 
   <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
@@ -11,31 +11,37 @@
 
 
   <!--navigazione superiore ?-->
-  <nav class="text-center">
-    <ul class="pagination justify-content-start text-white" style="margin: 20px;">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
-      </li>
-      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
-        [class.active]="currentPage === i + 1">
-        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-      </li>
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
-      </li>
-    </ul>
+  <nav class="pagination text-center mb-4">
+    <!-- Pulsante PRECEDENTE -->
+     <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" 
+      (click)="changePage(currentPage - 1)">«</button>
+     </li>
+
+     <!-- Pagine visibili -->
+     <li *ngFor="let page of visiblePages()" class="page-item"
+      [class.active]="currentPage === page">
+      <button class="page-link"
+      (click)="changePage(page)">{{page}}</button>
+     </li>
+
+     <!-- Pulsante successivo -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link"
+      (click)="changePage(currentPage + 1)">»</button>
+    </li>
   </nav>
 
-  <!-- tabella degli utenti ?-->
+  <!-- tabella degli utenti -->
   <table class="table table-bordered table-striped main-table">
     <thead>
       <tr>
         <th scope="col" id="id">Id</th>
         <th scope="col" id="title">Title</th>
         <th scope="col" id="name">Name</th>
-        <th scope="col" id="company">CompanyName</th>
-        <th scope="col" id="mail">Email</th>
-        <th scope="col" id="phone">Phone</th>
+        <th scope="col" id="company" class="d-none  d-md-table-cell">CompanyName</th>
+        <th scope="col" id="mail" class="d-none  d-md-table-cell">Email</th>
+        <th scope="col" id="phone" class="d-none d-lg-table-cell">Phone</th>
         <th scope="col" id="icons"></th>
       </tr>
     </thead>
@@ -49,10 +55,10 @@
           {{ customer.lastName }}
           {{ customer.suffix ? ', ' + customer.suffix : '' }}
         </td>
-        <td id="company">{{ customer.companyName }}</td>
-        <td id="mail">{{ customer.emailAddress }}</td>
-        <td id="phone">{{ customer.phone }}</td>
-        <td id="icons">
+        <td id="company" class="d-none d-md-table-cell">{{ customer.companyName }}</td>
+        <td id="mail" class="d-none d-md-table-cell">{{ customer.emailAddress }}</td>
+        <td id="phone" class="d-none d-lg-table-cell">{{ customer.phone }}</td>
+        <td id="icons" class="d-flex flex-column align-items-center gap-2">
           <button type="button" class="btn btn-primary iconbutton" (click)="viewCustomer(customer)">
             <i class="fa-solid fa-eye"></i>
           </button>
@@ -69,27 +75,33 @@
   </table>
   <br>
 
-  <!-- navigazione inferiore ?-->
-  <nav>
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
-      </li>
-      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
-        [class.active]="currentPage === i + 1">
-        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-      </li>
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
-      </li>
-    </ul>
+  <!-- navigazione inferiore -->
+  <nav class="pagination text-center mb-4">
+    <!-- Pulsante PRECEDENTE -->
+     <li class="page-item" [class.disabled]="currentPage === 1">
+      <button class="page-link" 
+      (click)="changePage(currentPage - 1)">«</button>
+     </li>
+
+     <!-- Pagine visibili -->
+     <li *ngFor="let page of visiblePages()" class="page-item"
+      [class.active]="currentPage === page">
+      <button class="page-link"
+      (click)="changePage(page)">{{page}}</button>
+     </li>
+
+     <!-- Pulsante successivo -->
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <button class="page-link"
+      (click)="changePage(currentPage + 1)">»</button>
+    </li>
   </nav>
 </div>
-
-<!-- modale per visualizzare utente ?-->
+<!-- modale per visualizzare utente -->
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #viewModal>
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered
+    d-flex justify-content-center" role="document">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Utente</h5>
@@ -108,7 +120,8 @@
 <!-- modale per modificare utente ?-->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #editModal>
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered
+  d-flex justify-content-center" role="document">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Modifica Utente</h5>
@@ -118,18 +131,22 @@
       <div class="modal-body">
         <form id="editForm">
           <div class="row g-2">
-            <div class="col-2 mb-3">
+            <div class="col-12 col-md-6 mb-3">
               <label for="edittitle" class="form-label">Title</label>
               <input type="text" id="edittitle" class="form-control w-100" placeholder="Mr/Ms">
             </div>
-            <div class="col-7 mb-3">
+            <div class="col-12 col-md-6 mb-3">
               <label for="editfirstname" class="form-label">First Name</label>
               <input type="text" id="editfirstname" class="form-control w-100" placeholder="Insert First Name">
             </div>
-            <div class="col-3 mb-3">
+            <div class="col-6 col-md-4 mb-3">
               <label for="editmiddlename" class="form-label">Middle Name</label>
               <input type="text" id="editmiddlename" class="form-control w-100" placeholder="Ins. Middle Name">
             </div>
+              <div class="col-6 col-md-8 mb-3">
+                <label for="editcompany" class="form-label">Company</label>
+                <input type="text" id="editcompany" class="form-control w-100" placeholder="Insert Company">
+              </div>
             <div class="row g-2">
               <div class="col-10 mb-3">
                 <label for="editlastname" class="form-label">Last Name</label>
@@ -142,19 +159,13 @@
             </div>
           </div>
           <div class="row g-2">
-            <div class="col-4 mb-3">
+            <div class="col-12 col-md-6 mb-3">
               <label for="editphone" class="form-label">Phone</label>
               <input type="text" id="editphone" class="form-control w-100" placeholder="Insert Phone">
             </div>
-            <div class="col-8 mb-3">
+            <div class="col-12 col-md-6 mb-3">
               <label for="editemail" class="form-label">Email</label>
               <input type="text" id="editemail" class="form-control w-100" placeholder="Insert Email">
-            </div>
-          </div>
-          <div class="row g-2">
-            <div class="col mb-3">
-              <label for="editcompany" class="form-label">Company</label>
-              <input type="text" id="editcompany" class="form-control w-100" placeholder="Insert Company">
             </div>
           </div>
         </form>
@@ -170,7 +181,8 @@
 <!--? modale per eliminare utente ?-->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #deleteModal>
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered
+  d-flex justify-content-center" role="document">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Elimina Utente</h5>
