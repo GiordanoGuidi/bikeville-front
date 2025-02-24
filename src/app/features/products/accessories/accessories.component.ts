@@ -13,13 +13,18 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-import { LoaderService } from '../../../shared/loader/loader.service';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
 declare const $: any;
 @Component({
   selector: 'app-accessories',
   standalone: true,
-  imports: [CommonModule,SidebarComponent,MobileFilterComponent,CardComponent,
-    PaginationComponent],
+  imports: [CommonModule,
+    SidebarComponent,
+    MobileFilterComponent,
+    CardComponent,
+    PaginationComponent,
+    SkeletonContainerComponent],
   templateUrl: './accessories.component.html',
   styleUrl: './accessories.component.css'
 })
@@ -66,6 +71,8 @@ export class AccessoriesComponent {
   isProductAdded = false;
   //Flag per mostrare il loader
   isLoading = false;
+  //Flag per mostrare la pagina vuota prima del caricamento dei dati
+  showSkeleton = true;
 
   //#Function
   //Recupero i filtri dal backend
@@ -100,10 +107,12 @@ export class AccessoriesComponent {
       next:(data)=>{
         this.accessories = data;
         this.loaderService.hide();
+        this.showSkeleton = false;
       },
       error: (err) => {
         console.error('Error:', err);
         this.loaderService.hide();
+        this.showSkeleton = false;
       },
     });
   }

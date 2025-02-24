@@ -1,6 +1,6 @@
-<div *ngIf="!isLoading" class="container">
+<div *ngIf="!isLoading" class="container d-flex flex-column align-items-center">
   <br>
-  <h2 id="title" class="text-center">ADMIN PRODUCTS PANEL</h2>
+  <h2 id="title" class="text-center text-white">ADMIN PRODUCTS</h2>
   <br>
 
   <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
@@ -34,39 +34,39 @@
   <table class="table table-bordered table-striped main-table">
     <thead>
       <tr>
-        <th scope="col" id="id">Id</th>
-        <th scope="col" id="name">Name</th>
-        <th scope="col" id="pnumber">ProdNumber</th>
-        <th scope="col" id="color">Color</th>
-        <th scope="col" id="cost">Cost</th>
-        <th scope="col" id="price">ListPrice</th>
-        <th scope="col" id="secondary">Size</th>
-        <th scope="col" id="secondary">Weight</th>
-        <th scope="col" id="secondary">CategoryId</th>
-        <th scope="col" id="secondary">ModelId</th>
-        <th scope="col" id="icons"></th>
+        <th scope="col" class="p-2" id="id">Id</th>
+        <th scope="col" class="p-2" id="name" class="d-none d-md-table-cell">Name</th>
+        <th scope="col" class="p-2" id="pnumber">ProdNumber</th>
+        <th scope="col" class="p-2" id="color" class="d-none d-lg-table-cell">Color</th>
+        <th scope="col" class="p-2" id="cost">Cost</th>
+        <th scope="col" class="p-2" id="price" class="d-none d-md-table-cell">ListPrice</th>
+        <th scope="col" class="p-2" id="secondary" class="d-none d-xl-table-cell">Size</th>
+        <th scope="col" class="p-2" id="secondary" class="d-none d-xl-table-cell">Weight</th>
+        <th scope="col" class="p-2" id="secondary" class="d-none d-lg-table-cell">CategoryId</th>
+        <th scope="col" class="p-2" id="secondary" class="d-none d-lg-table-cell">ModelId</th>
+        <th scope="col" class="p-2" id="icons"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of paginatedProducts">
-        <td id="id">{{ product.productId }}</td>
-        <td id="name">{{ product.name }}</td>
-        <td id="pnumber">{{ product.productNumber }}</td>
-        <td id="color">{{ product.color }}</td>
-        <td id="cost">{{ product.standardCost }}</td>
-        <td id="price">{{ product.listPrice }}</td>
-        <td id="secondary">{{ product.size }}</td>
-        <td id="secondary">{{ product.weight }}</td>
-        <td id="secondary">{{ product.productCategoryId }}</td>
-        <td id="secondary">{{ product.productModelId }}</td>
-        <td id="icons">
-          <button type="button" class="btn btn-primary iconbutton" (click)="viewProduct(product)">
+        <td class="p-2" id="id">{{ product.productId }}</td>
+        <td class="p-2" id="name" class="d-none d-md-table-cell">{{ product.name }}</td>
+        <td class="p-2" id="pnumber">{{ product.productNumber }}</td>
+        <td class="p-2" id="color" class="d-none d-lg-table-cell">{{ product.color }}</td>
+        <td class="p-2" id="cost">{{ product.standardCost }}</td>
+        <td class="p-2" id="price" class="d-none d-md-table-cell">{{ product.listPrice }}</td>
+        <td class="p-2" id="secondary" class="d-none d-xl-table-cell">{{ product.size }}</td>
+        <td class="p-2" id="secondary" class="d-none d-xl-table-cell">{{ product.weight }}</td>
+        <td class="p-2" id="secondary" class="d-none d-lg-table-cell">{{ product.productCategoryId }}</td>
+        <td class="p-2" id="secondary" class="d-none d-lg-table-cell">{{ product.productModelId }}</td>
+        <td class="p-2" id="icons" class="d-flex flex-column align-items-center gap-2">
+          <button type="button" class="btn btn-primary iconbutton mt-2" (click)="viewProduct(product)">
             <i class="fa-solid fa-eye"></i>
           </button>
           <button type="button" class="btn btn-warning iconbutton" (click)="editProduct(product)">
             <i class="fa-solid fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger iconbutton" data-bs-toggle="modal"
+          <button type="button" class="btn btn-danger iconbutton mb-2" data-bs-toggle="modal"
             (click)="setProductToDelete(product.productId)">
             <i class="fa-solid fa-trash"></i>
           </button>
@@ -94,9 +94,10 @@
 </div>
 
 <!-- modale per visualizzare prodotto -->
-<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
-  #viewModal>
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+  aria-hidden="true" #viewModal>
+  <div class="modal-dialog modal-dialog-centered 
+    d-flex justify-content-center" role="document">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Prodotto</h5>
@@ -115,7 +116,8 @@
 <!-- modale per modificare prodotto -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #editModal>
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered
+    d-flex justify-content-center" role="document">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Modifica Prodotto</h5>
@@ -181,21 +183,21 @@
             </div>
           </div>
           <div class="row g-2">
-            <div class="col mb-3">
+            <div class="col-12 col-md-6 mb-3">
               <label for="editdiscontinuedDate" class="form-label">Discontinued Date</label>
               <input type="date" id="editdiscontinuedDate" class="form-control w-100"
                 placeholder="Insert Discontinued Date">
             </div>
-            <div class="col mb-3">
+            <div class="col-12 col-md-6 mb-3">
               <label for="editthumbnailPhotoFileName" class="form-label">Thumbnail Filename</label>
               <input type="text" id="editthumbnailPhotoFileName" class="form-control w-100"
                 placeholder="Insert Thumbnail Filename">
             </div>
           </div>
           <div class="row g-2">
-            <div class="col mb-3">
+            <div class="col">
               <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
-              <input type="file" id="thumbnailPhoto" class="form-control w-100" placeholder="Insert Thumbnail Photo"
+              <input type="file" id="thumbnailPhoto" class="form-control w-100 mb-3" placeholder="Insert Thumbnail Photo"
                 (change)="onFileSelected($event)" accept="image/*">
 
               <!-- Optional: Display Base64 string (read-only) -->
@@ -224,7 +226,8 @@
 <!-- modale per eliminare prodotto -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #deleteModal>
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered
+    d-flex justify-content-center" role="document">
     <div class="modal-content bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Elimina Prodotto</h5>

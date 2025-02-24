@@ -63,11 +63,16 @@
                 [products]="clothes"
                 (getPaginatedProducts)="onChildNotify($event)">
             </app-pagination>
-
-
         </div>
     </div>
 </section>
+
+<!-- Creo spazio vuoto per non mostrare 
+il footer durante caricamento dei dati -->
+<div *ngIf="showSkeleton">
+  <app-skeleton-container></app-skeleton-container>
+</div>
+
 
 <div class="modal fade" id="viewProduct" tabindex="-1">
   <div class="modal-dialog modal-xl">

@@ -1,5 +1,4 @@
 .container {
-    width: 930px;
     height: 630px;
 }
 
@@ -33,4 +32,14 @@ img {
 
 .image-container:hover {
   transform: scale(0.9);
+}
+
+/*# Media Query */
+/* Media query per breakpoint md (768px) */
+@media (min-width: 768px) {
+  .container {
+      height: 500px;
+  }
+
+  
 }

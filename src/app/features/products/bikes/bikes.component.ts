@@ -13,8 +13,8 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-import { LoaderService } from '../../../shared/loader/loader.service';
-
+import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
 declare const $: any;
 @Component({
   selector: 'app-bikes',
@@ -23,7 +23,9 @@ declare const $: any;
     SidebarComponent,
     MobileFilterComponent,
     CardComponent,
-    PaginationComponent],
+    PaginationComponent,
+    SkeletonContainerComponent
+    ],
   templateUrl: './bikes.component.html',
   styleUrl: './bikes.component.css'
 })
@@ -68,7 +70,10 @@ export class BikesComponent {
   //Prodotti paginati
   paginatedProducts: Product[] = [];
   isProductAdded = false;
+  //Flag per mostrare il loader
   isLoading = false;
+  //Flag per mostrare la pagina vuota prima del caricamento dei dati
+  showSkeleton = true;
 
 
   //#Function
@@ -103,11 +108,13 @@ export class BikesComponent {
     this.httpRequest.getProductsByParentCategory(this.parentCategoryId).subscribe({
       next: (data) => {
         this.bikes = data;
-        this.loaderService.hide()
+        this.loaderService.hide();
+        this.showSkeleton = false;
       },
       error: (err) => {
         console.error('Error:', err);
-        this.loaderService.hide()
+        this.loaderService.hide();
+        this.showSkeleton = false;
       },
     });
   }

@@ -12,7 +12,7 @@ import { ModalSessionService } from '../../../shared/service/modal-session.servi
 import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
 import { AlertComponent } from '../../../shared/components/alert/alert/alert.component';
 import { AlertService } from '../../../shared/service/alert.service';
-import { LoaderService } from '../../../shared/loader/loader.service';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
 declare const $: any;
 
 
@@ -342,16 +342,31 @@ export class AdminProductsComponent {
     }
   }
 
-  // funzioni di navigazione ?//
+  //# funzioni di navigazione //
 
   changePage(page: number) {
-    this.currentPage = page;
+    if(page>= 1 && page <= this.totalPages){
+      this.currentPage = page;
+    }
     this.updatePaginatedProducts();
   }
 
   // Calcola il numero totale di pagine
   get totalPages() {
     return Math.ceil(this.products.length / this.itemsPerPage);
+  }
+
+  visiblePages(): number[]{
+    const total = this.totalPages;
+    // Numero massimo di pagine visibili
+    const maxVisible = 5;
+    let start = Math.max(1,this.currentPage - Math.floor(maxVisible / 2));
+    let end = Math.min(total,start + maxVisible - 1);
+    // Se siamo vicini alla fine, spostiamo l'intervallo all'indietro
+    if(end - start < maxVisible -1){
+      start = Math.max(1, end - maxVisible +1);
+    }
+    return Array.from({length: end - start +1},(_,i)=> start + i);
   }
 
   updatePaginatedProducts() {
@@ -405,7 +420,7 @@ export class AdminProductsComponent {
       // Chiamata al servizio
       this.httpRequest.updateAdminProduct(this.productId, updatedProduct).subscribe({
         next: () => {
-          this.alertService.showAlert('Modifiche salvate con successo!', 'ok');
+          this.alertService.showAlert('Changes saved successfully !', 'ok');
           document.getElementById("editForm")?.onreset;
           const modal = document.getElementById("editModal");
           if (modal) {
@@ -417,12 +432,12 @@ export class AdminProductsComponent {
         },
         error: (err) => {
           console.error("Errore durante il salvataggio:", err);
-          this.alertService.showAlert('Errore durante il salvataggio delle modifiche!', 'error');
+          this.alertService.showAlert('An unexpected error occurred while saving changes.', 'error');
         },
       });
     } catch (error) {
       console.error("Errore:", error);
-      this.alertService.showAlert('Si è verificato un errore inaspettato durante il salvataggio delle modifiche.', 'error');
+      this.alertService.showAlert('An unexpected error occurred while saving changes.', 'error');
     }
   }
 }

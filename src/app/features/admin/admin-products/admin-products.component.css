@@ -1,73 +1,16 @@
-#title {
-  color: white;
-}
-
 .main-table {
-    width: 100%;
+    max-width: 90%;
     border-collapse: collapse;
-    table-layout: fixed;
   }
 
   .main-table th, .main-table td,
-  .secondary-table th, .secondary-table td {
-    padding: 4px;
-    text-align: center;
-    border: 1px solid #ccc;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: #1f1e1e;
-  }
-  
-  tr {
-    height: 5px;
+  .main-table tr {
+    color: white;
+    background-color: #1f1e1e; 
   }
   
   th {
-    background-color: #1f1e1e;
     font-weight: bold;
-  }
-  
-
-  #icons {
-    width: 174px;
-    text-align: center;
-  }
-
-  #id {
-    width: 60px;
-    color: white;
-  }
-
-  #name {
-    width: 300px;
-    color: white;
-  }
-
-  #pnumber {
-    width: 150px;
-    color: white;
-  }
-
-  #color {
-    width: 60px;
-    color: white;
-  }
-
-  #cost {
-    width: 90px;
-    color: white;
-  }
-
-  #price {
-    width: 90px;
-    color: white;
-  }
-
-  #secondary {
-    width: 100px;
-    color: white;
   }
 
   .iconbutton {
@@ -84,8 +27,7 @@
     width: 50px;
   }
 
-  /*? css della navigazione ?*/
-
+  /*css della paginazione */
   .pagination .page-link{
     color:white;
     background-color: black;
@@ -118,4 +60,15 @@
 
   .bg-x{
     background-color: #00ff00 ;
-}
+  }
+
+  .modal-content{
+    width: 75%;
+  }
+  /*# Media Query */
+  /* Media query per breakpoint md (768px) */
+  @media (min-width: 768px) {
+    .modal-content{
+      width: 100%;
+    }
+  }

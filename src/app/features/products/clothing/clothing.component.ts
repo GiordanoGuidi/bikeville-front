@@ -13,7 +13,8 @@ import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
-import { LoaderService } from '../../../shared/loader/loader.service';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
 declare const $: any;
 
 @Component({
@@ -23,7 +24,8 @@ declare const $: any;
             SidebarComponent,
             MobileFilterComponent,
             CardComponent,
-            PaginationComponent],
+            PaginationComponent,
+          SkeletonContainerComponent],
   templateUrl: './clothing.component.html',
   styleUrl: './clothing.component.css'
 })
@@ -70,6 +72,8 @@ export class ClothingComponent {
   isProductAdded = false;
   //Flag per mostare o meno il loader
   isLoading = false;
+  //Flag per mostrare la pagina vuota prima del caricamento dei dati
+  showSkeleton = true;
 
   //#Function
   //Recupero i filtri dal backend
@@ -104,10 +108,12 @@ export class ClothingComponent {
       next:(data)=>{
         this.clothes = data;
         this.loaderService.hide();
+        this.showSkeleton = false;
       },
       error: (err) => {
         console.error('Error:', err);
         this.loaderService.hide();
+        this.showSkeleton = false;
       },
     });
   }

@@ -11,15 +11,21 @@ import { AlertComponent } from '../../../shared/components/alert/alert/alert.com
 import { AlertService } from '../../../shared/service/alert.service';
 import { ModalSessionService } from '../../../shared/service/modal-session.service';
 import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
-import { LoaderService } from '../../../shared/loader/loader.service';
-import { LoaderComponent } from '../../../shared/loader/loader.component';
+import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { HttpHeaders } from '@angular/common/http';
+import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
 declare const $: any;
 
 @Component({
   selector: 'app-admin-customers',
   standalone: true,
-  imports: [CommonModule, FormsModule, AlertComponent, SessionModalComponent, LoaderComponent],
+  imports: [CommonModule, 
+    FormsModule, 
+    AlertComponent, 
+    SessionModalComponent,
+    LoaderComponent,
+    SkeletonContainerComponent],
   templateUrl: './admin-customers.component.html',
   styleUrl: './admin-customers.component.css'
 })
@@ -43,6 +49,8 @@ export class AdminCustomersComponent {
   showAlert = false;
   //Flag per mostrare o meno illoader
   isLoading = false;
+  //Flag per mostrare la pagina vuota prima del caricamento dei dati
+  showSkeleton = true;
 
   ngOnInit(): void {
     this.AdminCustomers();
@@ -69,10 +77,12 @@ export class AdminCustomersComponent {
         this.customers = data;
         this.preloadEmails(data);
         this.updatePaginatedCustomers();
+        this.showSkeleton = false;
       },
 
       error: (err) => {
         console.error('Error:', err);
+        this.loaderService.hide();
       },
     });
   }
@@ -104,7 +114,9 @@ export class AdminCustomersComponent {
   }
 
   changePage(page: number) {
-    this.currentPage = page;
+    if(page>= 1 && page <= this.totalPages){
+      this.currentPage = page;
+    }
     this.updatePaginatedCustomers();
   }
 
@@ -116,6 +128,19 @@ export class AdminCustomersComponent {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedCustomers = this.customers.slice(startIndex, endIndex);
+  }
+
+  visiblePages(): number[]{
+    const total = this.totalPages;
+    // Numero massimo di pagine visibili
+    const maxVisible = 5;
+    let start = Math.max(1,this.currentPage - Math.floor(maxVisible / 2));
+    let end = Math.min(total,start + maxVisible - 1);
+    // Se siamo vicini alla fine, spostiamo l'intervallo all'indietro
+    if(end - start < maxVisible -1){
+      start = Math.max(1, end - maxVisible +1);
+    }
+    return Array.from({length: end - start +1},(_,i)=> start + i);
   }
 
   async viewCustomer(cliente: Customer) {
@@ -221,7 +246,7 @@ export class AdminCustomersComponent {
       // Invio della richiesta al server
       this.httpRequest.updateAdminCustomers(this.customerId, updatedCustomer).subscribe({
         next: () => {
-          this.alertService.showAlert('Modifiche salvate con successo!', 'ok');
+          this.alertService.showAlert('Changes saved successfully !', 'ok');
           document.getElementById("editForm")?.onreset;
           const modal = document.getElementById("editModal");
           if (modal) {
@@ -233,24 +258,22 @@ export class AdminCustomersComponent {
         error: (err) => {
           // Gestione dell'errore
           if (err.status === 409) { // Assumi che 409 sia restituito in caso di email duplicata
-            alert("Email già in uso, riprovare.");
+            alert("Email already exist, retry.");
           } else {
-            this.alertService.showAlert('Si è verificato un errore durante il salvataggio delle modifiche.', 'error');
+            this.alertService.showAlert('An unexpected error occurred while saving changes.', 'error');
           }
           console.error("Errore:", err);
         }
       });
     } catch (error) {
       console.error("Errore:", error);
-      this.alertService.showAlert('Si è verificato un errore inaspettato durante il salvataggio delle modifiche.', 'ok');
+      this.alertService.showAlert('An unexpected error occurred while saving changes.', 'ok');
     }
   }
-
 
   async setCustomerToDelete(customerId: number) {
     this.customerToDelete = customerId;
   }
-
 
   async deleteCustomer() {
     //Verifico la validità del token
