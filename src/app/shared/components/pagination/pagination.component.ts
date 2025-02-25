@@ -1,6 +1,9 @@
-import { Component,Input,Output,EventEmitter} from '@angular/core';
+import { Component,Input,Output,EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Customer } from '../../Models/customer';
+import { SimpleChanges } from '@angular/core';
+import { Product } from '../../Models/products';
+import { PaginationService } from '../../service/pagination-service';
+
 @Component({
   selector: 'app-pagination',
   standalone: true,
@@ -8,34 +11,53 @@ import { Customer } from '../../Models/customer';
   templateUrl: './pagination.component.html',
   styleUrl: './pagination.component.css'
 })
-export class PaginationComponent {
-  @Input()currentPage :number = 1;
-  paginatedCustomers : Customer[] = [];
-  //Valori ricevuti dal componente padre
-  @Input() itemsPerPage : number = 10;
-  @Input() customers : Customer[] = [];
-  // Output per notificare il padre
-  @Output() pageChanged = new EventEmitter<Customer[]>();
-  @Output() newPage = new EventEmitter <number>();
+export class PaginationComponent<T> {
+  constructor(private paginationService: PaginationService) {}
 
-  get totalPages() {
-    return Math.ceil(this.customers.length / this.itemsPerPage);
-  }
-
-  changePage(page: number) {
-    if(page>= 1 && page <= this.totalPages){
-      this.currentPage = page;
-    }
-    this.newPage.emit(this.currentPage)
-    this.updatePaginatedCustomers();
-  }
-
-  updatePaginatedCustomers() {
+  //# Input per i dati(Popolati dal componente padre)
+   @Input() entities: T[] = [];
+   paginatedEntities: T[] = [];
+   currentPage = 1;
+   itemsPerPage = 10;
+   // #Output per eventi(Emissione eventi da componente figlio al padre)
+   @Output() getPaginatedEntities = new EventEmitter<T[]>();
+ 
+   // Aggiorna i prodotti per la pagina corrente
+   updatePaginatedEntities() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedCustomers = this.customers.slice(startIndex, endIndex);
-    //Notifica il padre con i nuovi dati
-    this.pageChanged.emit(this.paginatedCustomers);
+    this.paginatedEntities = this.entities.slice(startIndex, endIndex);
+    //emetto l'array di prodotti paginati
+    this.getPaginatedEntities.emit(this.paginatedEntities);
+  }
+
+  // Cambia pagina
+  changePage(page: number) {
+    this.currentPage = page;
+    this.updatePaginatedEntities();
+    //Notifico il servizio per modificare il valore
+    this.paginationService.setCurrentPage(page);
+  }
+
+  // Calcola il numero totale di pagine
+  get totalPages() {
+    return Math.ceil(this.entities.length / this.itemsPerPage);
+  }
+
+  //Quando cambia il valore di entities eseguo il metodo
+  // è un dato ricevuto da un metodo asincrono)
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['entities'] && this.entities) {
+      this.updatePaginatedEntities();
+    }
+  }
+
+  //Iscrizione al servizio
+  ngOnInit(): void {
+    this.paginationService.currentPage$.subscribe(page => {
+        this.currentPage = page;
+        this.updatePaginatedEntities();
+    });
   }
 
   visiblePages(): number[]{
