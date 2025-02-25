@@ -7,7 +7,7 @@ import { ProductnologhttpService } from '../../../shared/httpservices/productnol
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
-import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { PaginationService } from '../../../shared/service/pagination-service';
 import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
@@ -68,11 +68,11 @@ export class AccessoriesComponent {
   activeFilter: { filterType: string; value: any }[] = [];
   //Prodotti paginati
   paginatedProducts:Product[]=[];
-  isProductAdded = false;
   //Flag per mostrare il loader
   isLoading = false;
   //Flag per mostrare la pagina vuota prima del caricamento dei dati
   showSkeleton = true;
+  isProductAdded = false;
 
   //#Function
   //Recupero i filtri dal backend
@@ -192,7 +192,7 @@ export class AccessoriesComponent {
     }
 
     //Metodo per ricevere i prodotti paginati e assegnarli alla variabile
-  onChildNotify(eventData:Product[]):void{
+  onChildNotify(eventData: Product[]){
     this.paginatedProducts=eventData;
   }
 
@@ -208,49 +208,49 @@ export class AccessoriesComponent {
           });
   }
 
-async  viewProduct(prodotto: Product) {
-    this.selectedProduct = prodotto;
-    const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
-    const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
-    const descriptionResponse = await fetch("https://localhost:7257/api/Products/getDescByModelId/" + prodotto.productModelId);
-    const category = await categoryResponse.text();
-    const model = await modelResponse.text();
-    const description = await descriptionResponse.json();
+  async  viewProduct(prodotto: Product) {
+      this.selectedProduct = prodotto;
+      const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
+      const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
+      const descriptionResponse = await fetch("https://localhost:7257/api/Products/getDescByModelId/" + prodotto.productModelId);
+      const category = await categoryResponse.text();
+      const model = await modelResponse.text();
+      const description = await descriptionResponse.json();
 
-    const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
-    Paragraph.innerHTML = `
-    <div>
-    <div class = "d-flex">
-    <div>
-    <img src = "data:image/gif;base64,${prodotto.thumbNailPhoto}" style = "width: 700px; height: auto;" alt="Immagine">
-    </div>
-    <div class = "d-flex flex-column justify-content-start ps-5">
-    <h1> ${prodotto.name} </h1>
-    <hr>
-    <h2>${prodotto.listPrice.toFixed(2)}€ </h2>
-    <p style = "font-size: 20px;"> <br>
-     <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
-     <strong>Size:</strong> ${prodotto.size || '0'} <br>
-     <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
-     <strong>Category:</strong> ${category} <br>
-     <strong>Model:</strong> ${model} <br>
-     <strong>Number:</strong> ${prodotto.productNumber} 
-    </p>
-    </div>
-    </div>
-    </div>
-    <hr>
-    <p style = "font-size: 20px;"> ${description[0].description} </p>
-    `;
-    
-    const modalElement = document.getElementById('viewProduct');
-              if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
-              } else {
-                console.error('Modal element not found!');
-              }
-  }
+      const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
+      Paragraph.innerHTML = `
+      <div>
+      <div class = "d-flex">
+      <div>
+      <img src = "data:image/gif;base64,${prodotto.thumbNailPhoto}" style = "width: 700px; height: auto;" alt="Immagine">
+      </div>
+      <div class = "d-flex flex-column justify-content-start ps-5">
+      <h1> ${prodotto.name} </h1>
+      <hr>
+      <h2>${prodotto.listPrice.toFixed(2)}€ </h2>
+      <p style = "font-size: 20px;"> <br>
+      <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
+      <strong>Size:</strong> ${prodotto.size || '0'} <br>
+      <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
+      <strong>Category:</strong> ${category} <br>
+      <strong>Model:</strong> ${model} <br>
+      <strong>Number:</strong> ${prodotto.productNumber} 
+      </p>
+      </div>
+      </div>
+      </div>
+      <hr>
+      <p style = "font-size: 20px;"> ${description[0].description} </p>
+      `;
+      
+      const modalElement = document.getElementById('viewProduct');
+                if (modalElement) {
+                  const modal = new bootstrap.Modal(modalElement);
+                  modal.show();
+                } else {
+                  console.error('Modal element not found!');
+                }
+    }
   
   addToCart(product: Product) {
     this.cart.addCartItem(product);

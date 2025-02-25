@@ -13,13 +13,18 @@ import { SessionModalComponent } from '../../../shared/components/session-modal/
 import { AlertComponent } from '../../../shared/components/alert/alert/alert.component';
 import { AlertService } from '../../../shared/service/alert.service';
 import { LoaderService } from '../../../shared/components/loader/loader.service';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 declare const $: any;
 
 
 @Component({
   selector: 'app-admin-products',
   standalone: true,
-  imports: [CommonModule, FormsModule, SessionModalComponent, AlertComponent],
+  imports: [CommonModule,
+     FormsModule, 
+     SessionModalComponent, 
+     AlertComponent,
+     PaginationComponent],
   templateUrl: './admin-products.component.html',
   styleUrl: './admin-products.component.css'
 })
@@ -35,8 +40,6 @@ export class AdminProductsComponent {
   newProduct: ProductDTO = new ProductDTO();
   paginatedProducts: Product[] = [];
   productId: number = 0;
-  currentPage = 1;
-  itemsPerPage = 50;
   currentProductId: number | null = null;
   //Flag per mostarre l'alert
   showAlert = false;
@@ -66,7 +69,6 @@ export class AdminProductsComponent {
     this.httpRequest.getAdminProducts().subscribe({
       next: (data) => {
         this.products = data;
-        this.updatePaginatedProducts();
         this.loaderService.hide();
       },
       error: (err) => {
@@ -342,39 +344,6 @@ export class AdminProductsComponent {
     }
   }
 
-  //# funzioni di navigazione //
-
-  changePage(page: number) {
-    if(page>= 1 && page <= this.totalPages){
-      this.currentPage = page;
-    }
-    this.updatePaginatedProducts();
-  }
-
-  // Calcola il numero totale di pagine
-  get totalPages() {
-    return Math.ceil(this.products.length / this.itemsPerPage);
-  }
-
-  visiblePages(): number[]{
-    const total = this.totalPages;
-    // Numero massimo di pagine visibili
-    const maxVisible = 5;
-    let start = Math.max(1,this.currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(total,start + maxVisible - 1);
-    // Se siamo vicini alla fine, spostiamo l'intervallo all'indietro
-    if(end - start < maxVisible -1){
-      start = Math.max(1, end - maxVisible +1);
-    }
-    return Array.from({length: end - start +1},(_,i)=> start + i);
-  }
-
-  updatePaginatedProducts() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedProducts = this.products.slice(startIndex, endIndex);
-  }
-
   async editConfirm() {
     try {
       const Name = (document.getElementById("editname") as HTMLInputElement).value;
@@ -439,5 +408,10 @@ export class AdminProductsComponent {
       console.error("Errore:", error);
       this.alertService.showAlert('An unexpected error occurred while saving changes.', 'error');
     }
+  }
+  //# funzioni per la paginazione e navigazione //
+  // Metodo per ricevere l'evento dal figlio sugli utenti da visualizzare
+  onChildNotify(newPaginatedProduct : Product[]){
+    this.paginatedProducts = newPaginatedProduct;
   }
 }

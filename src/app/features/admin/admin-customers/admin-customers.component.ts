@@ -15,6 +15,7 @@ import { LoaderService } from '../../../shared/components/loader/loader.service'
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { HttpHeaders } from '@angular/common/http';
 import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 declare const $: any;
 
 @Component({
@@ -25,7 +26,8 @@ declare const $: any;
     AlertComponent, 
     SessionModalComponent,
     LoaderComponent,
-    SkeletonContainerComponent],
+    SkeletonContainerComponent,
+    PaginationComponent],
   templateUrl: './admin-customers.component.html',
   styleUrl: './admin-customers.component.css'
 })
@@ -40,9 +42,7 @@ export class AdminCustomersComponent {
   customers: Customer[] = [];
   paginatedCustomers: Customer[] = [];
   email: string = "";
-  currentPage = 1;
   customerId: number = 0;
-  itemsPerPage = 50;
   emailMap: { [key: number]: string } = {};
   customerToDelete: number | null = null;
   //Flag per mostarre l'alert
@@ -76,7 +76,7 @@ export class AdminCustomersComponent {
       next: (data) => {
         this.customers = data;
         this.preloadEmails(data);
-        this.updatePaginatedCustomers();
+        // this.updatePaginatedCustomers();
         this.showSkeleton = false;
       },
 
@@ -86,7 +86,6 @@ export class AdminCustomersComponent {
       },
     });
   }
-
 
   //Recupero le email degli utenti
   preloadEmails(customers: any[]) {
@@ -98,7 +97,7 @@ export class AdminCustomersComponent {
           customer.emailAddress = emails[index];
           this.emailMap[customer.customerId] = emails[index];
         });
-        this.updatePaginatedCustomers();
+        // this.updatePaginatedCustomers();
         //Nascondo il loader
         this.loaderService.hide();
       },
@@ -111,36 +110,6 @@ export class AdminCustomersComponent {
 
   getEmail(customerId: number): string {
     return this.emailMap[customerId] || 'Loading...';
-  }
-
-  changePage(page: number) {
-    if(page>= 1 && page <= this.totalPages){
-      this.currentPage = page;
-    }
-    this.updatePaginatedCustomers();
-  }
-
-  get totalPages() {
-    return Math.ceil(this.customers.length / this.itemsPerPage);
-  }
-
-  updatePaginatedCustomers() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedCustomers = this.customers.slice(startIndex, endIndex);
-  }
-
-  visiblePages(): number[]{
-    const total = this.totalPages;
-    // Numero massimo di pagine visibili
-    const maxVisible = 5;
-    let start = Math.max(1,this.currentPage - Math.floor(maxVisible / 2));
-    let end = Math.min(total,start + maxVisible - 1);
-    // Se siamo vicini alla fine, spostiamo l'intervallo all'indietro
-    if(end - start < maxVisible -1){
-      start = Math.max(1, end - maxVisible +1);
-    }
-    return Array.from({length: end - start +1},(_,i)=> start + i);
   }
 
   async viewCustomer(cliente: Customer) {
@@ -311,4 +280,11 @@ export class AdminCustomersComponent {
       });
     }
   }
+
+  //# funzioni per la paginazione //
+   // Metodo per ricevere l'evento dal figlio sugli utenti da visualizzare
+  onChildNotify(newPaginatedCustomer : Customer[]){
+    this.paginatedCustomers = newPaginatedCustomer;
+  }
+  
 }

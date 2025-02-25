@@ -17,7 +17,8 @@
         </app-sidebar>
 
         <!-- Contenitore lista prodotti e filtri mobile -->
-        <div class="list-wrapper ms-md-5">
+        <div class="list-wrapper ms-md-5 d-flex
+         flex-column align-items-center">
             <!--Componente MobileFilter --><!--#Visibile da768px in giu-->
             <app-mobile-filter
                 [title]="'Accessories'"
@@ -29,13 +30,16 @@
                 [activeFilter]="activeFilter"
                 (filterChange)="onFilterChange($event.event, $event.filterType)"
                 (removeFilter)="removeFilter($event)">
-            ></app-mobile-filter>
+            </app-mobile-filter>
 
             <!-- Paginazione superiore-->
-            <app-pagination [hidden]="!accessories.length"
-            [products]="accessories"
-            (getPaginatedProducts)="onChildNotify($event)">
-            </app-pagination>    
+             <div class="pt-4 pt-md-2">
+               <app-pagination 
+               [hidden]="!accessories.length"
+               [entities]="accessories"
+               (getPaginatedEntities)="onChildNotify($event)">
+               </app-pagination>    
+             </div>
 
             <!-- Lista prodotti -->
             <div class="product-list d-flex flex-wrap mt-sm-4 gap-3">
@@ -57,10 +61,11 @@
             </div>
 
              <!-- Paginazione inferiore-->
-             <app-pagination [hidden]="!accessories.length"
-             [products]="accessories"
-             (getPaginatedProducts)="onChildNotify($event)"
-         ></app-pagination>    
+             <app-pagination 
+            [hidden]="!accessories.length"
+            [entities]="accessories"
+            (getPaginatedEntities)="onChildNotify($event)">
+            </app-pagination>     
 
         </div>
     </div>
