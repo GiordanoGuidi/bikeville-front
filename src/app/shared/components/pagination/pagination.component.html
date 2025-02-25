@@ -1,0 +1,20 @@
+<nav class="pagination text-center mb-4">
+  <!-- Pulsante PRECEDENTE -->
+   <li class="page-item" [class.disabled]="currentPage === 1">
+    <button class="page-link" 
+    (click)="changePage(currentPage - 1)">«</button>
+   </li>
+
+   <!-- Pagine visibili -->
+   <li *ngFor="let page of visiblePages()" class="page-item"
+    [class.active]="currentPage === page">
+    <button class="page-link"
+    (click)="changePage(page)">{{page}}</button>
+   </li>
+
+   <!-- Pulsante successivo -->
+  <li class="page-item" [class.disabled]="currentPage === totalPages">
+    <button class="page-link"
+    (click)="changePage(currentPage + 1)">»</button>
+  </li>
+</nav>

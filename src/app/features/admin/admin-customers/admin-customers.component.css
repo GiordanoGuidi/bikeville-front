@@ -13,6 +13,10 @@
   th {
     font-weight: bold;
   }
+
+  td{
+    vertical-align: middle;
+  }
   
   .iconbutton {
     width: 50px;
@@ -26,37 +30,6 @@
     right : 15px;
     height: 50px;
     width: 50px;
-  }
-
-  /*css della navigazione */
-  .pagination .page-link{
-    color:white;
-    background-color: black;
-    border-color: #00ff00;
-}
-  
-  .pagination .page-item.active .page-link {
-    background-color: #00ff00; 
-    border-color: #00ff00;     
-    color: black;             
-}
-  
-  .pagination .page-item.disabled .page-link {
-    color: white;
-    background-color: black;
-    border-color: black;
-  }
-
-  .pagination .page-item .page-link:focus {
-    outline: none;
-    border-color: black;
-    box-shadow: 0 0 5px 2px #00ff00;
-  }
-
-  .pagination .page-item .page-link:active {
-    background-color: #00ff00;
-    border-color: #00ff00;
-    box-shadow: 0 0 5px 2px black;
   }
 
   .modal-content{

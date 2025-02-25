@@ -9,28 +9,12 @@
     </app-alert>
   </div>
 
-
-  <!--navigazione superiore ?-->
-  <nav class="pagination text-center mb-4">
-    <!-- Pulsante PRECEDENTE -->
-     <li class="page-item" [class.disabled]="currentPage === 1">
-      <button class="page-link" 
-      (click)="changePage(currentPage - 1)">«</button>
-     </li>
-
-     <!-- Pagine visibili -->
-     <li *ngFor="let page of visiblePages()" class="page-item"
-      [class.active]="currentPage === page">
-      <button class="page-link"
-      (click)="changePage(page)">{{page}}</button>
-     </li>
-
-     <!-- Pulsante successivo -->
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <button class="page-link"
-      (click)="changePage(currentPage + 1)">»</button>
-    </li>
-  </nav>
+  <!--navigazione superiore -->
+  <app-pagination 
+    [hidden]="!customers.length"
+    [entities]="customers"
+    (getPaginatedEntities)="onChildNotify($event)">
+  </app-pagination>    
 
   <!-- tabella degli utenti -->
   <table class="table table-bordered table-striped main-table">
@@ -76,26 +60,12 @@
   <br>
 
   <!-- navigazione inferiore -->
-  <nav class="pagination text-center mb-4">
-    <!-- Pulsante PRECEDENTE -->
-     <li class="page-item" [class.disabled]="currentPage === 1">
-      <button class="page-link" 
-      (click)="changePage(currentPage - 1)">«</button>
-     </li>
-
-     <!-- Pagine visibili -->
-     <li *ngFor="let page of visiblePages()" class="page-item"
-      [class.active]="currentPage === page">
-      <button class="page-link"
-      (click)="changePage(page)">{{page}}</button>
-     </li>
-
-     <!-- Pulsante successivo -->
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <button class="page-link"
-      (click)="changePage(currentPage + 1)">»</button>
-    </li>
-  </nav>
+  <app-pagination 
+    [hidden]="!customers.length"
+    [entities]="customers"
+    (getPaginatedEntities)="onChildNotify($event)">
+  </app-pagination>    
+  
 </div>
 <!-- modale per visualizzare utente -->
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
@@ -148,11 +118,11 @@
                 <input type="text" id="editcompany" class="form-control w-100" placeholder="Insert Company">
               </div>
             <div class="row g-2">
-              <div class="col-10 mb-3">
+              <div class="col-8 mb-3">
                 <label for="editlastname" class="form-label">Last Name</label>
                 <input type="text" id="editlastname" class="form-control w-100" placeholder="Insert Last Name">
               </div>
-              <div class="col-2 mb-3">
+              <div class="col-4 mb-3">
                 <label for="editsuffix" class="form-label">Suffix</label>
                 <input type="text" id="editsuffix" class="form-control w-100" placeholder="Jr/Sr">
               </div>

@@ -9,26 +9,16 @@
     </app-alert>
   </div>
 
-
   <!-- bottone per aggiungere un prodotto -->
   <button type="button" class="btn btn-success addbutton" data-bs-toggle="modal" data-bs-target="#addModal">
     <i class="fa-solid fa-plus"></i>
   </button>
   <!-- navigazione superiore -->
-  <nav class="text-center">
-    <ul class="pagination justify-content-start text-white" style="margin: 20px;">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
-      </li>
-      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
-        [class.active]="currentPage === i + 1">
-        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-      </li>
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
-      </li>
-    </ul>
-  </nav>
+  <app-pagination 
+    [hidden]="!products.length"
+    [entities]="products"
+    (getPaginatedEntities)="onChildNotify($event)">
+  </app-pagination>    
 
   <!-- tabella dei prodotti -->
   <table class="table table-bordered table-striped main-table">
@@ -77,20 +67,12 @@
   <br>
 
   <!-- navigazione inferiore -->
-  <nav>
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <button class="page-link" (click)="changePage(currentPage - 1)">&laquo;</button>
-      </li>
-      <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"
-        [class.active]="currentPage === i + 1">
-        <button class="page-link" (click)="changePage(i + 1)">{{ i + 1 }}</button>
-      </li>
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <button class="page-link" (click)="changePage(currentPage + 1)">&raquo;</button>
-      </li>
-    </ul>
-  </nav>
+  <app-pagination 
+    [hidden]="!products.length"
+    [entities]="products"
+    (getPaginatedEntities)="onChildNotify($event)">
+  </app-pagination>    
+
 </div>
 
 <!-- modale per visualizzare prodotto -->

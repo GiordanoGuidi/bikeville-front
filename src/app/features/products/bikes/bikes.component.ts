@@ -7,7 +7,7 @@ import { ProductnologhttpService } from '../../../shared/httpservices/productnol
 import { SidebarComponent } from '../../../shared/components/sidebar/sidebar.component';
 import { MobileFilterComponent } from '../../../shared/components/mobile-filter/mobile-filter/mobile-filter.component';
 import { CardComponent } from '../../../shared/components/product-card/card/card.component';
-import { PaginationComponent } from '../../../shared/components/products-pagination/pagination/pagination.component';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 import { PaginationService } from '../../../shared/service/pagination-service';
 import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
