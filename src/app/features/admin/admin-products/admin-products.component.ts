@@ -94,12 +94,12 @@ export class AdminProductsComponent {
       return;
     }
     this.newProduct = prodotto.value;
-    console.log(this.newProduct);
+    // Aggiungo il prodotto
     this.httpRequest.postAdminProduct(this.newProduct).subscribe({
       next: (data) => {
-        console.log('Product successfully added:', data);
         this.alertService.showAlert('Product added successfully!', 'ok');
         this.AdminProducts();
+        // Chiudo la modale dopo l'aggiunta
         const modalElement = document.getElementById('addModal');
         if (modalElement) {
           const modal = new bootstrap.Modal(modalElement);
@@ -107,6 +107,9 @@ export class AdminProductsComponent {
         } else {
           console.error('Modal element not found!');
         }
+        //Resetto il campo input file
+        const fileInput = document.getElementById("thumbnailPhoto") as HTMLInputElement;
+        if(fileInput) fileInput.value = "";
       },
       error: (err) => {
         console.log('Errore', err.response);
@@ -137,9 +140,9 @@ export class AdminProductsComponent {
         const base64String = (reader.result as string);
         // Rimuove il prefisso data:image/png;base64,
         const base64WithoutPrefix = base64String.split(',')[1];
-        this.newProduct.thumbNailPhoto = base64WithoutPrefix; // Ottieni solo la stringa Base64
+        // Ottieni solo la stringa Base64
+        this.newProduct.thumbNailPhoto = base64WithoutPrefix; 
       };
-      console.log(this.newProduct.thumbNailPhoto);
       // Leggi il file come una URL data (Base64)
       reader.readAsDataURL(file);
     }
@@ -255,7 +258,8 @@ export class AdminProductsComponent {
       const SellEnd = document.getElementById("editsellEndDate") as HTMLInputElement;
       const Disc = document.getElementById("editdiscontinuedDate") as HTMLInputElement;
       const ThumbFile = document.getElementById("editthumbnailPhotoFileName") as HTMLInputElement;
-
+      const productPhoto = document.getElementById("img-thumbnail") as HTMLImageElement;
+      
       if (prodotto.sellStartDate && !(prodotto.sellStartDate instanceof Date)) {
         prodotto.sellStartDate = new Date(prodotto.sellStartDate);
       }
@@ -278,10 +282,15 @@ export class AdminProductsComponent {
       SellStart.value = prodotto.sellStartDate && !isNaN(prodotto.sellStartDate.getTime()) ? this.removeTimezoneOffset(prodotto.sellStartDate) : "";
       SellEnd.value = prodotto.sellEndDate && !isNaN(prodotto.sellEndDate.getTime()) ? this.removeTimezoneOffset(prodotto.sellEndDate) : "";
       Disc.value = prodotto.discontinueDate && !isNaN(prodotto.discontinueDate.getTime()) ? this.removeTimezoneOffset(prodotto.discontinueDate) : "";
-      console.log(SellStart.valueAsDate);
-      console.log(SellEnd.valueAsDate);
-      console.log(Disc.valueAsDate);
       ThumbFile.value = prodotto.thumbnailPhotoFileName.toString();
+      //Se nel db è salvata la stringa base64 mostro l'immagine
+      if(prodotto.thumbNailPhoto != ""){
+        if(productPhoto){
+          productPhoto.src = `data:image/png;base64,${prodotto.thumbNailPhoto}`;
+        }
+      }
+      // altriment mostro il placeholder
+      else productPhoto.src = 'assets/img-placeholder.jpg';
     }
   }
 
