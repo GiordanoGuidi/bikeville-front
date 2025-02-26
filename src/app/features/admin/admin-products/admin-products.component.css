@@ -36,8 +36,11 @@
     background-color: #00ff00 ;
   }
 
-  .modal-content{
-    width: 75%;
+
+  .img-thumbnail{
+    margin-top: 10px;
+    width: 150px;
+    height: auto;
   }
   /*# Media Query */
   /* Media query per breakpoint md (768px) */

@@ -183,16 +183,15 @@
                 (change)="onFileSelected($event)" accept="image/*">
 
               <!-- Optional: Display Base64 string (read-only) -->
-              <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" name="ThumbnailPhoto"
-                [(ngModel)]="newProduct.thumbNailPhoto" readonly>
+              <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" 
+              name="ThumbnailPhoto"
+              [(ngModel)]="newProduct.thumbNailPhoto" readonly>
 
               <!-- Preview Image -->
-              <img *ngIf="newProduct.thumbNailPhoto; else noImage"
-                [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" alt="{{newProduct.name}} thumbnail"
-                class="img-fluid img-thumbnail" loading="lazy" />
-              <ng-template #noImage>
-                <div class="alert alert-danger" role="alert">No image selected</div>
-              </ng-template>
+              <img 
+                [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" 
+                alt="{{newProduct.name}} thumbnail"
+                class="img-thumbnail" id="img-thumbnail" loading="lazy" />
             </div>
           </div>
         </form>
@@ -210,7 +209,7 @@
   #deleteModal>
   <div class="modal-dialog modal-dialog-centered
     d-flex justify-content-center" role="document">
-    <div class="modal-content bg-dark text-light">
+    <div class="modal-content w-75 bg-dark text-light">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">Elimina Prodotto</h5>
         <button type="button" class="btn-close bg-x" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -318,23 +317,21 @@
             </div>
           </div>
           <div class="row g-2">
+
             <div class="col mb-3">
               <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
               <input type="file" id="thumbnailPhoto" class="form-control w-100" (change)="onFileSelected($event)"
                 accept="image/*">
               <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" name="ThumbnailPhoto"
                 [(ngModel)]="newProduct.thumbNailPhoto" readonly>
-
-              <img *ngIf="newProduct.thumbNailPhoto; else noImage"
+              <!-- Mostro la preview dell'immagine quando selezionata -->
+              <img *ngIf="newProduct.thumbNailPhoto;"
                 [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" alt="{{newProduct.name}} thumbnail"
                 class="img-fluid img-thumbnail" loading="lazy" />
-              <ng-template #noImage>
-                <div class="alert alert-danger" role="alert">No image selected</div>
-              </ng-template>
+                <!-- Mostro un immagine placeholder se l'utente non seleziona un file -->
+              <img *ngIf="!newProduct.thumbNailPhoto" class="img-thumbnail" src="assets/img-placeholder.jpg" alt="#">
             </div>
           </div>
-
-
         </form>
       </div>
       <div class="modal-footer">
