@@ -1,17 +1,24 @@
 <div class="cart-overlay" id="cart">
     <div class="cart-header">
       <h3>Shopping Cart</h3>
+      <!-- Icona per nascondere il carrello -->
       <i class="fa-solid fa-x" (click)="toggleCart()"></i>
     </div>
     <div class="cart-items">
+      <!-- Iterazione dei prodotti aggiunti al carrello -->
       <div class="cart-item" *ngFor="let item of cartItems; let i = index" (mouseenter)="hoveredItem = i" (mouseleave)="hoveredItem = null">
-        <div class="details">
-          <h6>{{ item.name }}</h6>
-          <i class="fa-solid fa-x itemX" *ngIf="hoveredItem === i" (click)="confirmRemoveItem(i)"></i>
-          <p>€ {{ item.price.toFixed(2) }} x {{ item.quantity }}</p>
+        <div *ngIf="item" class="details">
+          <!-- Nome del prodotto -->
+          <h6>{{ item?.name }}</h6>
+          <!-- Icona per rimuovere un prodotta dal carrello -->
+          <i class="fa-solid fa-x itemX" *ngIf="hoveredItem === i" (click)="removeCartItem(item.productId)"></i>
+          <!-- Prezzo e quantità del prodotto nel carrello -->
+          <p>€ {{ item?.unitPrice?.toFixed(2) }} x {{ item?.orderQty }}</p>
           <div id = "plusminus" class="d-flex ms-10">
-            <i id = "minus" class="fa-solid fa-minus" *ngIf="hoveredItem === i" (click)="minusItem(i)"></i>
-            <i id = "plus" class="fa-solid fa-plus" *ngIf="hoveredItem === i" (click)="plusItem(i)"></i>
+            <!-- Icona per rimuovere una quantità -->
+            <i id = "minus" class="fa-solid fa-minus" *ngIf="hoveredItem === i" (click)="minusItem(item.productId)"></i>
+            <!-- Icona per aggiungere una quantità -->
+            <i id = "plus" class="fa-solid fa-plus" *ngIf="hoveredItem === i" (click)="plusItem(item.productId)"></i>
           </div>
           <hr>
         </div>
@@ -20,7 +27,20 @@
     <div class="cart-footer">
       <div class="bg-light">
         <br>
+        <!-- Totale del carrello -->
         <strong id = "total" class="total bg-light">Total: {{ cartTotal.toFixed(2) }} €</strong>
       </div>
+      <!-- Aggiungere pulsante conferma ordine -->
     </div>
   </div>
+
+  <!-- Modale della sessione scaduta -->
+  <app-session-modal></app-session-modal>
+
+  <!-- ¥¥¥¥‘‘‘‘‘‘‘¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥ -->
+  <!-- Aggiungere bottone prosegui all'acquisto.
+  Fare in modo che se un utente non registrato prova ad aggiungere un prodotto
+  al carrello venga ridirezionato al form di registrazione.
+  metere un link che ti porti al login in caso volesse loggare poichè gia registrato! -->
+  <!-- ¥¥¥¥‘‘‘‘‘‘‘¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥ -->
+

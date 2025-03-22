@@ -21,53 +21,53 @@
         d-flex flex-column align-items-center">
            <!--Componente MobileFilter --><!--#Visibile da768px in giu-->
            <app-mobile-filter
-                [title]="'Components'"
-                [types]="componentTypes"
-                [colors]="componentColors"
-                [sizes]="componentSizes"
-                [prices]="componentPrices"
-                [parentCategoryId]="parentCategoryId"
-                [activeFilter]="activeFilter"
-                (filterChange)="onFilterChange($event.event, $event.filterType)"
-                (removeFilter)="removeFilter($event)">
-            </app-mobile-filter>
+              [title]="'Components'"
+              [types]="componentTypes"
+              [colors]="componentColors"
+              [sizes]="componentSizes"
+              [prices]="componentPrices"
+              [parentCategoryId]="parentCategoryId"
+              [activeFilter]="activeFilter"
+              (filterChange)="onFilterChange($event.event, $event.filterType)"
+              (removeFilter)="removeFilter($event)">
+          </app-mobile-filter>
 
-            <!-- Paginazione superiore-->
-             <div class="pt-4 pt-md-2">
-               <app-pagination 
-               [hidden]="!components.length"
-               [entities]="components"
-               (getPaginatedEntities)="onChildNotify($event)">
-               </app-pagination>    
-             </div>
-
-            <!-- Lista prodotti -->
-            <div class="product-list d-flex flex-wrap gap-3">
-               <!-- Itero il componente card sui prodotti paginati -->
-               <div *ngFor="let component of paginatedProducts" 
-               class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
-                    <!-- Card --> <!--#Questa è la card-->
-                    <app-card class="w-100 h-100"
-                        [product]="component"
-                        (click)="viewProduct(component)">
-                    </app-card>
-                </div>
-
-                <!-- Scritta quando non ci sono risultati -->
-                <div *ngIf="!components.length" class="w-100 pt-sm-5 pt-md-0">
-                    <div class="alert alert-info" role="alert">
-                        <i class="fa-solid fa-circle-exclamation me-1"></i>
-                        There are no results related to the filters!
-                      </div>
-                </div>
+          <!-- Paginazione superiore-->
+            <div class="pt-4 pt-md-2">
+              <app-pagination 
+              [hidden]="!components.length"
+              [entities]="components"
+              (getPaginatedEntities)="onChildNotify($event)">
+              </app-pagination>    
             </div>
 
-             <!-- Paginazione superiore-->
-             <app-pagination 
-             [hidden]="!components.length"
-             [entities]="components"
-             (getPaginatedEntities)="onChildNotify($event)">
-             </app-pagination>    
+          <!-- Lista prodotti -->
+          <div class="product-list d-flex flex-wrap gap-3">
+              <!-- Itero il componente card sui prodotti paginati -->
+              <div *ngFor="let component of paginatedProducts" 
+              class="example-card col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+                  <!-- Card --> <!--#Questa è la card-->
+                  <app-card class="w-100 h-100"
+                      [product]="component"
+                      (click)="viewProduct(component)">
+                  </app-card>
+              </div>
+
+              <!-- Scritta quando non ci sono risultati -->
+              <div *ngIf="!components.length" class="w-100 pt-sm-5 pt-md-0">
+                  <div class="alert alert-info" role="alert">
+                      <i class="fa-solid fa-circle-exclamation me-1"></i>
+                      There are no results related to the filters!
+                    </div>
+              </div>
+          </div>
+          
+          <!-- Paginazione superiore-->
+          <app-pagination 
+          [hidden]="!components.length"
+          [entities]="components"
+          (getPaginatedEntities)="onChildNotify($event)">
+          </app-pagination>    
         </div>
     </div>
 </section>
@@ -78,21 +78,8 @@ il footer durante caricamento dei dati -->
   <app-skeleton-container></app-skeleton-container>
 </div>
 
-<div class="modal fade" id="viewProduct" tabindex="-1">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content bg-dark text-light p-4">
-      <div class="modal-header text-center">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p id  = "productData"></p>
-        <div class = "d-flex flex-row justify-content-end">
-          <p id = "productAdded" [class.fade]="isProductAdded"> Product Added to Cart! </p>
-          <button *ngIf="auth.GetLoginInfo()" type = "button" class = "btn btn-warning addToCart" (click)="this.addToCart(this.selectedProduct)">
-            <i class="fa-solid fa-cart-shopping">  Add To Cart</i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Modale del prodotto-->
+<app-product-modal
+[isProductAdded]="isProductAdded"
+[selectedProduct]="selectedProduct">
+</app-product-modal>

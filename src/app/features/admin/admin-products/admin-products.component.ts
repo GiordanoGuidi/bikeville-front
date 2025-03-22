@@ -14,6 +14,7 @@ import { AlertComponent } from '../../../shared/components/alert/alert/alert.com
 import { AlertService } from '../../../shared/service/alert.service';
 import { LoaderService } from '../../../shared/components/loader/loader.service';
 import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
+import { ViewChild,ElementRef } from '@angular/core';
 declare const $: any;
 
 
@@ -41,10 +42,11 @@ export class AdminProductsComponent {
   paginatedProducts: Product[] = [];
   productId: number = 0;
   currentProductId: number | null = null;
-  //Flag per mostarre l'alert
+  //Flag per mostare l'alert
   showAlert = false;
   //Flag per mostare il loader
   isLoading = false;
+  @ViewChild('thumbnailPhoto') fileInput!:ElementRef;
 
   ngOnInit(): void {
     this.AdminProducts();
@@ -79,7 +81,9 @@ export class AdminProductsComponent {
   }
 
   // funzione per aggiungere un prodotto//
-  async addProduct(prodotto: NgForm) {
+  //! c'è un errore che segnala una modifica del valore di una variabile
+  //! controllare in caso di errori per il momento non crea danni*/
+  async addProduct() {
     //Verifico la validità del token
     const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
       method: "GET",
@@ -93,12 +97,22 @@ export class AdminProductsComponent {
       this.modalService.openModal();
       return;
     }
-    this.newProduct = prodotto.value;
     // Aggiungo il prodotto
     this.httpRequest.postAdminProduct(this.newProduct).subscribe({
       next: (data) => {
+        // Mostro l'alert
         this.alertService.showAlert('Product added successfully!', 'ok');
         this.AdminProducts();
+        //Resetto la variabile newProduct
+        // this.newProduct = new ProductDTO();
+        setTimeout(()=>{
+          this.newProduct = new ProductDTO()
+        })
+        //Resetto il campo input file
+        const fileInput = document.getElementById("thumbnailPhoto") as HTMLInputElement;
+        if(this.fileInput){
+          this.fileInput.nativeElement.value = '';
+        } 
         // Chiudo la modale dopo l'aggiunta
         const modalElement = document.getElementById('addModal');
         if (modalElement) {
@@ -107,9 +121,7 @@ export class AdminProductsComponent {
         } else {
           console.error('Modal element not found!');
         }
-        //Resetto il campo input file
-        const fileInput = document.getElementById("thumbnailPhoto") as HTMLInputElement;
-        if(fileInput) fileInput.value = "";
+        
       },
       error: (err) => {
         console.log('Errore', err.response);
@@ -129,18 +141,22 @@ export class AdminProductsComponent {
     });
   }
 
+  //Funzione per manipolare il file aggiuntoe assegnare i valori
+  // a fileName e thumbnailPhoto
   onFileSelected(event: Event): void {
     const fileInput = event.target as HTMLInputElement;
 
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
       const reader = new FileReader();
+      //Aggiungo formato .gif al fileName
+      this.newProduct.thumbnailPhotoFileName = file.name.split('.')[0] + '.gif';
       // Quando il file è stato letto
       reader.onload = () => {
         const base64String = (reader.result as string);
         // Rimuove il prefisso data:image/png;base64,
         const base64WithoutPrefix = base64String.split(',')[1];
-        // Ottieni solo la stringa Base64
+        // Ottieni solo la stringa Base64 e la assegno a thumbnailPhoto
         this.newProduct.thumbNailPhoto = base64WithoutPrefix; 
       };
       // Leggi il file come una URL data (Base64)
@@ -148,8 +164,8 @@ export class AdminProductsComponent {
     }
   }
 
-  //funzione per visualizzare prodotti //
-  async viewProduct(prodotto: Product) {
+  //funzione per visualizzare dettaglio del prodotto //
+  async viewProduct(product: Product) {
     const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
     //Verifico la validità del token
     const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
@@ -165,8 +181,8 @@ export class AdminProductsComponent {
       return;
     }
 
-    const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
-    const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
+    const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + product.productCategoryId);
+    const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + product.productModelId);
 
     if (!categoryResponse.ok) {
       console.error("Errore nel recupero della categoria");
@@ -177,28 +193,29 @@ export class AdminProductsComponent {
 
     const category = await categoryResponse.text();
     const model = await modelResponse.text();
-    if (prodotto.size == null) {
-      prodotto.size = "";
+    if (product.size == null) {
+      product.size = "";
     }
-    if (!prodotto.weight == null) {
-      prodotto.weight = 0;
+    if (!product.weight == null) {
+      product.weight = 0;
     }
 
     Paragraph.innerHTML = `
-  <strong>Id:</strong> ${prodotto.productId}<br>
-  <strong>Name:</strong> ${prodotto.name}<br>
-  <strong>Product Number:</strong> ${prodotto.productNumber}<br>
-  <strong>Color:</strong> ${prodotto.color}<br>
-  <strong>Standard Cost:</strong> ${prodotto.standardCost.toFixed(2)} €<br>
-  <strong>List Price:</strong> ${prodotto.listPrice.toFixed(2)} €<br>
-  <strong>Size:</strong> ${prodotto.size}<br>
-  <strong>Weight:</strong> ${prodotto.weight}<br>
-  <strong>Product Category:</strong> ${category}<br>
-  <strong>Product Model:</strong> ${model}<br>
-  <img src = "image/gif/${prodotto.thumbNailPhoto}"<br>
-  `;
+      <strong>Id:</strong> ${product.productId}<br>
+      <strong>Name:</strong> ${product.name}<br>
+      <strong>Product Number:</strong> ${product.productNumber}<br>
+      <strong>Color:</strong> ${product.color}<br>
+      <strong>Standard Cost:</strong> ${product.standardCost.toFixed(2)} €<br>
+      <strong>List Price:</strong> ${product.listPrice.toFixed(2)} €<br>
+      <strong>Size:</strong> ${product.size}<br>
+      <strong>Weight:</strong> ${product.weight}<br>
+      <strong>Product Category:</strong> ${category}<br>
+      <strong>Product Model:</strong> ${model}<br>
+      <img src = "${product.thumbNailPhoto ? `data:image/png;base64,${product.thumbNailPhoto}` : 'assets/img-placeholder.jpg'}"
+       style="margin-top: 10px; width: 150px; height: auto;border:1px solid white;border-radius:5px"  />
+      `;
 
-    //! Verificare percorso immagini prodotti//
+    
     const modalElement = document.getElementById('viewModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
@@ -209,7 +226,7 @@ export class AdminProductsComponent {
   }
 
   // funzione che popola la scheda che modifica i prodotti esistenti
-  async editProduct(prodotto: Product) {
+  async editProduct(product: Product) {
     //Verifico la validità del token
     const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
       method: "GET",
@@ -231,9 +248,9 @@ export class AdminProductsComponent {
       } else {
         console.error('Modal element not found!');
       }
-      this.productId = prodotto.productId;
-      const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + prodotto.productCategoryId);
-      const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + prodotto.productModelId);
+      this.productId = product.productId;
+      const categoryResponse = await fetch("https://localhost:7257/api/Products/categoryId/" + product.productCategoryId);
+      const modelResponse = await fetch("https://localhost:7257/api/Products/modelId/" + product.productModelId);
 
       if (!categoryResponse.ok) {
         console.error("Errore nel recupero della categoria");
@@ -260,99 +277,41 @@ export class AdminProductsComponent {
       const ThumbFile = document.getElementById("editthumbnailPhotoFileName") as HTMLInputElement;
       const productPhoto = document.getElementById("img-thumbnail") as HTMLImageElement;
       
-      if (prodotto.sellStartDate && !(prodotto.sellStartDate instanceof Date)) {
-        prodotto.sellStartDate = new Date(prodotto.sellStartDate);
+      if (product.sellStartDate && !(product.sellStartDate instanceof Date)) {
+        product.sellStartDate = new Date(product.sellStartDate);
       }
-      if (prodotto.sellEndDate && !(prodotto.sellEndDate instanceof Date)) {
-        prodotto.sellEndDate = new Date(prodotto.sellEndDate);
+      if (product.sellEndDate && !(product.sellEndDate instanceof Date)) {
+        product.sellEndDate = new Date(product.sellEndDate);
       }
-      if (prodotto.discontinueDate && !(prodotto.discontinueDate instanceof Date)) {
-        prodotto.discontinueDate = new Date(prodotto.discontinueDate);
+      if (product.discontinueDate && !(product.discontinueDate instanceof Date)) {
+        product.discontinueDate = new Date(product.discontinueDate);
       }
-
-      Name.value = prodotto.name;
-      ProductNumber.value = prodotto.productNumber;
-      Color.value = prodotto.color;
-      Cost.valueAsNumber = prodotto.standardCost;
-      Price.valueAsNumber = prodotto.listPrice;
-      Size.value = prodotto.size;
-      Weight.valueAsNumber = prodotto.weight;
+      // Compilo i campi input con i valori esistenti del prodotto
+      Name.value = product.name;
+      ProductNumber.value = product.productNumber;
+      Color.value = product.color;
+      Cost.valueAsNumber = product.standardCost;
+      Price.valueAsNumber = product.listPrice;
+      Size.value = product.size;
+      Weight.valueAsNumber = product.weight;
       Cat.value = category;
       Mod.value = model;
-      SellStart.value = prodotto.sellStartDate && !isNaN(prodotto.sellStartDate.getTime()) ? this.removeTimezoneOffset(prodotto.sellStartDate) : "";
-      SellEnd.value = prodotto.sellEndDate && !isNaN(prodotto.sellEndDate.getTime()) ? this.removeTimezoneOffset(prodotto.sellEndDate) : "";
-      Disc.value = prodotto.discontinueDate && !isNaN(prodotto.discontinueDate.getTime()) ? this.removeTimezoneOffset(prodotto.discontinueDate) : "";
-      ThumbFile.value = prodotto.thumbnailPhotoFileName.toString();
+      SellStart.value = product.sellStartDate && !isNaN(product.sellStartDate.getTime()) ? this.removeTimezoneOffset(product.sellStartDate) : "";
+      SellEnd.value = product.sellEndDate && !isNaN(product.sellEndDate.getTime()) ? this.removeTimezoneOffset(product.sellEndDate) : "";
+      Disc.value = product.discontinueDate && !isNaN(product.discontinueDate.getTime()) ? this.removeTimezoneOffset(product.discontinueDate) : "";
+      ThumbFile.value = product.thumbnailPhotoFileName.toString();
       //Se nel db è salvata la stringa base64 mostro l'immagine
-      if(prodotto.thumbNailPhoto != ""){
+      if(product.thumbNailPhoto != ""){
         if(productPhoto){
-          productPhoto.src = `data:image/png;base64,${prodotto.thumbNailPhoto}`;
+          productPhoto.src = `data:image/png;base64,${product.thumbNailPhoto}`;
         }
       }
       // altriment mostro il placeholder
       else productPhoto.src = 'assets/img-placeholder.jpg';
     }
   }
-
-  // funzione per aggirare problemi di fuso orario //
-  removeTimezoneOffset(date: Date): string {
-    const localDate = new Date(date);
-    localDate.setHours(0, 0, 0, 0);
-    const year = localDate.getFullYear();
-    const month = (localDate.getMonth() + 1).toString().padStart(2, '0');
-    const day = localDate.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  //funzione selezionare il prodotto da eliminare//
-  async setProductToDelete(productId: number) {
-    //Verifico la validità del token
-    const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-      },
-    });
-    //Se il token non è valido faccio rieseguire il login
-    if (!tokenCheckResponse.ok) {
-      console.error("Token non valido o scaduto");
-      this.modalService.openModal();
-      return;
-    } else {
-      // Se il token è valido, mostra la modale "delete"
-      const modalElement = document.getElementById('deleteModal');
-      if (modalElement) {
-        const modal = new bootstrap.Modal(modalElement);
-        modal.show();
-      }
-    }
-    this.currentProductId = productId;
-  }
-
-  //Funzione per eliminare un prodotto
-  deleteProduct(): void {
-    if (this.currentProductId != null) {
-      this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
-        next: (data) => {
-          console.log(`Prodotto con ID ${this.currentProductId} eliminato con successo.`, data);
-          this.alertService.showAlert('Product removed successfully', 'ok');
-          this.AdminProducts(); // Aggiorna la lista dei prodotti
-          const modalElement = document.getElementById('deleteModal');
-          if (modalElement) {
-            const modal = new bootstrap.Modal(modalElement);
-            modal.hide();
-          } else {
-            console.error('Modal element not found!');
-          }
-        },
-        error: (err) => {
-          console.error('Errore durante l\'eliminazione:', err);
-          this.alertService.showAlert('Failed to remove product', 'error');
-        }
-      });
-    }
-  }
-
+  
+  //Funzione per eseguire l'update del prodotto
   async editConfirm() {
     try {
       const Name = (document.getElementById("editname") as HTMLInputElement).value;
@@ -418,6 +377,66 @@ export class AdminProductsComponent {
       this.alertService.showAlert('An unexpected error occurred while saving changes.', 'error');
     }
   }
+
+  // funzione per aggirare problemi di fuso orario //
+  removeTimezoneOffset(date: Date): string {
+    const localDate = new Date(date);
+    localDate.setHours(0, 0, 0, 0);
+    const year = localDate.getFullYear();
+    const month = (localDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = localDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  //funzione che seleziona il prodotto da eliminare//
+  async setProductToDelete(productId: number) {
+    //Verifico la validità del token
+    const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+    });
+    //Se il token non è valido faccio rieseguire il login
+    if (!tokenCheckResponse.ok) {
+      console.error("Token non valido o scaduto");
+      this.modalService.openModal();
+      return;
+    } else {
+      // Se il token è valido, mostra la modale "delete"
+      const modalElement = document.getElementById('deleteModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+      }
+    }
+    this.currentProductId = productId;
+  }
+
+  //Funzione per eliminare un prodotto
+  deleteProduct(): void {
+    if (this.currentProductId != null) {
+      this.httpRequest.deleteAdminProduct(this.currentProductId).subscribe({
+        next: (data) => {
+          console.log(`Prodotto con ID ${this.currentProductId} eliminato con successo.`, data);
+          this.alertService.showAlert('Product removed successfully', 'ok');
+          this.AdminProducts(); // Aggiorna la lista dei prodotti
+          const modalElement = document.getElementById('deleteModal');
+          if (modalElement) {
+            const modal = new bootstrap.Modal(modalElement);
+            modal.hide();
+          } else {
+            console.error('Modal element not found!');
+          }
+        },
+        error: (err) => {
+          console.error('Errore durante l\'eliminazione:', err);
+          this.alertService.showAlert('Failed to remove product', 'error');
+        }
+      });
+    }
+  }
+
   //# funzioni per la paginazione e navigazione //
   // Metodo per ricevere l'evento dal figlio sugli utenti da visualizzare
   onChildNotify(newPaginatedProduct : Product[]){

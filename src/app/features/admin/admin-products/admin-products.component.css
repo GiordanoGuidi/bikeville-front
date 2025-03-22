@@ -41,6 +41,7 @@
     margin-top: 10px;
     width: 150px;
     height: auto;
+    padding: 0;
   }
   /*# Media Query */
   /* Media query per breakpoint md (768px) */

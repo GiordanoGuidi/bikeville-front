@@ -1,5 +1,6 @@
-export class CartItem {
-  name: string = "";
-  quantity: number = 0;
-  price: number = 0;
-}
+// export class CartItem {
+//   name: string = "";
+//   quantity: number = 0;
+//   price: number = 0;
+// }
+//! Contrrollare se serve

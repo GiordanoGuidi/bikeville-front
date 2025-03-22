@@ -26,6 +26,7 @@
             <a type="button" data-bs-toggle="modal" data-bs-target="#logoutModal" *ngIf="auth.GetLoginInfo()"
               class="nav-link">Logout</a>
           </li>
+          <!-- Icona carrello -->
           <div class="cart-container" *ngIf="auth.GetLoginInfo()">
             <div class="cart">
               <div class="cart-icon" (click)="toggleCart()">

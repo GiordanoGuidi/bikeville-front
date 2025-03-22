@@ -22,7 +22,8 @@ import { AlertComponent } from '../../shared/components/alert/alert/alert.compon
 
 export class LoginComponent {
   //DI del servizio AuthService
-  constructor(private authentication: AuthService,
+  constructor(
+    private authentication: AuthService,
     private router: Router,
     private loggedUserService:LoggedUserService,
     private alertService:AlertService,
@@ -54,14 +55,13 @@ export class LoginComponent {
   }
 
   async RunLoginJwt(eml: string, pwd: string): Promise<void> {
-    console.log(this.userEmail)
-    console.log(this.userEmail)
     const isEmailRegistered = await this.verifyMail(this.userEmail);
     if (!isEmailRegistered) {
       this.alertService.showAlert('Incorrect email or password', 'error');
       return;
     }
     if (eml && pwd) {
+      //Aggiungo il valore alle credenziali
       this.loginCredentials.Email = eml;
       this.loginCredentials.Password = pwd;
       //Passo le credenziali dell'utente come parametri del metodo LoginJwtPosts

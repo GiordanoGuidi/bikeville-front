@@ -1,0 +1,27 @@
+.addToCart {
+    position: relative;
+    float: right;
+}
+
+#productAdded {
+    margin-right: 20px;
+    color: #00ff00;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+#viewProduct {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#productAdded.fade {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.btn {
+    background-color: #00ff00;
+    border-color: black;
+}

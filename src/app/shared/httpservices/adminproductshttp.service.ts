@@ -15,6 +15,7 @@ export class AdminproductshttpService {
   constructor(private http: HttpClient, private auth: AuthService) { }
 
   getAdminProducts(): Observable<any>{
+    //!forse qui non c'è la validazione del token nel backend solo nel frontend?
     return this.http.get('https://localhost:7257/api/Products', 
       {headers: this.auth.authenticationJwtHeader}
     );
@@ -27,7 +28,6 @@ export class AdminproductshttpService {
   updateAdminProduct(id: number, product: UpdatedProduct): Observable<Product> {
     return this.http.put<Product>(`https://localhost:7257/api/Products/${id}`, product);
   }
-  
 
   postAdminProduct(product: ProductDTO): Observable<ProductDTO>{
     // Recupero il token JWT dal localStorage

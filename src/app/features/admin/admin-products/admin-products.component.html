@@ -1,7 +1,5 @@
 <div *ngIf="!isLoading" class="container d-flex flex-column align-items-center">
-  <br>
-  <h2 id="title" class="text-center text-white">ADMIN PRODUCTS</h2>
-  <br>
+  <h2 id="title" class="text-center text-white mt-3 mb-3">ADMIN PRODUCTS</h2>
 
   <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
     <!-- Componente alert -->
@@ -25,37 +23,40 @@
     <thead>
       <tr>
         <th scope="col" class="p-2" id="id">Id</th>
-        <th scope="col" class="p-2" id="name" class="d-none d-md-table-cell">Name</th>
-        <th scope="col" class="p-2" id="pnumber">ProdNumber</th>
-        <th scope="col" class="p-2" id="color" class="d-none d-lg-table-cell">Color</th>
+        <th scope="col" class="p-2" id="name">Name</th>
+        <th scope="col" class="p-2 d-md-table-cell" id="pnumber">ProdNumber</th>
+        <th scope="col" class="p-2 d-none d-lg-table-cell" id="color">Color</th>
         <th scope="col" class="p-2" id="cost">Cost</th>
-        <th scope="col" class="p-2" id="price" class="d-none d-md-table-cell">ListPrice</th>
-        <th scope="col" class="p-2" id="secondary" class="d-none d-xl-table-cell">Size</th>
-        <th scope="col" class="p-2" id="secondary" class="d-none d-xl-table-cell">Weight</th>
-        <th scope="col" class="p-2" id="secondary" class="d-none d-lg-table-cell">CategoryId</th>
-        <th scope="col" class="p-2" id="secondary" class="d-none d-lg-table-cell">ModelId</th>
+        <th scope="col" class="p-2 d-none d-md-table-cell" id="price">ListPrice</th>
+        <th scope="col" class="p-2 d-none d-xl-table-cell" id="secondary">Size</th>
+        <th scope="col" class="p-2 d-none d-xl-table-cell" id="secondary">Weight</th>
+        <th scope="col" class="p-2 d-none d-lg-table-cell" id="secondary">CategoryId</th>
+        <th scope="col" class="p-2 d-none d-lg-table-cell" id="secondary">ModelId</th>
         <th scope="col" class="p-2" id="icons"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let product of paginatedProducts">
         <td class="p-2" id="id">{{ product.productId }}</td>
-        <td class="p-2" id="name" class="d-none d-md-table-cell">{{ product.name }}</td>
-        <td class="p-2" id="pnumber">{{ product.productNumber }}</td>
-        <td class="p-2" id="color" class="d-none d-lg-table-cell">{{ product.color }}</td>
+        <td class="p-2" id="name">{{ product.name }}</td>
+        <td class="p-2 d-md-table-cell" id="pnumber">{{ product.productNumber }}</td>
+        <td class="p-2 d-none d-lg-table-cell" id="color">{{ product.color }}</td>
         <td class="p-2" id="cost">{{ product.standardCost }}</td>
-        <td class="p-2" id="price" class="d-none d-md-table-cell">{{ product.listPrice }}</td>
-        <td class="p-2" id="secondary" class="d-none d-xl-table-cell">{{ product.size }}</td>
-        <td class="p-2" id="secondary" class="d-none d-xl-table-cell">{{ product.weight }}</td>
-        <td class="p-2" id="secondary" class="d-none d-lg-table-cell">{{ product.productCategoryId }}</td>
-        <td class="p-2" id="secondary" class="d-none d-lg-table-cell">{{ product.productModelId }}</td>
-        <td class="p-2" id="icons" class="d-flex flex-column align-items-center gap-2">
+        <td class="p-2 d-none d-md-table-cell" id="price">{{ product.listPrice }}</td>
+        <td class="p-2 d-none d-xl-table-cell" id="secondary">{{ product.size }}</td>
+        <td class="p-2 d-none d-xl-table-cell" id="secondary">{{ product.weight }}</td>
+        <td class="p-2 d-none d-lg-table-cell" id="secondary">{{ product.productCategoryId }}</td>
+        <td class="p-2 d-none d-lg-table-cell" id="secondary">{{ product.productModelId }}</td>
+        <td class="p-2 d-flex flex-column align-items-center gap-2" id="icons">
+          <!-- Dettaglio prodotto -->
           <button type="button" class="btn btn-primary iconbutton mt-2" (click)="viewProduct(product)">
             <i class="fa-solid fa-eye"></i>
           </button>
+          <!-- Modifica prodotto -->
           <button type="button" class="btn btn-warning iconbutton" (click)="editProduct(product)">
             <i class="fa-solid fa-edit"></i>
           </button>
+          <!-- Eliminazione prodotto -->
           <button type="button" class="btn btn-danger iconbutton mb-2" data-bs-toggle="modal"
             (click)="setProductToDelete(product.productId)">
             <i class="fa-solid fa-trash"></i>
@@ -309,26 +310,21 @@
               <input type="date" id="discontinuedDate" class="form-control w-100" placeholder="Insert Discontinued Date"
                 name="DiscontinuedDate" [(ngModel)]="newProduct.discontinueDate">
             </div>
-            <div class="col mb-3">
-              <label for="thumbnailPhotoFileName" class="form-label">Thumbnail Filename</label>
-              <input type="text" id="thumbnailPhotoFileName" class="form-control w-100"
-                placeholder="Insert Thumbnail Filename" name="ThumbnailPhotoFileName"
-                [(ngModel)]="newProduct.thumbnailPhotoFileName">
-            </div>
           </div>
           <div class="row g-2">
-
             <div class="col mb-3">
+              <!-- Input di tipo file -->
               <label for="thumbnailPhoto" class="form-label">Thumbnail Photo</label>
-              <input type="file" id="thumbnailPhoto" class="form-control w-100" (change)="onFileSelected($event)"
-                accept="image/*">
-              <input type="text" class="form-control w-100 mt-2" placeholder="Base64 String" name="ThumbnailPhoto"
-                [(ngModel)]="newProduct.thumbNailPhoto" readonly>
-              <!-- Mostro la preview dell'immagine quando selezionata -->
+              <input #thumbnailPhoto
+               type="file" id="thumbnailPhoto"
+               class="form-control w-100" 
+               (change)="onFileSelected($event)"
+               accept="image/*" >
+               <!-- Immagine di preview -->
               <img *ngIf="newProduct.thumbNailPhoto;"
                 [src]="'data:image/gif;base64,' + newProduct.thumbNailPhoto" alt="{{newProduct.name}} thumbnail"
                 class="img-fluid img-thumbnail" loading="lazy" />
-                <!-- Mostro un immagine placeholder se l'utente non seleziona un file -->
+              <!-- Mostro un immagine placeholder se l'utente non seleziona un file -->
               <img *ngIf="!newProduct.thumbNailPhoto" class="img-thumbnail" src="assets/img-placeholder.jpg" alt="#">
             </div>
           </div>
@@ -336,11 +332,12 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-        <button type="button" class="btn btn-primary" (click)="addProduct(addProductForm)"
+        <button type="button" class="btn btn-primary" (click)="addProduct()"
           data-bs-dismiss="modal">Aggiungi </button>
       </div>
     </div>
   </div>
 </div>
+
 <!-- Modale sessione scaduta -->
 <app-session-modal></app-session-modal>

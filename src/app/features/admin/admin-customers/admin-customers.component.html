@@ -1,7 +1,5 @@
 <div *ngIf="!isLoading" class="container d-flex flex-column align-items-center">
-  <br>
-  <h2 id="tablename" class="text-center w-100 text-white">ADMIN CUSTOMERS</h2>
-  <br>
+  <h2 id="tablename" class="text-center w-100 text-white mt-3 mb-3">ADMIN CUSTOMERS</h2>
 
   <div *ngIf="showAlert" class="w-70 mt-5 me-5 ms-5">
     <!-- Componente alert -->
@@ -43,12 +41,15 @@
         <td id="mail" class="d-none d-md-table-cell">{{ customer.emailAddress }}</td>
         <td id="phone" class="d-none d-lg-table-cell">{{ customer.phone }}</td>
         <td id="icons" class="d-flex flex-column align-items-center gap-2">
+          <!-- Dettaglio prodotto -->
           <button type="button" class="btn btn-primary iconbutton" (click)="viewCustomer(customer)">
             <i class="fa-solid fa-eye"></i>
           </button>
+          <!-- Modifica prodotto -->
           <button type="button" class="btn btn-warning iconbutton" (click)="editCustomer(customer)">
             <i class="fa-solid fa-edit"></i>
           </button>
+          <!-- Eliminazione prodotto -->
           <button type="button" class="btn btn-danger iconbutton" data-bs-toggle="modal" data-bs-target="#deleteModal"
             (click)="setCustomerToDelete(customer.customerId)">
             <i class="fa-solid fa-trash"></i>
@@ -65,9 +66,9 @@
     [entities]="customers"
     (getPaginatedEntities)="onChildNotify($event)">
   </app-pagination>    
-  
 </div>
-<!-- modale per visualizzare utente -->
+
+<!-- modale per visualizzare  dettaglio dell'utente -->
 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #viewModal>
   <div class="modal-dialog modal-dialog-centered
@@ -87,7 +88,7 @@
   </div>
 </div>
 
-<!-- modale per modificare utente ?-->
+<!-- modale per modificare utente -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #editModal>
   <div class="modal-dialog modal-dialog-centered
@@ -148,7 +149,7 @@
   </div>
 </div>
 
-<!--? modale per eliminare utente ?-->
+<!-- modale per eliminare utente -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"
   #deleteModal>
   <div class="modal-dialog modal-dialog-centered

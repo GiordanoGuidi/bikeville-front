@@ -65,7 +65,7 @@
             [hidden]="!bikes.length"
             [entities]="bikes"
             (getPaginatedEntities)="onChildNotify($event)">
-            </app-pagination>    
+      </app-pagination>    
     </div>
   </div>
 </section>
@@ -76,23 +76,11 @@ il footer durante caricamento dei dati -->
   <app-skeleton-container></app-skeleton-container>
 </div>
 
+<!-- Modale del prodotto-->
+<app-product-modal
+[isProductAdded]="isProductAdded"
+[selectedProduct]="selectedProduct">
+</app-product-modal>
 
-<div class="modal fade" id="viewProduct" tabindex="-1">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content bg-dark text-light p-4">
-      <div class="modal-header text-center">
-        <button type="button" class="btn-close bg-x" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p id="productData"></p>
-        <div class="d-flex flex-row justify-content-end">
-          <p id="productAdded" [class.fade]="isProductAdded"> Product Added to Cart! </p>
-          <button *ngIf="auth.GetLoginInfo()" id="addcart" type="button" class="btn addToCart"
-            (click)="this.addToCart(this.selectedProduct)">
-            <i class="fa-solid fa-cart-shopping"> Add To Cart</i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- Modale della sessione scaduta -->
+<app-session-modal></app-session-modal>

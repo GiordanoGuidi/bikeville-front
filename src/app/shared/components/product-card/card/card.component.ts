@@ -13,4 +13,8 @@ import { ProductnologhttpService } from '../../../httpservices/productnologhttp.
 export class CardComponent {
   //# Input per i dati(Popolati dal componente padre)
   @Input()product!:Product;
+
+  convertWeigth(weigth:number){
+    return (weigth / 1000).toFixed(3);
+  }
 }

@@ -15,6 +15,7 @@ import * as bootstrap from 'bootstrap';
 import { CartService } from '../../../shared/service/cart.service';
 import { LoaderService } from '../../../shared/components/loader/loader.service';
 import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
+import { ProductModalComponent } from '../../../shared/components/product-modal/product-modal.component';
 declare const $: any;
 
 @Component({
@@ -25,7 +26,8 @@ declare const $: any;
             MobileFilterComponent,
             CardComponent,
             PaginationComponent,
-          SkeletonContainerComponent],
+            SkeletonContainerComponent,
+            ProductModalComponent],
   templateUrl: './clothing.component.html',
   styleUrl: './clothing.component.css'
 })
@@ -221,28 +223,29 @@ export class ClothingComponent {
    
        const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
        Paragraph.innerHTML = `
-       <div>
-       <div class = "d-flex">
-       <div>
-       <img src = "data:image/gif;base64,${prodotto.thumbNailPhoto}" style = "min-width: 500px; height: auto;" alt="Immagine">
-       </div>
-       <div class = "d-flex flex-column justify-content-start ps-5">
-       <h1> ${prodotto.name} </h1>
-       <hr>
-       <h2>${prodotto.listPrice.toFixed(2)}€ </h2>
-       <p style = "font-size: 20px;"> <br>
-     <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
-     <strong>Size:</strong> ${prodotto.size || '0'} <br>
-     <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
-     <strong>Category:</strong> ${category} <br>
-     <strong>Model:</strong> ${model} <br>
-     <strong>Number:</strong> ${prodotto.productNumber} 
-       </p>
-       </div>
-       </div>
-       </div>
-       <hr>
-       <p style = "font-size: 20px;"> ${description[0].description} </p>
+         <div class="container">
+          <div class="row">
+            <div class="col-12 col-lg-6 d-flex
+              align-items-center mb-3 mb-lg-0">
+              <img src="data:image/gif;base64,${prodotto.thumbNailPhoto}"
+              style="height:150px; width:200px" class = "img-fluid rounded" alt="Immagine">
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="d-flex flex-column justify-content-start">
+                <h2 style="font-size: 27px;">${prodotto.name}</h2>
+                <p style="font-size: 15px;">
+                  <strong>Price:</strong> ${prodotto.listPrice.toFixed(2)}€ <br>
+                  <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
+                  <strong>Size:</strong> ${prodotto.size || '0'} <br>
+                  <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
+                  <strong>Category:</strong> ${category} <br>
+                  <strong>Model:</strong> ${model} <br>
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="product-description d-none d-md-block" style="font-size: 20px;">${description[0].description}</p>
+        </div>
        `;
    
        const modalElement = document.getElementById('viewProduct');

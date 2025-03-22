@@ -12,9 +12,11 @@ import { PaginationService } from '../../../shared/service/pagination-service';
 import { AuthService } from '../../../shared/authentication/auth.service';
 import { Router, NavigationStart } from '@angular/router';
 import * as bootstrap from 'bootstrap';
-import { CartService } from '../../../shared/service/cart.service';
+// import { CartService } from '../../../shared/service/cart.service';
 import { LoaderService } from '../../../shared/components/loader/loader.service';
 import { SkeletonContainerComponent } from '../../../shared/components/skeleton-container/skeleton-container.component';
+import { SessionModalComponent } from '../../../shared/components/session-modal/session-modal/session-modal.component';
+import { ProductModalComponent } from '../../../shared/components/product-modal/product-modal.component';
 declare const $: any;
 @Component({
   selector: 'app-bikes',
@@ -24,7 +26,9 @@ declare const $: any;
     MobileFilterComponent,
     CardComponent,
     PaginationComponent,
-    SkeletonContainerComponent
+    SkeletonContainerComponent,
+    SessionModalComponent,
+    ProductModalComponent,
     ],
   templateUrl: './bikes.component.html',
   styleUrl: './bikes.component.css'
@@ -32,12 +36,12 @@ declare const $: any;
 export class BikesComponent {
   constructor(
     public auth: AuthService,
-    public cart: CartService,
+    // public cart: CartService,
     private router: Router,
     private http: HttpClient,
     private httpRequest: ProductnologhttpService,
     private paginationService: PaginationService,
-    public loaderService: LoaderService
+    public loaderService: LoaderService,
   ) {
     this.loaderService.loading$.subscribe(state => {
       this.isLoading = state;
@@ -99,7 +103,7 @@ export class BikesComponent {
         }
       }, error => {
         console.error('Errore durante il recupero dei filtri', error);
-        this.loaderService.hide()
+        this.loaderService.hide();
       });
   }
 
@@ -198,7 +202,6 @@ export class BikesComponent {
     this.paginatedProducts = eventData;
   }
 
-
   //Recupero i filtri e le biciclette all'inizializzazione del componente
   ngOnInit(): void {
     this.getBikeFilters();
@@ -211,6 +214,7 @@ export class BikesComponent {
     });
   }
 
+  // Metodo per mostrare il dettaglio del prodotto
   async viewProduct(prodotto: Product) {
 
     this.selectedProduct = prodotto;
@@ -222,31 +226,31 @@ export class BikesComponent {
     const description = await descriptionResponse.json();
 
     const Paragraph = document.getElementById("productData") as HTMLParagraphElement;
-    Paragraph.innerHTML = `
-     <div class="container">
+    Paragraph.innerHTML =
+     `
+    <div class="container">
       <div class="row">
-      <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
-      <img src="data:image/gif;base64,${prodotto.thumbNailPhoto}" style="height:150px; width:250px" class = "img-fluid" alt="Immagine">
+        <div class="col-12 col-lg-6 d-flex
+          align-items-center mb-3 mb-lg-0">
+          <img src="data:image/gif;base64,${prodotto.thumbNailPhoto}"
+          style="height:150px; width:200px" class = "img-fluid rounded" alt="Immagine">
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="d-flex flex-column justify-content-start">
+            <h2 style="font-size: 27px;">${prodotto.name}</h2>
+            <p style="font-size: 15px;">
+              <strong>Price:</strong> ${prodotto.listPrice.toFixed(2)}€ <br>
+              <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
+              <strong>Size:</strong> ${prodotto.size || '0'} <br>
+              <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
+              <strong>Category:</strong> ${category} <br>
+              <strong>Model:</strong> ${model} <br>
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="col-12 col-lg-6">
-      <div class="d-flex flex-column justify-content-start">
-        <h1>${prodotto.name}</h1>
-        <hr>
-        <h2>${prodotto.listPrice.toFixed(2)}€</h2>
-        <p style="font-size: 20px;">
-          <strong>Color:</strong> ${prodotto.color || 'N/A'} <br>
-          <strong>Size:</strong> ${prodotto.size || '0'} <br>
-          <strong>Weight:</strong> ${prodotto.weight || '0'} kg <br>
-          <strong>Category:</strong> ${category} <br>
-          <strong>Model:</strong> ${model} <br>
-          <strong>Number:</strong> ${prodotto.productNumber}
-        </p>
-      </div>
-      </div>
-      </div>
-      <hr>
-      <p style="font-size: 20px;">${description[0].description}</p>
-      </div>
+      <p class="product-description d-none d-md-block" style="font-size: 20px;">${description[0].description}</p>
+    </div>
      `;
 
     const modalElement = document.getElementById('viewProduct');
@@ -258,11 +262,5 @@ export class BikesComponent {
     }
   }
 
-  addToCart(product: Product) {
-    this.cart.addCartItem(product);
-    this.isProductAdded = true;
-    setTimeout(() => {
-      this.isProductAdded = false;
-    }, 1000);
-  }
+ 
 }

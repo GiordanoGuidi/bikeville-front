@@ -108,11 +108,8 @@ export class AdminCustomersComponent {
     });
   }
 
-  getEmail(customerId: number): string {
-    return this.emailMap[customerId] || 'Loading...';
-  }
-
-  async viewCustomer(cliente: Customer) {
+  // Mostro il dettaglio dell'utente
+  async viewCustomer(customer: Customer) {
     //Verifico la validità del token
     const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
       method: "GET",
@@ -129,15 +126,16 @@ export class AdminCustomersComponent {
     const Paragraph = document.getElementById("customerData") as HTMLParagraphElement;
 
     Paragraph.innerHTML = `
-      <strong>Id:</strong> ${cliente.customerId}<br>
-      <strong>Full Name:</strong> ${cliente.title || ''} ${cliente.firstName || ''} ${cliente.middleName || ''} ${cliente.lastName || ''} ${cliente.suffix || ''}<br>
-      <strong>Company:</strong> ${cliente.companyName}<br>
-      <strong>Email:</strong> ${cliente.emailAddress}<br>
-      <strong>Phone:</strong> ${cliente.phone}<br>
+      <strong>Id:</strong> ${customer.customerId}<br>
+      <strong>Full Name:</strong> ${customer.title || ''} ${customer.firstName || ''} ${customer.middleName || ''} ${customer.lastName || ''} ${customer.suffix || ''}<br>
+      <strong>Company:</strong> ${customer.companyName}<br>
+      <strong>Email:</strong> ${customer.emailAddress}<br>
+      <strong>Phone:</strong> ${customer.phone}<br>
       `;
 
     const modalElement = document.getElementById('viewModal');
     if (modalElement) {
+      // Creata istanza del componente modal
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
     } else {
@@ -145,7 +143,8 @@ export class AdminCustomersComponent {
     }
   }
 
-  async editCustomer(cliente: Customer) {
+  //Funzione per popolare il form di modifica con i dati dell'utente
+  async editCustomer(customer: Customer) {
     //Verifico la validità del token
     const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
       method: "GET",
@@ -166,8 +165,7 @@ export class AdminCustomersComponent {
     } else {
       console.error('Modal element not found!');
     }
-    this.customerId = cliente.customerId;
-    console.log(cliente.customerId);
+    this.customerId = customer.customerId;
 
     const Title = document.getElementById("edittitle") as HTMLInputElement;
     const FirstName = document.getElementById("editfirstname") as HTMLInputElement;
@@ -178,16 +176,18 @@ export class AdminCustomersComponent {
     const Email = document.getElementById("editemail") as HTMLInputElement;
     const Phone = document.getElementById("editphone") as HTMLInputElement;
 
-    Title.value = cliente.title;
-    FirstName.value = cliente.firstName;
-    MiddleName.value = cliente.middleName;
-    LastName.value = cliente.lastName;
-    Suffix.value = cliente.suffix;
-    Company.value = cliente.companyName;
-    Email.value = cliente.emailAddress;
-    Phone.value = cliente.phone;
+    // Popolo i campi input con i dati dell'utente
+    Title.value = customer.title;
+    FirstName.value = customer.firstName;
+    MiddleName.value = customer.middleName;
+    LastName.value = customer.lastName;
+    Suffix.value = customer.suffix;
+    Company.value = customer.companyName;
+    Email.value = customer.emailAddress;
+    Phone.value = customer.phone;
   }
 
+  //Funzione per eseguire l'update del customer
   async ConfirmEditCustomer() {
     try {
       // Recupera i valori dal form
@@ -240,10 +240,12 @@ export class AdminCustomersComponent {
     }
   }
 
+  //Funzione per recuperare l'id dell'utente da eliminare
   async setCustomerToDelete(customerId: number) {
     this.customerToDelete = customerId;
   }
 
+  //Funzione per eliminare un utente
   async deleteCustomer() {
     //Verifico la validità del token
     const tokenCheckResponse = await fetch("https://localhost:7257/api/Customers/ValidateAdminToken", {
@@ -261,8 +263,8 @@ export class AdminCustomersComponent {
     if (this.customerToDelete != null) {
       this.httpRequest.deleteAdminCustomer(this.customerToDelete).subscribe({
         next: (data) => {
-          // Aggiorna la lista dei prodotti o notifica l'utente
           this.alertService.showAlert('Customer removed successfully', 'ok');
+          // Aggiorna la lista degli utenti
           this.AdminCustomers();
           const modalElement = document.getElementById('deleteModal');
           if (modalElement) {
@@ -282,9 +284,8 @@ export class AdminCustomersComponent {
   }
 
   //# funzioni per la paginazione //
-   // Metodo per ricevere l'evento dal figlio sugli utenti da visualizzare
+  // Metodo per ricevere l'evento dal figlio sugli utenti da visualizzare
   onChildNotify(newPaginatedCustomer : Customer[]){
     this.paginatedCustomers = newPaginatedCustomer;
   }
-  
 }

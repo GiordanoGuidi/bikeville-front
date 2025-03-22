@@ -7,6 +7,7 @@
 .product-list{
     flex:1;
 }
+
 .example-card{
     width: calc(100%);
 }
@@ -17,31 +18,26 @@
     padding-right: 20px;
 }
 
-
-/*# Media Query */
-/* Media query per breakpoint md (768px) */
-@media (min-width: 768px) {
-    .example-card {
-        width: calc(100% / 2 - 8px);
-    }
-    .list-wrapper{
-        padding-left: 36px;
-        width: 100%;
-    }
+.bg-x {
+    background-color: #00ff00;
 }
 
-/* Media query per breakpoint md (992px) */
-@media (min-width: 992px) {
-    .example-card {
-        width: calc(100% / 3 - 10.67px);
-    }
+.modal-content{
+    width: 75%;
+
+}
+#productAdded {
+    margin-right: 20px;
+    color: #00ff00;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
-/* Media query per breakpoint md (1200px) */
-@media (min-width: 1200px) {
-    .example-card {
-        width: calc(100% / 4 - 12px);
-    }
+#productAdded.fade {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 #viewProduct {
@@ -58,16 +54,41 @@
     border-color: black;
 }
 
-#productAdded {
-    margin-right: 20px;
-    color: #00ff00;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+/*# Media Query */
+/* Media query per breakpoint md (768px) */
+@media (min-width: 768px) {
+    .example-card {
+        width: calc(100% / 2 - 8px);
+    }
+    .list-wrapper{
+        padding-left: 36px;
+        width: 100%;
+    }
+
+    .modal-content{
+        width: 100%;
+      }
 }
 
-#productAdded.fade {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+/* Media query per breakpoint md (992px) */
+@media (min-width: 992px) {
+    .example-card {
+        width: calc(100% / 3 - 10.67px);
+    }
+
+    #productData .row {
+        flex-direction: column-reverse;
+    }
+
+    #productData img {
+        margin-bottom: 20px;
+    }
 }
+
+/* Media query per breakpoint md (1200px) */
+@media (min-width: 1200px) {
+    .example-card {
+        width: calc(100% / 4 - 12px);
+    }
+}
+
